@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Style.css') }}">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-straight/css/uicons-bold-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-straight/css/uicons-bold-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <script defer src="static/js/funciones.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+<body>
+    <div class="contenedor">
+        <img class="imagen" src="tu_imagen.png" alt="Descripción de la imagen">
+        <div class="rectangulo"></div>
+        <i class="fi fi-sr-user"></i>
+        <span class="login-text">Log in</span>
+    </div>
+    <H1 class="title">INCAS/STARF</H1>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#"><i class="fi fi-bs-home"></i><br>Inicio</a></li>
+            <li><a href="#"><i class="fi fi-rr-envelope"></i><br>Quienes somos</a></li>
+            <li><a href="#"><i class="fi fi-rr-globe"></i><br>Pagina INCAS</a></li>
+            <li><a href="#"><i class="fi fi-bs-headset"></i><br>Contactanos</a></li>
+            <li><a href="#"><i class="fi fi-br-interrogation"></i><br>Ayuda</a></li>
+        </ul>
+    </nav>
+    <section id="container-slider">    
+        <a href="javascript: funcionEjecutar('anterior');" class="arrowPrev"><i class="fas fa-chevron-circle-left"></i></a>
+        <a href="javascript: funcionEjecutar('siguiente');" class="arrowNext"><i class="fas fa-chevron-circle-right"></i></a>
+        <ul class="listslider">
+          <li><a itlist="itList_0" href="#" class="item-select-slid"></a></li>
+          <li><a itlist="itList_1" href="#"></a></li>
+          <li><a itlist="itList_2" href="#"></a></li>
+        </ul>
+        <ul id="slider">
+          <li style="background-image: url('static/img/3z52i7px95551.jpg'); z-index:0; opacity: 1;">
+            <div class="content_slider" >
+              <div>
+                <h2>Imagen 1</h2>
+            <p>Escribe el texto que aparecerá sobre la imagen número 1.</p>
+            <a href="https://www.migueltroyano.com" target="_blank" class="btnSlider">Acceder</a>
+          </div>
+            </div>
+          </li>
+          <li style="background-image: url('static/img/6390a10c3644738a41e9b528_Face-Recognition.jpeg'); ">
+            <div class="content_slider" >
+              <div>
+                <h2>Imagen 2</h2>
+            <p>Escribe el texto que aparecerá sobre la imagen número 2</p>
+            <a href="https://www.migueltroyano.com" target="_blank" class="btnSlider">Acceder</a>
+          </div>
+            </div>
+          </li>
+          <li style="background-image: url('static/img/product.png'); ">
+            <div class="content_slider" >
+              <div>
+                <h2>Imagen 3</h2>
+            <p>Escribe el texto que aparecerá sobre la imagen número 3</p>
+            <a href="https://www.migueltroyano.com" target="_blank" class="btnSlider">Acceder</a>
+          </div>
+            </div>
+          </li>
+       </ul>
+     </section>
+</body>
+</html>
+
