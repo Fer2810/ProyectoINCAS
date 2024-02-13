@@ -1,5 +1,5 @@
 if(document.querySelector('#container-slider')){
-    setInterval('funcionEjecutar("siguiente")',5000);
+    setInterval('funcionEjecutar("siguiente")',5500);
  }
  //------------------------------ LIST SLIDER -------------------------
  if(document.querySelector('.listslider')){
