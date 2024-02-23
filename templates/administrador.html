@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/administrador.css') }}">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Administración</h2>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Personal</a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="#">Administrador</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Estudiante</a></li>
+            <li><a href="#">Secciones</a></li>
+            <li><a href="#">Materias</a></li>
+            <li class="dropdown">
+                <a href="#">Horarios</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Crear Jornada</a></li>
+                    <li><a href="#">Administrar Jornada</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Tomar asistencia STARF</a></li>
+            <li class="dropdown">
+                <a href="#">Reportes</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <h2>ADMINISTRADOR</h2>
+        <br>
+        <br>
+        <p><strong>-Toma de asistencia </strong>
+            <br>
+            <br> El proceso de registro de asistencia es sencillo y rápido.
+            <br>Los alumnos solo necesitan mirar a la cámara del dispositivo
+            <br>de reconocimiento facial, el sistema analizará y comparará los
+            <br>rasgos faciales en cuestión de segundos y registrará
+            <br>su asistencia en el sistema.</p>
+    </main>
+</body>
+
+</html>
