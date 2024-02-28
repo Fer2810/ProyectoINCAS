@@ -37,7 +37,7 @@ def submit():
         # Cerrar la conexión
         close_connection(conn)
 
-        return 'Datos enviados a la base de datos con éxito'
+        return 'Datos enviados a la base de datos y correo electrónico enviado con éxito'
 
 @app.route('/administrador')
 def administrador():
