@@ -13,7 +13,7 @@ def create_connection():
 
 def create_table(conn):
     cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Datos_Prof (
                     id_docente VARCHAR(255) NOT NULL PRIMARY KEY,
                     nombre VARCHAR(255) NOT NULL,
                     apellido VARCHAR(255) NOT NULL,
@@ -39,7 +39,7 @@ def insert_usuario(conn, nombre, apellido, nip, email, id_docente, imagen):
     cursor = conn.cursor()
     password = generate_random_password()
     hashed_password = hash_password(password)
-    sql = '''INSERT INTO usuarios (nombre, apellido, nip, email, id_docente, imagen, contraseña_hash) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
+    sql = '''INSERT INTO Datos_Prof (nombre, apellido, nip, email, id_docente, imagen, contraseña_hash) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
     values = (nombre, apellido, nip, email, id_docente, imagen, hashed_password)
     cursor.execute(sql, values)
     conn.commit()

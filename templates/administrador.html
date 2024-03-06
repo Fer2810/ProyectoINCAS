@@ -41,16 +41,36 @@
     </div>
 
     <main>
-        <h2>ADMINISTRADOR</h2>
-        <br>
-        <br>
-        <p><strong>-Toma de asistencia </strong>
-            <br>
-            <br> El proceso de registro de asistencia es sencillo y rápido.
-            <br>Los alumnos solo necesitan mirar a la cámara del dispositivo
-            <br>de reconocimiento facial, el sistema analizará y comparará los
-            <br>rasgos faciales en cuestión de segundos y registrará
-            <br>su asistencia en el sistema.</p>
+        <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Administrador</title>
+</head>
+<body>
+    <h1>Formulario de Administrador</h1>
+    <form action="/admin_form" method="post" enctype="multipart/form-data">
+        <label for="id_administrador">ID Administrador:</label><br>
+        <input type="text" id="id_administrador" name="id_administrador"><br><br>
+        
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre"><br><br>
+        
+        <label for="apellidos">Apellidos:</label><br>
+        <input type="text" id="apellidos" name="apellidos"><br><br>
+        
+        <label for="correo">Correo electrónico:</label><br>
+        <input type="email" id="correo" name="correo"><br><br>
+
+        <label for="imagen">Imagen:</label><br>
+        <input type="file" id="imagen" name="imagen"><br><br>
+        
+        <input type="submit" value="Guardar">
+    </form>
+</body>
+</html>
+
     </main>
 </body>
 
