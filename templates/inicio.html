@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/barraw.css') }}">
+  
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul>
+            <li><a href="{{ url_for('inicio') }}">Inicio</a></li>
+            <li><a href="{{ url_for('starf') }}">Empezar reconocimiento</a></li>
+            <li><a href="#">Más recursos</a></li>
+            <li><a href="#">Soporte y ayuda</a></li>
+        </ul>
+    </div>
+
+    
+
+    <button id="menu-toggle">&#9776;</button>
+
+
+    <script src="/static/js/scriptWebcam.js"></script>
+    
+</body>
+</html>
+    

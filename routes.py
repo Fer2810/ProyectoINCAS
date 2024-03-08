@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
+import subprocess
+from flask import Flask, jsonify, render_template, request
 from conexióndb import create_connection, create_table, insert_usuario, close_connection
+
 
 app = Flask(__name__)
 
@@ -14,6 +16,25 @@ def about():
 @app.route('/profesor')
 def profesor():
     return render_template('profesor.html')
+
+@app.route('/inicio')
+def inicio():
+    return render_template('inicio.html')
+
+
+
+@app.route('/starf.html')
+def starf():
+    return render_template('starf.html')
+
+
+
+
+
+
+
+
+
 
 # Ruta para procesar los datos del formulario
 @app.route('/submit', methods=['POST'])
@@ -45,3 +66,4 @@ def administrador():
 
 if __name__ == '__main__':
     app.run(debug=True)
+ 

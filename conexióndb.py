@@ -48,3 +48,4 @@ def insert_usuario(conn, nombre, apellido, nip, email, id_docente, imagen):
 def close_connection(conn):
     conn.close()
 
+ 
