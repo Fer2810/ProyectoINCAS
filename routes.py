@@ -23,6 +23,7 @@ def inicio():
 
 
 
+
 @app.route('/starf.html')
 def starf():
     return render_template('starf.html')
