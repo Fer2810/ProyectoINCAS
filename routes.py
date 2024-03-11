@@ -1,6 +1,8 @@
 import subprocess
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 from conexióndb import create_connection, create_table, insert_usuario, close_connection
+from camera import generate
+
 
 
 app = Flask(__name__)
@@ -28,6 +30,9 @@ def inicio():
 def starf():
     return render_template('starf.html')
 
+@app.route("/video_feed")
+def video_feed():
+     return Response(generate(),mimetype = "multipart/x-mixed-replace; boundary=frame")
 
 
 
