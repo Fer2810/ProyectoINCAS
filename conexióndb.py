@@ -2,6 +2,8 @@ import mysql.connector
 import bcrypt
 import random
 import string
+import pickle
+
 
 def create_connection():
     return mysql.connector.connect(
@@ -23,6 +25,7 @@ def create_table(conn):
                     contraseña_hash VARCHAR(255) NOT NULL
                 )''')
     conn.commit()
+        
 
 def generate_random_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -45,6 +48,36 @@ def insert_usuario(conn, nombre, apellido, nip, email, id_docente, imagen):
     conn.commit()
     return password
 
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen):
+    try:
+        cursor = conn.cursor()
+
+        # Convertir los descriptores faciales de numpy.ndarray a bytes
+        encoding_bytes = pickle.dumps(encoding_imagen)
+
+        # Consulta SQL para insertar un estudiante en la tabla Estudiantes
+        insert_query = """
+        INSERT INTO Estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+
+        # Datos a insertar en la tabla
+        data = (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes)
+
+        # Ejecutar la consulta SQL
+        cursor.execute(insert_query, data)
+
+        # Confirmar los cambios en la base de datos
+        conn.commit()
+        print("Datos de estudiante insertados correctamente.")
+    except mysql.connector.Error as e:
+        print("Error al insertar datos de estudiante:", e)
+
 def close_connection(conn):
     conn.close()
+
+  
+  
+
+
 
