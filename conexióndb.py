@@ -4,6 +4,8 @@ import random
 import string
 import pickle
 
+import pickle
+
 
 def create_connection():
     return mysql.connector.connect(
@@ -25,7 +27,6 @@ def create_table(conn):
                     contraseña_hash VARCHAR(255) NOT NULL
                 )''')
     conn.commit()
-        
 
 def generate_random_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -95,5 +96,4 @@ def insert_materia(conn, subject_name, subject_id):
 
 def close_connection(conn):
     conn.close()
-
 
