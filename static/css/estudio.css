@@ -1,0 +1,246 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #001529;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    color: white;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background-color: #00274C;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+}
+
+.dropdown-content a {
+    color: #5e7285;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+main {
+    padding: 7rem;
+    margin-left: 300px;
+}
+
+main h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+.chat-container {
+    max-width: 500px; /* Ancho máximo del contenedor del chat */
+    margin: 0 auto; /* Centra el contenedor en la página */
+    border: 1px solid #ccc; /* Borde alrededor del contenedor */
+}
+
+.messages {
+    max-height: 300px; /* Altura máxima para el área de mensajes */
+    overflow-y: auto; /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
+}
+
+.input-container {
+    display: flex; /* Usa flexbox para alinear el campo de entrada y el botón */
+    padding: 10px; /* Espacio alrededor del campo de entrada y el botón */
+    background-color: #f9f9f9; /* Fondo del área de entrada de mensajes */
+}
+
+input[type="text"] {
+    flex: 1; /* El campo de entrada de texto ocupa todo el espacio restante */
+    padding: 8px; /* Espaciado dentro del campo de entrada */
+    border: 1px solid #ccc; /* Borde alrededor del campo de entrada */
+    border-radius: 5px; /* Borde redondeado del campo de entrada */
+}
+
+button {
+    padding: 8px 15px; /* Espaciado dentro del botón */
+    margin-left: 10px; /* Margen a la izquierda del botón */
+    background-color: #007bff; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Sin borde alrededor del botón */
+    border-radius: 5px; /* Borde redondeado del botón */
+    cursor: pointer; /* Cursor de puntero cuando se pasa por encima del botón */
+}
+
+button:hover {
+    background-color: #0056b3; /* Cambio de color de fondo cuando se pasa el cursor sobre el botón */
+}
+
+/*para editar el formulario*/
+
+/* Estilos para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    /* Fuente del texto */
+    background-color: #f4f4f4;
+    /* Color de fondo */
+    margin: 0;
+    /* Elimina los márgenes */
+    padding: 0;
+    /* Elimina el padding */
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 100vh;
+    /* Altura completa de la ventana */
+}
+
+/* Estilos para el formulario */
+form {
+    background-color: #fff;
+    /* Color de fondo */
+    padding: 100px 100px;
+    /* Espaciado interno */
+    /* Modifica aquí para ajustar el padding que rodea los botones */
+    border-radius: 10px;
+    /* Borde redondeado */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Sombra */
+    width: 600px;
+    /* Ancho del formulario */
+    position: relative;
+    display: flex;
+    /* Activamos el modelo de caja flex para distribuir en dos columnas */
+    left: 5em;
+}
+
+/* Estilos para cada columna */
+.column {
+    width: 50%;
+    /* Ancho del 50% para cada columna */
+    padding: 10px;
+    /* Espaciado interno */
+    box-sizing: border-box;
+    /* Tamaño incluyendo el borde y el relleno */
+    display: flex;
+    /* Para alinear verticalmente los elementos */
+    flex-direction: column;
+    /* Alinear elementos en columna */
+}
+
+/* Estilos para los campos de texto y el botón de enviar */
+input[type="text"],
+input[type="email"],
+input[type="file"],
+input[type="submit"] {
+    width: calc(100% - 22px);
+    /* Ancho del campo */
+    padding: 10px;
+    /* Espaciado interno */
+    margin-bottom: 10px;
+    /* Margen inferior */
+    border: 1px solid #ccc;
+    /* Borde */
+    border-radius: 5px;
+    /* Borde redondeado */
+    box-sizing: border-box;
+    /* Tamaño incluyendo el borde y el relleno */
+}
+
+/* Estilos para el botón de enviar */
+input[type="submit"] {
+    width: calc(100% - 22px);
+    /* Ancho del botón */
+    background-color: #4CAF50;
+    /* Color de fondo */
+    color: white;
+    /* Color del texto */
+    border: none;
+    /* Sin borde */
+    cursor: pointer;
+    /* Cursor de puntero */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transiciones */
+    margin-top: 2px;
+}
+
+/* Estilos para el botón de enviar al pasar el cursor */
+input[type="submit"]:hover {
+    background-color: #45a049;
+    /* Cambiar color de fondo */
+    transform: scale(1.05);
+    /* Aumentar tamaño */
+    box-shadow: 0 0 10px #45a049;
+    /* Sombra */
+}
+
+/* Estilos para la vista previa de la imagen */
+#file-container {
+    position: relative;
+    /* Posición relativa */
+}
+
+#file-preview {
+    width: 163px;
+    /* Ancho de la imagen previa */
+    /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
+    height: 130px;
+    /* Altura de la imagen previa */
+    /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
+    border-radius: 10px;
+    /* Borde redondeado */
+    position: absolute;
+    /* Posición absoluta */
+    top: 50%;
+    /* Centrar verticalmente */
+    left: -0px;
+    /* Mover hacia la izquierda */
+    /* Ajusta aquí para mover la vista previa de la imagen */
+    transform: translateY(-50%);
+    /* Centrar verticalmente */
+    display: none;
+    /* Ocultar inicialmente */
+    margin-top: 15px;
+}
