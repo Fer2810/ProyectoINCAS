@@ -141,6 +141,48 @@ def submit_materia():
         return 'Materia guardada exitosamente'
 
 
+
+@app.route('/estudiante')
+def estudiante():
+  return render_template('estudiante.html')
+
+# Ruta para procesar los datos del formulario de registro de estudiante
+@app.route('/submit_estudiante', methods=['POST'])
+def submit_estudiante():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        correo_electronico = request.form['correo_electronico']
+        genero = request.form['genero']
+        nit = request.form['nit']
+        bachillerato = request.form['bachillerato']
+        imagen = request.files['imagen']  # Obtener la imagen del formulario
+        imagen_bytes = imagen.read()  # Leer los bytes de la imagen
+
+        # Extraer los encodings de la imagen
+        encoding_imagen = extraer_encodings(imagen_bytes)
+
+        if encoding_imagen is not None:
+            try:
+                # Conectar a la base de datos
+                conn = create_connection()
+                create_table(conn)  # Asegúrate de que la tabla exista
+
+                # Insertar datos en la base de datos
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen)
+
+                # Cerrar la conexión
+                close_connection(conn)
+
+                return 'Datos enviados a la base de datos y correo electrónico enviado con éxito'
+            except Exception as e:
+                return f'Error al procesar y almacenar la imagen: {str(e)}'
+        else:
+            return 'No se detectaron caras en la imagen. Intente con otra imagen.'
+
+
+
 if __name__ == '__main__':
   app.run(debug=True)
 
