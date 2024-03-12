@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
-from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante
+from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, insert_materia
 from facial_recognition import extraer_encodings
-from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_administrador, insert_materia
 
 app = Flask(__name__)
 
@@ -45,8 +44,6 @@ def submit():
 def administrador():
   return render_template('administrador.html')
     
-    return render_template('administrador.html')
-
 
 @app.route('/estudiante')
 def estudiante():
