@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de materias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materia.css') }}">
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Personal</a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
+                </ul>
+            </li>
+            <li><a href="/estudiante">Estudiante</a></li>
+            <li><a href="#">Secciones</a></li>
+            <li><a href="#">Materias</a></li>
+            <li class="dropdown">
+                <a href="#">Horarios</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Crear Jornada</a></li>
+                    <li><a href="#">Administrar Jornada</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Tomar asistencia STARF</a></li>
+            <li class="dropdown">
+                <a href="#">Reportes</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <button id="menu-toggle">&#9776;</button>
+
+    <form action="/Materia" method="post" enctype="multipart/form-data">
+        <div class="main-content">
+            <div class="create-subject">
+                <h2>Crear Materias</h2>
+                <label for="subject-name">Nombre Materia:</label>
+                <input type="text" id="subject-name" name="subject_name" placeholder="Escribir">
+        
+                <label for="subject-id">ID Materia:</label>
+                <input type="text" id="subject-id" name="subject_id" placeholder="Escribir">
+                <br>
+                <button class="blue-button" type="submit">Guardar</button> 
+            </div>           
+        </div>
+    </form>
+    
+    <form>
+        <div class="main-content">
+            <div class="assign-subject">
+                <h2>Asignar Materias</h2>
+                <label for="professor-id">ID Profesor:</label>
+                 <input type="text" id="professor-id" placeholder="Escribir">
+    
+                <label for="subject-id">ID Materia:</label>
+                <input type="text" id="subject-id" placeholder="Escribir">
+                <br>
+                <button class="blue-button">Guardar</button>
+            </div>
+        </div>
+    
+    </form> 
+    
+    <script src="menu.js"></script>
+</body>
+
+</html>

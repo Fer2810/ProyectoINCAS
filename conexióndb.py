@@ -4,8 +4,6 @@ import random
 import string
 import pickle
 
-import pickle
-
 
 def create_connection():
     return mysql.connector.connect(
@@ -27,6 +25,7 @@ def create_table(conn):
                     contraseña_hash VARCHAR(255) NOT NULL
                 )''')
     conn.commit()
+        
 
 def generate_random_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -73,18 +72,17 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
         print("Datos de estudiante insertados correctamente.")
     except mysql.connector.Error as e:
         print("Error al insertar datos de estudiante:", e)
-
-
+        
+        
 def insert_administrador(conn, id_administrador, nombre, apellidos, correo, imagen):
     cursor = conn.cursor()
     password = generate_random_password()
     hashed_password = hash_password(password)
-    sql = '''INSERT INTO Datos_Prof (id_docente, nombre, apellido, email, imagen, contraseña_hash) VALUES (%s, %s, %s, %s, %s, %s)'''
+    sql = '''INSERT INTO Administradores (id_administrador, nombre, apellidos, correo, imagen, contraseña_hash) VALUES (%s, %s, %s, %s, %s, %s)'''
     values = (id_administrador, nombre, apellidos, correo, imagen, hashed_password)
     cursor.execute(sql, values)
     conn.commit()
     return password
-
 
 def insert_materia(conn, subject_name, subject_id):
     cursor = conn.cursor()
@@ -92,8 +90,12 @@ def insert_materia(conn, subject_name, subject_id):
     values = (subject_name, subject_id)
     cursor.execute(sql, values)
     conn.commit()
-    
 
 def close_connection(conn):
     conn.close()
+
+  
+  
+
+
 
