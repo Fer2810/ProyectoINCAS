@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante
 from facial_recognition import extraer_encodings
