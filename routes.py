@@ -1,7 +1,7 @@
 import subprocess
 from flask import Flask, Response, jsonify, render_template, request
 from conexióndb import create_connection, create_table, insert_usuario, close_connection
-from camera import generate
+from camera import generate, start_camera,stop_camera
 
 
 
@@ -26,14 +26,21 @@ def inicio():
 
 
 
-@app.route('/starf.html')
+# Ruta para la página de inicio de cámara
+@app.route('/starf.html', methods=['GET', 'POST'])
 def starf():
+    if request.method == 'POST':
+        if request.form['action'] == 'start_camera':
+            start_camera()
+        elif request.form['action'] == 'stop_camera':
+            stop_camera()
+
     return render_template('starf.html')
 
+# Ruta para el feed de video
 @app.route("/video_feed")
 def video_feed():
-     return Response(generate(),mimetype = "multipart/x-mixed-replace; boundary=frame")
-
+    return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
 
 

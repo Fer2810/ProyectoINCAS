@@ -7,9 +7,19 @@
 </head>
 <body class="container">
     <h1>Toma de asistencia</h1>
-   <!--<a href="{{ url_for('inicio') }}">Volver</a>   --> 
+     <a href="{{ url_for('inicio') }}">Volver</a> <br>
+   
     <img src="{{ url_for('video_feed') }}">
-    
-  <!--  <script src="{{ url_for('static', filename='js/cerrar_camara.js') }}"></script>   -->  
+
+    <!-- HTML para encender la cámara -->
+    <form method="post">
+        <button type="submit" name="action" value="start_camera">Encender Cámara</button>
+    </form>
+
+    <!-- HTML para apagar la cámara -->
+    <form method="post">
+        <button type="submit" name="action" value="stop_camera">Apagar Cámara</button>
+    </form>
+ 
 </body>
 </html>
