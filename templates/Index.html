@@ -6,30 +6,287 @@
     <title>Inicio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Style.css') }}">
 </head>
+
+<header class="header">
+    <nav class="navbar_menu">
+        <right><h1 class="logo"></h1></right>
+
+        <label class="label_hamburguesa" for="menu_hamburguesa">
+        <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="45" 
+            height="45" 
+            fill="currentColor" 
+            class="list_icon" 
+            viewBox="0 0 16 16">
+     
+        <path ill-rule="evenodd" 
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+        </svg>
+        </label>
+
+        <input class="menu_hamburguesa" type="checkbox" name="" id="menu_hamburguesa">
+        
+        <ul class="ul_links">
+              <li class="li_links">
+                    <a href="#" class="link" 
+                    style="display: flex; margin-top: -175px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                        width="25" 
+                        height="25" 
+                        fill="currentColor" 
+                        class="bi bi-person-vcard" 
+                        viewBox="0 0 16 16"
+                        style="margin-right: 15px;">
+                    <path d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"/>
+                            <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z"/>
+                        </svg>
+                        Inicio de sesión
+                    </a>
+                </li>
+            
+            <li class="li_links">
+                <a href="#" class="link"
+                style="display: flex; margin-top: -125px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="25" 
+                    height="25" 
+                    fill="currentColor" 
+                    class="bi bi-wechat" 
+                    viewBox="0 0 16 16"
+                    style="margin-right: 15px;">
+                <path d="M11.176 14.429c-2.665 0-4.826-1.8-4.826-4.018 0-2.22 2.159-4.02 4.824-4.02S16 8.191 16 10.411c0 1.21-.65 2.301-1.666 3.036a.32.32 0 0 0-.12.366l.218.81a.6.6 0 0 1 .029.117.166.166 0 0 1-.162.162.2.2 0 0 1-.092-.03l-1.057-.61a.5.5 0 0 0-.256-.074.5.5 0 0 0-.142.021 5.7 5.7 0 0 1-1.576.22M9.064 9.542a.647.647 0 1 0 .557-1 .645.645 0 0 0-.646.647.6.6 0 0 0 .09.353Zm3.232.001a.646.646 0 1 0 .546-1 .645.645 0 0 0-.644.644.63.63 0 0 0 .098.356"/>
+                        <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.5.5 0 0 0-.032.14.19.19 0 0 0 .193.193q.06 0 .111-.029l1.268-.733a.6.6 0 0 1 .308-.088q.088 0 .171.025a6.8 6.8 0 0 0 1.625.26 4.5 4.5 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02l.15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826m4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0m3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0"/>
+                    </svg>
+                    Nuestras redes sociales
+                </a>
+            </li>
+            
+                <li class="li_links">
+                    <a href="#" class="link"
+                    style="display: flex; margin-top: -75px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                        width="25" 
+                        height="25" 
+                        fill="currentColor" 
+                        class="bi bi-shield-lock" 
+                        viewBox="0 0 16 16"
+                        style="margin-right: 15px;">
+                    <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+                            <path d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99a1.5 1.5 0 1 1 2-1.415"/>
+                        </svg>
+                        Política de privacidad
+                    </a>
+                </li>
+        </ul>
+    </nav>
+</header>
+
 <body>
-  <h2>Iniciar Sesión</h2>
+  <H1 class="title">INCAS/STARF</H1>
+  <nav class="navbar">
+    <ul>
+      <li><a href="#"><i class="fi fi-bs-home"></i><br>Inicio</a></li>
+      <li><a href="#"><i class="fi fi-rr-envelope"></i><br>Quienes somos</a></li>
+      <li><a href="#"><i class="fi fi-rr-globe"></i><br>Pagina INCAS</a></li>
+      <li><a href="#"><i class="fi fi-bs-headset"></i><br>Contactanos</a></li>
+      <li><a href="#"><i class="fi fi-br-interrogation"></i><br>Ayuda</a></li>
+    </ul>
+  </nav>
+  <section id="container-slider">
+    <a href="javascript: funcionEjecutar('anterior');" class="arrowPrev"><i class="fas fa-chevron-circle-left"></i></a>
+    <a href="javascript: funcionEjecutar('siguiente');" class="arrowNext"><i
+        class="fas fa-chevron-circle-right"></i></a>
+    <ul class="listslider">
+      <li><a itlist="itList_0" href="#" class="item-select-slid"></a></li>
+      <li><a itlist="itList_1" href="#"></a></li>
+      <li><a itlist="itList_2" href="#"></a></li>
+    </ul>
+    <ul id="slider">
+      <li style="background-image: url('static/img/3z52i7px95551.jpg'); z-index:0; opacity: 1;">
+        <div class="content_slider">
+          <div>
+            <h2>Imagen 1</h2>
+            <p>Escribe el texto que aparecerá sobre la imagen número 1.</p>
+            <a href="https://www.migueltroyano.com" target="_blank" class="btnSlider">Acceder</a>
+          </div>
+        </div>
+      </li>
+      <li style="background-image: url('static/img/6390a10c3644738a41e9b528_Face-Recognition.jpeg'); ">
+        <div class="content_slider">
+          <div>
+            <h2>Imagen 2</h2>
+            <p>Escribe el texto que aparecerá sobre la imagen número 2</p>
+            <a href="https://www.migueltroyano.com" target="_blank" class="btnSlider">Acceder</a>
+          </div>
+        </div>
+      </li>
+      <li style="background-image: url('static/img/product.png'); ">
+        <div class="content_slider">
+          <div>
+            <h2>Imagen 3</h2>
+            <p>Escribe el texto que aparecerá sobre la imagen número 3</p>
+            <a href="https://www.migueltroyano.com" target="_blank" class="btnSlider">Acceder</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <div class="hover-images">
+    <div class="hover-image">
+      <a href="#">
+        <img src="imagenes/admin.png" alt="Descripción de la imagen 1">
+        <div class="overlay">
+          <p class="hover-text">Administrador</p>
+        </div>
+      </a>
+    </div>
+    <div class="hover-image">
+      <a href="#">
+        <img src="imagenes/profesor.png" alt="Descripción de la imagen 2">
+        <div class="overlay">
+          <p class="hover-text">Profesor</p>
+        </div>
+      </a>
+    </div>
+  </div>
 
-<div id="docente-form" class="docente-form">
-    <label for="username">Nombre de docente:</label>
-    <input type="text" id="username" name="username"><br><br>
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password"><br><br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email"><br><br>
-    <a href="#" id="admin-forgot-password">¿Olvidaste tu contraseña?</a>
-</div>
+  <section class="benefits">
+    <div class="container">
+        <h2>Ventajas de STARF</h2> <div class="benefits-grid">
+            <div class="benefits-item">
+                <div class="benefits-icon">
+                    <img src="imagenes/velocidad.png">
+                </div>
+                <h3>Velocidad</h3>
+                <p>Nuestro servicio es rápido y eficiente, lo que te permite ahorrar tiempo y dinero.</p>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-icon">
+                    <img src="imagenes/facil uso.png">
+                </div>
+                <h3>Facilidad de uso</h3>
+                <p>Nuestra plataforma es fácil de usar y no requiere conocimientos técnicos previos.</p>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-icon">
+                    <img src="imagenes/soporte.png">
+                </div>
+                <h3>Soporte técnico</h3>
+                <p>Ofrecemos soporte técnico 24/7 para ayudarte en caso de cualquier problema.</p>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-icon">
+                    <img src="imagenes/seguridad.png">
+                </div>
+                <h3>Seguridad</h3>
+                <p>Nuestro servicio es seguro y confiable, lo que garantiza la protección de tus datos.</p>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-icon">
+                    <img src="imagenes/escabilidad.png">
+                </div>
+                <h3>Escalabilidad</h3>
+                <p>Nuestra plataforma es escalable y puede adaptarse a tus necesidades en cualquier momento.</p>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-icon">
+                    <img src="imagenes/personalizacion.png">
+                </div>
+                <h3>Personalización</h3>
+                <p>Nuestro servicio se adapta a tus necesidades específicas para brindarte la mejor experiencia.</p>
+            </div>
+        </div>
 
-<div id="admin-form" class="admin-form">
-    <label for="admin-username">Nombre de Administrador:</label>
-    <input type="text" id="admin-username" name="admin-username"><br><br>
-    <label for="admin-password">Contraseña:</label>
-    <input type="password" id="admin-password" name="admin-password"><br><br>
-    <label for="admin-email">Email:</label>
-    <input type="email" id="admin-email" name="admin-email"><br><br>
-    <a href="#" id="admin-forgot-password">¿Olvidaste tu contraseña?</a>
-</div>
+        <div class="circle">
+          <div class="quadrant quadrant-1">
+            <img src="imagenes/eficiencia.png">
+            <h3>EFICIENCIA</h3>
+            <p>How to deal with the problems in the front of the Ministry and how many samples are given 1</p>
+          </div>
+          
+          <div class="quadrant quadrant-2">
+            <img src="imagenes/estabilidad.png">
+            <h3>ESTABILIDAD</h3>
+            <p>How to deal with the problems in the front of the Ministry and how many samples are given 3</p>
+          </div>
+          
+          <div class="quadrant quadrant-3">
+            <img src="imagenes/inteligencia.png">
+            <h3>INTELIGENCIA</h3>
+            <p>How to deal with the problems in the front of the Ministry and how many samples are given 2</p>
+          </div>
+          
+          <div class="quadrant quadrant-4">
+            <img src="imagenes/seguro.png">
+            <h3>SEGURIDAD</h3>
+            <p>How to deal with the problems in the front of the Ministry and how many samples are given 4</p>
+          </div>
+        </div>
+      
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+      
+        <div class="container_tec">
+          <div class="text">
+            <h2>Tecnologías utilizadas</h2>
+            <p>The purpose of this paper is to find out what kind of medicine is to cure the disease, and to combine it with other things</p>
+          </div>
+          </div>
 
-<button id="toggleButton">Cambiar a Administrador</button>
+          <div class="project">
 
-<script src="static/js/script.js"></script>
+            <img src="imagenes/facial.jpg" alt="Project Image" class="project-image">
+            <div class="project-info">
+                <h2 class="project-title">Más Proyectos del INCAS</h2>
+                <p>Project description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed commodo, mi ac egestas convallis, sem mi auctor velit, vel aliquet lorem nisi et sapien.</p>
+            </div>
+        </div>
+    
+        <div class="button-container">
+            <button class="project-button"> <img src="imagenes/web.jpg">Página Web</button>
+            <button class="project-button starf-button"><img src="imagenes/mobil.jpg">STARF Móvil</button>
+            <button class="project-button"><img src="imagenes/puntos.jpg">Más información</button>
+        </div>
+
+  <footer class="new-footer">
+    <div class="container-footer">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Services</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Affiliate Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get Help</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Order Status</a></li>
+          <li><a href="#">Payment Options</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>More Information</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="social-links">
+      <ul>
+        <li><a href="#" class="fab fa-facebook-f"></a></li>
+        <li><a href="#" class="fab fa-youtube"></a></li>
+      </ul>
+    </div>
+  </footer>
 </body>
+</html> 
