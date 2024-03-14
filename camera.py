@@ -1,9 +1,37 @@
 import cv2
 import dlib
 import numpy as np
+import mysql.connector
 from flask import Flask
+from scipy.spatial import distance
+import pickle
 
 app = Flask(__name__)
+
+# Función para crear la conexión a la base de datos
+def create_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="app_incas"
+    ) 
+
+def get_facial_descriptors_from_db():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT descriptores_faciales FROM estudiantes")
+    descriptors = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    
+    # Convertir los descriptores faciales de bytes a arreglo NumPy
+    descriptors_np = []
+    for descriptor in descriptors:
+        descriptor_np = pickle.loads(descriptor[0])
+        descriptors_np.append(descriptor_np)
+    
+    return descriptors_np
 
 # Cargar el modelo de predicción facial de dlib
 predictor = dlib.shape_predictor("env/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
@@ -31,14 +59,19 @@ def stop_camera():
 # Variable para almacenar los descriptores faciales
 # descriptores_faciales = None
 
+
+
 def generate():
-    global descriptores_faciales, cap
+    global descriptores_faciales, cap, last_result
+    # Obtener los descriptores faciales de la base de datos
+    descriptors_from_db = get_facial_descriptors_from_db()
+    
     # Capturar descriptores faciales
     while camera_running:
         # Leer el frame desde la cámara
         ret, frame = cap.read()
 
-        if not ret:
+        if not ret or frame is None:
             print("Error al capturar el frame")
             break
 
@@ -60,12 +93,29 @@ def generate():
             if descriptores_faciales is None:
                 forma = predictor(gray, cara)
                 descriptores_faciales = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
-                print(descriptores_faciales)
+                #print(descriptores_faciales)
+                
+                # Comparar los descriptores faciales utilizando la distancia euclidiana
+                for descriptors_np in descriptors_from_db:
+                    db_descriptor = descriptors_np
+                    distance_value = distance.euclidean(descriptores_faciales.flatten(), db_descriptor.flatten())
 
+                    
+                    umbral = 0.7
+                    if distance_value < umbral:
+                        last_result =  ("¡Descriptores faciales coincidentes!")
+                    else:
+                        last_result = ("¡Descriptores faciales no coincidentes!")
+
+        # Mostrar el resultado en el frame
+        cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        
+        # Codificar el frame para enviarlo al navegador
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
             continue
         yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+
 
 # Asegúrate de que esta parte esté dentro de la función generate
 if cap is not None:

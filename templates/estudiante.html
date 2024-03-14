@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estudio.css') }}">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Administración</h2>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Personal</a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Estudiante</a></li>
+            <li><a href="#">Secciones</a></li>
+            <li><a href="#">Materias</a></li>
+            <li class="dropdown">
+                <a href="#">Horarios</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Crear Jornada</a></li>
+                    <li><a href="#">Administrar Jornada</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Tomar asistencia STARF</a></li>
+            <li class="dropdown">
+                <a href="#">Reportes</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    </head>
+
+<body>
+<!-- Formulario -->
+<form action="/submit_estudiante" method="POST" enctype="multipart/form-data">
+    <!-- Contenedor para la vista previa de la imagen -->
+    <div id="file-container">
+        <!-- Botón para agregar imagen -->
+        <input type="file" id="foto" name="imagen" accept="image/*" onchange="previewImage(event)">
+        <!-- Vista previa de la imagen -->
+        <img id="file-preview" src="#" alt="Vista previa de la imagen">
+    </div>
+    <!-- Columna 1 -->
+    <div class="column">
+        <!-- Contenedor para los campos de texto de nombre, NIP e ID de profesor -->
+        <div class="field-container">
+            <!-- Etiqueta y campo para el nombre -->
+            <label for="nombre_alumno">Nombre Alumno</label>
+            <input type="text" id="nombre_alumno" name="nombre" placeholder="Nombre Alumno">
+            <!-- Etiqueta y campo para el correo electrónico -->
+            <label for="correo_electronico">Correo Electrónico</label>
+            <input type="text" id="correo_electronico" name="correo_electronico" placeholder="Correo Electrónico">
+            <label for="genero">Género</label>
+            <select id="genero" name="genero">
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+            </select>
+        </div>
+    </div>
+    <!-- Columna 2 -->
+    <div class="column">
+        <!-- Contenedor para los campos de texto de apellidos, correo electrónico y botón de guardar -->
+        <div class="field-container">
+            <!-- Etiqueta y campo para los apellidos -->
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Apellido">
+            <!-- Etiqueta y campo para el NIT -->
+            <label for="nit">NIT</label>
+            <input type="text" id="nit" name="nit" placeholder="NIT">
+            <label for="bachillerato">Bachillerato</label>
+            <select id="bachillerato" name="bachillerato">
+                <option value="General">General</option>
+                <option value="Software">Software</option>
+                <option value="Electricidad">Electricidad</option>
+                <option value="Turismo">Turismo</option>
+                <option value="Agropecuario">Agropecuario</option>
+                <option value="Contaduría">Contaduría</option>
+            </select>
+            <!-- Botón de guardar -->
+            <input type="submit" value="Guardar">
+        </div>
+    </div>
+</form>
+        
+
+        <!-- Script para la vista previa de la imagen -->
+        <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var img = document.getElementById('file-preview');
+                    img.src = reader.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+
+
+        </script>
+    </body>
+
+</html>
