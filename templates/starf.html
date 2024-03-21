@@ -4,22 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VideoStreaming</title>
+    <style>
+        .container {
+            position: relative;
+        }
+
+        #videoFrame {
+            width: 500px;
+            height: 300px;
+            margin-left: 10px;
+        }
+
+        .button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button-container form {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body class="container">
-    <h1>Toma de asistencia</h1>
-     <a href="{{ url_for('inicio') }}">Volver</a> <br>
+    <center><h1>Toma de asistencia</h1></center>
+     <!--<a href="{{ url_for('inicio') }}">Volver</a> <br><br>-->
    
-    <img src="{{ url_for('video_feed') }}">
+    <!-- Aquí está la etiqueta img con el estilo CSS -->
+    <img id="videoFrame" src="{{ url_for('video_feed') }}">
 
-    <!-- HTML para encender la cámara -->
-    <form method="post">
-        <button type="submit" name="action" value="start_camera">Encender Cámara</button>
-    </form>
+    <!-- Contenedor para los botones -->
+    <div class="button-container">
+        <!-- HTML para encender la cámara -->
+        <form method="post">
+            <button type="submit" name="action" value="start_camera">Encender Cámara</button>
+        </form>
 
-    <!-- HTML para apagar la cámara -->
-    <form method="post">
-        <button type="submit" name="action" value="stop_camera">Apagar Cámara</button>
-    </form>
+        <!-- HTML para apagar la cámara -->
+        <form method="post">
+            <button type="submit" name="action" value="stop_camera">Apagar Cámara</button>
+        </form>
+    </div>
  
 </body>
 </html>

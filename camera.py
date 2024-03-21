@@ -1,8 +1,10 @@
+#PRIMER ERROR SOLUCIONADO, AHORA FALTA CORREGIR EL BAJO RENDIMIENTO DE LA CAPTURA DE FRAMES
+
 import cv2
 import dlib
 import numpy as np
 import mysql.connector
-from flask import Flask
+from flask import Flask, Response
 from scipy.spatial import distance
 import pickle
 
@@ -26,10 +28,7 @@ def get_facial_descriptors_from_db():
     connection.close()
     
     # Convertir los descriptores faciales de bytes a arreglo NumPy
-    descriptors_np = []
-    for descriptor in descriptors:
-        descriptor_np = pickle.loads(descriptor[0])
-        descriptors_np.append(descriptor_np)
+    descriptors_np = [pickle.loads(descriptor[0]) for descriptor in descriptors]
     
     return descriptors_np
 
@@ -42,75 +41,52 @@ detector = dlib.get_frontal_face_detector()
 cap = None
 camera_running = False
 
-# Inicializar la cámara (puedes ajustar el índice de la cámara según tu configuración)
+# Variable para almacenar los descriptores faciales de la base de datos
+descriptors_from_db = get_facial_descriptors_from_db()
+
+# Umbral para la comparación de distancias
+umbral = 0.6
+
 def start_camera():
-    global descriptores_faciales, cap, camera_running
+    global cap, camera_running
     if not camera_running:
         cap = cv2.VideoCapture(0)
-        descriptores_faciales = None  # Restablecer descriptores_faciales
         camera_running = True
 
 def stop_camera():
-    global descriptores_faciales, cap, camera_running
+    global cap, camera_running
     if camera_running:
         cap.release()
         camera_running = False
 
-# Variable para almacenar los descriptores faciales
-# descriptores_faciales = None
-
-
-
 def generate():
-    global descriptores_faciales, cap, last_result
-    # Obtener los descriptores faciales de la base de datos
-    descriptors_from_db = get_facial_descriptors_from_db()
-    
-    # Capturar descriptores faciales
+    global cap
     while camera_running:
-        # Leer el frame desde la cámara
         ret, frame = cap.read()
-
         if not ret or frame is None:
             print("Error al capturar el frame")
             break
 
-        # Convertir a escala de grises para la detección facial
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Detectar caras en el frame
         caras = detector(gray)
-
-        # Iterar sobre las caras detectadas
+        
         for cara in caras:
-            # Obtener las coordenadas del rectángulo alrededor de la cara
             x, y, w, h = cara.left(), cara.top(), cara.width(), cara.height()
-
-            # Dibujar un rectángulo alrededor de la cara
             cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
-            # Extraer descriptores faciales
-            if descriptores_faciales is None:
-                forma = predictor(gray, cara)
-                descriptores_faciales = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
-                #print(descriptores_faciales)
-                
-                # Comparar los descriptores faciales utilizando la distancia euclidiana
-                for descriptors_np in descriptors_from_db:
-                    db_descriptor = descriptors_np
-                    distance_value = distance.euclidean(descriptores_faciales.flatten(), db_descriptor.flatten())
+            forma = predictor(gray, cara)
+            descriptor_actual = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
 
-                    
-                    umbral = 0.7
-                    if distance_value < umbral:
-                        last_result =  ("¡Descriptores faciales coincidentes!")
-                    else:
-                        last_result = ("¡Descriptores faciales no coincidentes!")
+            for descriptor_db in descriptors_from_db:
+                distance_value = distance.euclidean(descriptor_actual, descriptor_db)
+                if distance_value < umbral:
+                    last_result = "¡Rostro reconocido!"
+                    break
+                else:
+                    last_result = "¡Rostro no reconocido!"
 
-        # Mostrar el resultado en el frame
-        cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        
-        # Codificar el frame para enviarlo al navegador
+            cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
             continue
