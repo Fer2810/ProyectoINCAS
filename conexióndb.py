@@ -72,6 +72,17 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
         print("Datos de estudiante insertados correctamente.")
     except mysql.connector.Error as e:
         print("Error al insertar datos de estudiante:", e)
+        
+        
+def insert_administrador(conn, id_administrador, nombre, apellidos, correo, imagen):
+    cursor = conn.cursor()
+    password = generate_random_password()
+    hashed_password = hash_password(password)
+    sql = '''INSERT INTO Administradores (id_administrador, nombre, apellidos, correo, imagen, contraseña_hash) VALUES (%s, %s, %s, %s, %s, %s)'''
+    values = (id_administrador, nombre, apellidos, correo, imagen, hashed_password)
+    cursor.execute(sql, values)
+    conn.commit()
+    return password
 
 def close_connection(conn):
     conn.close()
