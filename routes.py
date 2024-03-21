@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_materia, insert_administrador
+from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador
 from facial_recognition import extraer_encodings
 
 app = Flask(__name__)
@@ -108,29 +108,6 @@ def submit_estudiante():
             return 'No se detectaron caras en la imagen. Intente con otra imagen.'
 
 
-@app.route('/Materia')
-def Materia():
-  return render_template('Materia.html')
-
-# Ruta para procesar los datos del formulario de materia
-@app.route('/Materia', methods=['POST'])
-def submit_materia():
-    if request.method == 'POST':
-        # Obtener datos del formulario
-        subject_name = request.form['subject_name']
-        subject_id = request.form['subject_id']
-        
-        # Conectar a la base de datos
-        conn = create_connection()
-        create_table(conn)  # Asegúrate de que la tabla exista
-
-        # Insertar datos en la base de datos
-        insert_materia(conn, subject_name, subject_id)
-
-        # Cerrar la conexión
-        close_connection(conn)
-
-        return 'Materia guardada exitosamente'
 
 
 if __name__ == '__main__':
