@@ -139,6 +139,9 @@ def submit():
 def administrador():
     return render_template('administrador.html')
 
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
  
