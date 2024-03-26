@@ -1,3 +1,6 @@
+#ERROR LA BASE DE DATOS NO SE ACTUALIZA
+
+
 import cv2
 import dlib
 import numpy as np
@@ -6,19 +9,12 @@ from flask import Flask, Response
 from scipy.spatial import distance
 import pickle
 import threading
+from conexióndb import create_connection
 
 app = Flask(__name__)
 
-# Función para crear la conexión a la base de datos
-def create_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="app_incas"
-    ) 
 
-# Función para obtener los descriptores faciales de la base de datos
+
 def get_facial_descriptors_from_db():
     connection = create_connection()
     cursor = connection.cursor()
@@ -45,28 +41,31 @@ camera_running = False
 descriptors_from_db = get_facial_descriptors_from_db()
 
 # Umbral para la comparación de distancias
-umbral = 0.7  # Puedes ajustar este valor según tus necesidades
+ # Puedes ajustar este valor según tus necesidades
 
 # Variable para almacenar el resultado de la comparación
-last_result = None
+#last_result = None
 
 # Variable para almacenar los descriptores faciales del primer rostro detectado
 first_frame_descriptors = None
 
 # Función para iniciar la cámara
 def start_camera():
-    global cap, camera_running
+    global cap, camera_running, last_result, descriptors_from_db
     if not camera_running:
+        last_result = None  # Reiniciar last_result al iniciar la cámara
+        descriptors_from_db = get_facial_descriptors_from_db()  # Actualizar descriptores al iniciar la cámara
         cap = cv2.VideoCapture(0)
         camera_running = True
 
 # Función para detener la cámara
 def stop_camera():
-    global cap, camera_running
+    global cap, camera_running, descriptors_from_db
     if camera_running:
         cap.release()
         camera_running = False
-
+        descriptors_from_db = None  # Reiniciar los descriptores faciales al apagar la cámara
+  
 # Función para procesar el video
 # Función para procesar el video
 def generate():
@@ -101,14 +100,13 @@ def generate():
                 for descriptor_actual in first_frame_descriptors:
                     for descriptor_db in descriptors_from_db:
                         distance_value = distance.euclidean(descriptor_actual, descriptor_db)
-                        if distance_value < umbral:
-                            last_result = "¡Estudiante registrado!"
-                            break
-                    if last_result is not None:
+                        umbral = 0.7
+                        last_result = "MATCH" if distance_value < umbral else "Estudiante no registrado"
                         break
+                    if last_result is not None:
+                        break 
                 # Si no se encontró ninguna coincidencia, establecer last_result en un valor que indique que el estudiante no está registrado
-                if last_result is None:
-                    last_result = "¡Estudiante no registrado!"
+                
 
         # Dibujar un rectángulo alrededor de las caras detectadas
         for cara in caras:

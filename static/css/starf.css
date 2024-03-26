@@ -1,13 +1,33 @@
-#contenedor-video {
-    position: relative; /* Permite posicionar el video dentro de este contenedor */
-    width: 500px; /* Ancho deseado para el video */
-    height: 300px; /* Altura deseada para el video */
-    margin-top: 30px;
-    margin-left: 60px; /* Margen para separar del borde superior e izquierdo */
+.container {
+    position: relative;
+    /* background: rgb(17 24 39); */
+    
 }
 
-#camara {
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    height: 100%; /* Ocupa toda la altura del contenedor */
-    border: 2px solid #333; /* Borde opcional para resaltar el video */
+#videoFrame {
+    width: 500px;
+    height: 300px;
+    margin-left: 10px;
+    margin-top: 2em;
+}
+
+.button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container form {
+    margin-bottom: 10px;
+}
+
+.title{
+
+    margin-top: 0.5em;
+}
+.table{
+    margin-top: 5em;
+    border-color: black;
 }
