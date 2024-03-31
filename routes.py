@@ -9,6 +9,14 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+@app.route('/login')
+def login():
+  return render_template('login.html')
+
+@app.route('/loginAdmin')
+def loginAdmin():
+  return render_template('loginAdmin.html')
+
 @app.route('/about')
 def about():
   return render_template('about.html')
