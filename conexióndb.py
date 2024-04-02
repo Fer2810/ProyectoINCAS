@@ -20,6 +20,27 @@ def create_connection():
         database="app_incas"
     )
 
+
+def get_facial_descriptors_and_names_from_db():
+    connection = create_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT nombre, descriptores_faciales FROM estudiantes")
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
+    # Convertir los descriptores faciales de bytes a arreglo NumPy y asociarlos con los nombres correspondientes
+    descriptors_and_names = [(row[0], pickle.loads(row[1])) for row in rows]
+
+    return descriptors_and_names
+
+
+
+
+
+
+
+
 def create_table(conn):
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS Datos_Prof (
@@ -32,6 +53,7 @@ def create_table(conn):
                     contraseña VARCHAR(255) NOT NULL
                 )''')
     conn.commit()
+        
 
 def insert_usuario(conn, nombre, apellido, nip, email, id_docente, imagen):
     cursor = conn.cursor()
