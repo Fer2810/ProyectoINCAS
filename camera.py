@@ -15,14 +15,11 @@ $ Actualizacion de la base de datos al momento de cerrar la camara
 
 
 
-
 import cv2
 import dlib
 import numpy as np
-import mysql.connector
 from flask import Flask, Response
 from scipy.spatial import distance
-import pickle
 import threading
 from conexióndb import get_facial_descriptors_and_names_from_db
 
@@ -36,7 +33,10 @@ facial_recognition_model = dlib.face_recognition_model_v1("env/Lib/site-packages
 detector = dlib.get_frontal_face_detector()
 cap = None
 camera_running = False
-names_descriptors_from_db = None
+processing = False  # Bandera para controlar el proceso de reinicio
+
+# Variable para almacenar los nombres y descriptores faciales de la base de datos
+names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
 
 # Variable para almacenar el resultado de la comparación
 last_result = None
@@ -46,25 +46,35 @@ first_frame_descriptors = None
 
 # Función para iniciar la cámara
 def start_camera():
-    global cap, camera_running, last_result, names_descriptors_from_db
+    global cap, camera_running, last_result, names_descriptors_from_db, processing
     if not camera_running:
-        #last_result = "Esperando..."  # Reiniciar last_result al iniciar la cámara
+        last_result = None  # Reiniciar last_result al iniciar la cámara
+        # Variable para almacenar los nombres y descriptores faciales de la base de datos
         names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
         cap = cv2.VideoCapture(0)
         camera_running = True
+        processing = False  # Reiniciar la bandera de procesamiento
 
 # Función para detener la cámara
 def stop_camera():
-    global cap, camera_running, last_result, names_descriptors_from_db
+    global cap, camera_running, last_result, first_frame_descriptors
     if camera_running:
         cap.release()
         camera_running = False
         last_result = None
-        names_descriptors_from_db = None
+        first_frame_descriptors = None
+
+# Función para reiniciar los valores después de 5 segundos
+def reset_values():
+    global last_result, descriptor, processing, names_descriptors_from_db
+    last_result = None
+    names_descriptors_from_db = None
+    descriptor = None
+    processing = False  # Reiniciar la bandera de procesamiento
 
 # Función para procesar el video
 def generate():
-    global first_frame_descriptors, last_result
+    global first_frame_descriptors, last_result, processing
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
@@ -78,9 +88,13 @@ def generate():
         if not last_result:
             first_frame_descriptors = None
 
-        # Si se detecta al menos una cara, obtener descriptores faciales y comparar con la base de datos
-        if len(caras) > 0:
-            if first_frame_descriptors is None:
+        # Actualizar los descriptores faciales y nombres de la base de datos en cada iteración
+        if not processing:
+            names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
+
+        # Verificar si es el primer rostro detectado y compararlo con los descriptores de la base de datos
+        if first_frame_descriptors is None:
+            if len(caras) > 0:
                 # Extraer descriptores faciales del primer rostro detectado
                 first_frame_descriptors = []
                 for cara in caras:
@@ -89,28 +103,30 @@ def generate():
                     first_frame_descriptors.append(descriptor)
 
                 # Comparar los descriptores faciales del primer rostro con los de la base de datos
-                match_found = False
                 for descriptor_actual in first_frame_descriptors:
                     for name, descriptor_db in names_descriptors_from_db:
                         distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                         umbral = 0.5
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
-                            match_found = True
                             break
-                    if match_found:
+                    if last_result is not None:
                         break
 
-                if not match_found:
-                    last_result = "No se encontraron coincidencias"
+        # Si no se encontró ninguna coincidencia, establecer last_result en un valor que indique que el estudiante no está registrado
+        if last_result is None:
+            last_result = "Estudiante no registrado"
 
-        # Dibujar un rectángulo alrededor de las caras detectadas
+        # Función para reiniciar los valores después de 5 segundos
+        if not processing:
+            threading.Timer(3, reset_values).start()
+            processing = True  # Establecer la bandera de procesamiento
+
+        # Dibujar un rectángulo alrededor de las caras detectadas y mostrar el resultado en el frame
         for cara in caras:
             x, y, w, h = cara.left(), cara.top(), cara.width(), cara.height()
             cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
-
-        # Mostrar el resultado de la comparación en el frame
-        cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
         # Codificar el frame como JPEG para la transmisión
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
@@ -129,4 +145,5 @@ def liberar_camara_teardown(exception=None):
 
 # Registrar la función para el evento teardown_appcontext
 app.teardown_appcontext(liberar_camara_teardown)
+
 
