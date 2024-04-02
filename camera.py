@@ -5,14 +5,13 @@ $ Video frame fluido
 $ Actualizacion de la base de datos al momento de cerrar la camara
 
 
-??? Falta reiniciar el script despues de cierto intervalo de tiempo cuando se muestre un resultado 
+
 ??? Falta mostrar los datos del alumno en la pantalla estilo carnet de estudiante
 ??? Falta registrar la hora de llegada en la tabla 
 
 
 
 """
-
 
 
 import cv2
@@ -66,10 +65,9 @@ def stop_camera():
 
 # Función para reiniciar los valores después de 5 segundos
 def reset_values():
-    global last_result, descriptor, processing, names_descriptors_from_db
+    global last_result, first_frame_descriptors, processing
     last_result = None
-    names_descriptors_from_db = None
-    descriptor = None
+    first_frame_descriptors = None
     processing = False  # Reiniciar la bandera de procesamiento
 
 # Función para procesar el video
@@ -114,7 +112,7 @@ def generate():
                         break
 
         # Si no se encontró ninguna coincidencia, establecer last_result en un valor que indique que el estudiante no está registrado
-        if last_result is None:
+        if last_result is None and first_frame_descriptors is not None:
             last_result = "Estudiante no registrado"
 
         # Función para reiniciar los valores después de 5 segundos
@@ -145,5 +143,3 @@ def liberar_camara_teardown(exception=None):
 
 # Registrar la función para el evento teardown_appcontext
 app.teardown_appcontext(liberar_camara_teardown)
-
-
