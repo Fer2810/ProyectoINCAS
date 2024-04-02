@@ -1,0 +1,144 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
+    background: rgb(255, 255, 255);
+}
+
+.container{
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.sidebar{
+    height: 100%;
+    width: 60px;
+    background: rgb(6, 41, 73);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+.mainHead{
+    position: relative;
+    top: 0.1em;
+    margin-left: 15px;
+}
+
+img{
+    position: relative;
+    top: 0.1em;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+
+.items{
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    color: #ffffffcc;
+    margin-left: 0px;
+    margin-top: 2em;
+    padding: 10px 0px;
+    position: relative;
+    bottom: 3em;
+}
+
+.sidebar li{
+    margin-left: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    
+}
+
+.items i{
+    margin: 0 10px;
+}
+a{
+    color: aliceblue;
+    text-decoration: none;
+}
+.para{
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.sidebar li:not(.logout-btn):hover {
+    background: #000;
+    color: aliceblue;
+}
+
+
+.toggler{
+    color: aliceblue;
+    position: absolute;
+    top: 0;
+    left: 6px;
+    padding: 10px 15px;
+    font-size: 1.4rem;
+    transition: all 0.5s ease;
+}
+
+.toggler #toggle-cross {
+    display: none;
+}
+
+
+
+.active.toggler #toggle-cross {
+    display: block;
+}
+
+.active.toggler #toggle-bars {
+    display: none;
+}
+
+.active.toggler {
+    left: 170px;
+}
+
+.active.sidebar {
+    width: 220px;
+}
+
+.active.sidebar .para{
+    opacity: 1;
+}
+main {
+    font-family: Enriqueta;
+    padding: 7rem;
+    margin-left: 120px;
+    position: absolute;
+}
+
+main h1 {
+    font-family: Enriqueta;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+main p {
+    font-size: 20px;
+}
+
+main img {
+    margin-left: 100px;
+    margin-top: 0;
+    position: absolute;
+    left: 35em;
+    top: 15%;
+    border-radius: 20%;
+}
