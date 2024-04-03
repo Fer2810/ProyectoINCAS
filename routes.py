@@ -178,7 +178,7 @@ def loginnAdmin():
             return redirect(url_for('about'))
         else:
             # Credenciales incorrectas, redireccionar de nuevo al formulario de inicio de sesión
-            return render_template('loginAdmin.html', error="Credenciales incorrectas")
+            return redirect(url_for)('loginnAdmin', error = "Credenciale no coinciden")
 
 @app.route('/recuperacionAdmin', methods=['GET', 'POST'])
 def recuperacionAdmin():
@@ -195,7 +195,7 @@ def recuperacionAdmin():
             message = f"Tu contraseña es: {contraseña_encontrada[0]}"
             if send_email(email, message):
                 mensaje = "Revisa tu correo electronico" 
-                return render_template('login.html', mensaje=mensaje)
+                return render_template('loginAdmin.html', mensaje=mensaje)
             else:
                 return "Error al enviar correo electrónico. Por favor, inténtelo de nuevo más tarde."
         else:
