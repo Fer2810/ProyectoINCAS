@@ -40,11 +40,11 @@ names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
 last_result = None
 
 # Variable para almacenar los descriptores faciales del primer rostro detectado
-first_frame_descriptors = None
+descriptor = None
 
 # Función para iniciar la cámara
 def start_camera():
-    global cap, camera_running, last_result, names_descriptors_from_db, processing
+    global cap, camera_running, last_result, names_descriptors_from_db, processing,student_info, descriptor
     if not camera_running:
         last_result = None  # Reiniciar last_result al iniciar la cámara
         # Variable para almacenar los nombres y descriptores faciales de la base de datos
@@ -52,26 +52,31 @@ def start_camera():
         cap = cv2.VideoCapture(0)
         camera_running = True
         processing = False  # Reiniciar la bandera de procesamiento
+        student_info = None
+        descriptor = None
 
 # Función para detener la cámara
 def stop_camera():
-    global cap, camera_running, last_result, first_frame_descriptors
+    global cap, camera_running, last_result, descriptor,student_info
     if camera_running:
         cap.release()
         camera_running = False
         last_result = None
-        first_frame_descriptors = None
+        descriptor = None
+        student_info = None
 
 # Función para reiniciar los valores después de 5 segundos
 def reset_values():
-    global last_result, first_frame_descriptors, processing
+    global last_result, descriptor, processing,student_info
     last_result = None
-    first_frame_descriptors = None
+    descriptor = None
     processing = False  # Reiniciar la bandera de procesamiento
+    student_info = None
+    
 
 # Función para procesar el video
 def generate():
-    global first_frame_descriptors, last_result, processing
+    global descriptor, last_result, processing
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
@@ -83,14 +88,14 @@ def generate():
 
         # Verificar si se ha reiniciado la cámara
         if not last_result:
-            first_frame_descriptors = None
+            descriptor = None
 
         # Actualizar los descriptores faciales y nombres de la base de datos en cada iteración
         if not processing:
             names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
 
         # Verificar si es el primer rostro detectado y compararlo con los descriptores de la base de datos
-        if first_frame_descriptors is None:
+        if descriptor is None:
             if len(caras) > 0:
                 # Extraer descriptores faciales del primer rostro detectado
                 first_frame_descriptors = []
@@ -101,11 +106,12 @@ def generate():
 
                 # Comparar los descriptores faciales del primer rostro con los de la base de datos
                 for descriptor_actual in first_frame_descriptors:
-                    for name, descriptor_db in names_descriptors_from_db:
+                    for name,nit,bachillerato, descriptor_db in names_descriptors_from_db:
                         distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                         umbral = 0.5
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
+                            student_info = f"NIE: {nit}, Nombre: {name}, Bachillerato: {bachillerato}"
                             break
                     if last_result is not None:
                         break
@@ -129,7 +135,16 @@ def generate():
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
             continue
-        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+        
+        # Enviar el frame codificado a través de SSE
+        yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + bytearray(encodedImage) + b"\r\n"
+        
+        if student_info is not None:
+         yield b"data: " + student_info.encode() + b"\n\n"
+
+       
+        
+        
 
 # Asegúrate de que esta parte esté dentro de la función process_video
 if cap is not None:

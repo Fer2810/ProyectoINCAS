@@ -9,6 +9,7 @@
     height: 330px;
     margin-left: 10px;
     margin-top: 2em;
+    float: left;  /* Para alinear el video a la izquierda */
 }
 
 .button-container {
@@ -30,4 +31,10 @@
 .table{
     margin-top: 5em;
     border-color: black;
+}
+
+#studentInfo {
+    position: absolute;
+    top: 5em; /* Ajusta la posición superior según sea necesario */
+    left: calc(430px + 20px);  /* Ajusta el valor según el ancho del videoFrame y el margen */
 }

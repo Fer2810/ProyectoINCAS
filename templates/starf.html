@@ -22,6 +22,33 @@
     <!-- Aquí está la etiqueta img con el estilo CSS -->
     <img id="videoFrame" src="{{ url_for('video_feed') }}">
 
+
+    <div id="studentInfo">
+
+      <script>
+
+        // Crear un nuevo objeto EventSource que se conecte a la ruta /student_info
+        var eventSource = new EventSource('/student_info');
+
+
+        // Agregar un evento 'message' al objeto EventSource para manejar los mensajes recibidos
+        eventSource.onmessage = function(event) {
+          // Obtener el contenido del mensaje (student_info)
+          var studentInfo = event.data;
+
+          // Actualizar el contenido del elemento HTML con id 'studentInfo'
+          document.getElementById('studentInfo').innerHTML = studentInfo;
+        };
+
+        // Agregar un evento 'error' para manejar errores de conexión
+        eventSource.onerror = function(event) {
+          console.error("Error en la conexión SSE:", event);
+        }; 
+    </script>
+  
+    </div>
+
+
     <!-- Contenedor para los botones -->
     <div class="button-container">
         <!-- HTML para encender la cámara -->

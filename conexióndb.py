@@ -111,15 +111,15 @@ def send_email(to_email, message):
 def get_facial_descriptors_and_names_from_db():
     connection = create_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT nombre, descriptores_faciales FROM estudiantes")
+    cursor.execute("SELECT nit,nombre, bachillerato, descriptores_faciales FROM estudiantes")
     rows = cursor.fetchall()
     cursor.close()
     connection.close()
 
     # Convertir los descriptores faciales de bytes a arreglo NumPy y asociarlos con los nombres correspondientes
-    descriptors_and_names = [(row[0], pickle.loads(row[1])) for row in rows]
+    student_data = [(row[0], row[1], row[2], pickle.loads(row[3])) for row in rows]
 
-    return descriptors_and_names
+    return student_data
 
         
 
