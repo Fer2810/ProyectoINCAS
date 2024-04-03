@@ -17,7 +17,7 @@ $ Actualizacion de la base de datos al momento de cerrar la camara
 import cv2
 import dlib
 import numpy as np
-from flask import Flask, Response
+from flask import Flask
 from scipy.spatial import distance
 import threading
 from conexióndb import get_facial_descriptors_and_names_from_db
@@ -25,8 +25,8 @@ from conexióndb import get_facial_descriptors_and_names_from_db
 app = Flask(__name__)
 
 # Cargar el modelo de predicción facial de dlib
-predictor = dlib.shape_predictor("env/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
-facial_recognition_model = dlib.face_recognition_model_v1("env/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
+predictor = dlib.shape_predictor("Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
+facial_recognition_model = dlib.face_recognition_model_v1("Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
 
 # Inicializar el detector de caras de dlib
 detector = dlib.get_frontal_face_detector()
