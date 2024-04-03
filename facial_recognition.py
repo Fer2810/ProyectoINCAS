@@ -4,8 +4,8 @@ import dlib
 import numpy as np
 
 # Cargar el modelo de predicción facial de dlib
-predictor = dlib.shape_predictor("Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")  # Asegúrate de descargar este modelo
-facial_recognition_model = dlib.face_recognition_model_v1("Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")  # Asegúrate de descargar este modelo
+predictor = dlib.shape_predictor("ProyectoINCAS/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")  # Asegúrate de descargar este modelo
+facial_recognition_model = dlib.face_recognition_model_v1("ProyectoINCAS/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")  # Asegúrate de descargar este modelo
 
 
 def extraer_encodings(imagen_bytes):

@@ -84,13 +84,6 @@ def insert_administrador(conn, id_administrador, nombre, apellidos, correo, imag
     conn.commit()
     return password
 
-def insert_materia(conn, subject_name, subject_id):
-    cursor = conn.cursor()
-    sql = '''INSERT INTO Materias (nombre_materia, id_materia) VALUES (%s, %s)'''
-    values = (subject_name, subject_id)
-    cursor.execute(sql, values)
-    conn.commit()
-
 def close_connection(conn):
     conn.close()
 
