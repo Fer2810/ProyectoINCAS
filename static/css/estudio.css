@@ -203,7 +203,7 @@ input[type="submit"] {
     /* Cursor de puntero */
     transition: background-color 0.3s, transform 0.3s;
     /* Transiciones */
-    margin-top: 2em;
+    margin-top: 2px;
 }
 
 /* Estilos para el botón de enviar al pasar el cursor */
