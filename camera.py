@@ -13,11 +13,10 @@ $ Actualizacion de la base de datos al momento de cerrar la camara
 
 """
 
-
 import cv2
 import dlib
 import numpy as np
-from flask import Flask, Response
+from flask import Flask
 from scipy.spatial import distance
 import threading
 from conexióndb import get_facial_descriptors_and_names_from_db
@@ -142,4 +141,21 @@ def liberar_camara_teardown(exception=None):
         cap.release()
 
 # Registrar la función para el evento teardown_appcontext
-app.teardown_appcontext(liberar_camara_teardown)
+app.teardown_appcontext(liberar_camara_teardown)  
+
+
+
+
+""" 
+SOLUCIONES A LA MUESTRA DE DATOS EN EL HTML 
+
+
+1. Mostrar los datos junto la logica del resultado mostrado dentro del vidoframe
+
+2. Mostrar o mover el resuldado dentro  del videoframe hacia afuera del videoframe colocandolo como texto normal a la derecha
+
+
+
+
+
+"""
