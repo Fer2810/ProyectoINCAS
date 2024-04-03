@@ -1,7 +1,9 @@
-
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, Response, render_template, request, redirect, url_for
+from camera import generate, start_camera,stop_camera
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
 from facial_recognition import extraer_encodings
+from datetime import datetime
+import pickle
 
 
 app = Flask(__name__)
@@ -26,13 +28,28 @@ def about():
 def profesor():
   return render_template('profesor.html')
 
+
+# Ruta para la página de inicio de cámara
+@app.route('/starf.html', methods=['GET', 'POST'])
+def starf():
+    if request.method == 'POST':
+        if request.form['action'] == 'start_camera':
+            start_camera()
+        elif request.form['action'] == 'stop_camera':
+            stop_camera()
+
+    return render_template('starf.html')
+
+# Ruta para el feed de video
+@app.route("/video_feed")
+def video_feed():
+    return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
+
+
 @app.route('/inicio')
 def inicio():
   return render_template('inicio.html')
-
-@app.route('/reconocimiento')
-def reconocimiento():
-  return render_template('reconocimiento.html')
+  
 
 @app.route('/masRecursos')
 def masRecursos():
@@ -159,7 +176,7 @@ def loginnAdmin():
             return redirect(url_for('about'))
         else:
             # Credenciales incorrectas, redireccionar de nuevo al formulario de inicio de sesión
-            return render_template('loginAdmin.html', error="Credenciales incorrectas")
+            return redirect(url_for)('loginnAdmin', error = "Credenciale no coinciden")
 
 @app.route('/recuperacionAdmin', methods=['GET', 'POST'])
 def recuperacionAdmin():
@@ -176,7 +193,7 @@ def recuperacionAdmin():
             message = f"Tu contraseña es: {contraseña_encontrada[0]}"
             if send_email(email, message):
                 mensaje = "Revisa tu correo electronico" 
-                return render_template('login.html', mensaje=mensaje)
+                return render_template('loginAdmin.html', mensaje=mensaje)
             else:
                 return "Error al enviar correo electrónico. Por favor, inténtelo de nuevo más tarde."
         else:
@@ -224,6 +241,15 @@ def submit_estudiante():
         else:
             return 'No se detectaron caras en la imagen. Intente con otra imagen.'
 
+
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen):
+    cursor = conn.cursor()
+    # Convertir el arreglo NumPy a bytes usando pickle
+    encoding_bytes = pickle.dumps(encoding_imagen)
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes))
+    conn.commit()
+    cursor.close()
 
 
 if __name__ == '__main__':
