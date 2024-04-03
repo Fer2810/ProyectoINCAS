@@ -16,6 +16,14 @@ def about():
 def profesor():
   return render_template('profesor.html')
 
+@app.route('/indexPersonal')
+def indexPersonal():
+  return render_template('indexPersonal.html')
+
+@app.route('/cursos')
+def cursos():
+  return render_template('cursos.html')
+
 # Ruta para procesar los datos del formulario
 @app.route('/submit', methods=['POST'])
 def submit():
