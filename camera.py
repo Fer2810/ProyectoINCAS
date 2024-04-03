@@ -13,7 +13,6 @@ $ Actualizacion de la base de datos al momento de cerrar la camara
 
 """
 
-
 import cv2
 import dlib
 import numpy as np
@@ -25,8 +24,8 @@ from conexióndb import get_facial_descriptors_and_names_from_db
 app = Flask(__name__)
 
 # Cargar el modelo de predicción facial de dlib
-predictor = dlib.shape_predictor("Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
-facial_recognition_model = dlib.face_recognition_model_v1("Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
+predictor = dlib.shape_predictor("env/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
+facial_recognition_model = dlib.face_recognition_model_v1("env/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
 
 # Inicializar el detector de caras de dlib
 detector = dlib.get_frontal_face_detector()
@@ -142,4 +141,21 @@ def liberar_camara_teardown(exception=None):
         cap.release()
 
 # Registrar la función para el evento teardown_appcontext
-app.teardown_appcontext(liberar_camara_teardown)
+app.teardown_appcontext(liberar_camara_teardown)  
+
+
+
+
+""" 
+SOLUCIONES A LA MUESTRA DE DATOS EN EL HTML 
+
+
+1. Mostrar los datos junto la logica del resultado mostrado dentro del vidoframe
+
+2. Mostrar o mover el resuldado dentro  del videoframe hacia afuera del videoframe colocandolo como texto normal a la derecha
+
+
+
+
+
+"""
