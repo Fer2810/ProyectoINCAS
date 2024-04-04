@@ -38,4 +38,5 @@
     position: absolute;
     top: 5em; /* Ajusta la posición superior según sea necesario */
     left: calc(430px + 20px);  /* Ajusta el valor según el ancho del videoFrame y el margen */
+    margin-left: 3em;
 }
