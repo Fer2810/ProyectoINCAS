@@ -6,7 +6,7 @@
 
 .reloj{
     position: relative;
-    top: 5em;
+    top: 3em;
     margin-left: 0em;
 }
 
@@ -14,12 +14,14 @@
     width: 430px;
     height: 330px;
     margin-left: 1px;
-    margin-top: 2em;
+    margin-top: 1em;
+    position: relative;
+    bottom: 1em;
 }
 
 .button-container {
     position: absolute;
-    top: 10px;
+    top: 1em;
     right: 10px;
     display: flex;
     flex-direction: column;
@@ -30,10 +32,24 @@
 }
 
 .title{
-
     margin-top: 0.5em;
+    position: relative;
+    bottom: 2em;
 }
 .table{
-    margin-top: 1em;
+    margin-top: 0em;
     border-color: black;
+    position: relative;
+    bottom: 1em;
+    top: 1em;
+}
+
+/* Estilos para el párrafo que contiene la fecha */
+#fecha {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #333;
+    position: relative;
+    top: 2em;
+
 }

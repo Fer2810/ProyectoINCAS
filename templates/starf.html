@@ -34,6 +34,24 @@
       </script>
 </head>
 <body class="container" onload="mueveReloj()">
+
+	<p id="fecha"></p>
+
+	<script>
+		 // Obtiene la fecha actual
+		 var fechaActual = new Date();
+
+		 // Obtiene el día, mes y año
+		 var dia = fechaActual.getDate();
+		 var mes = fechaActual.getMonth() + 1; // Los meses comienzan desde 0, así que sumamos 1
+		 var año = fechaActual.getFullYear();
+
+		 // Formatea la fecha como desees, por ejemplo, dd/mm/yyyy
+		 var fechaFormateada = dia + '/' + mes + '/' + año;
+
+		 // Muestra la fecha en el elemento HTML con el id "fecha"
+		 document.getElementById("fecha").innerText = "La fecha actual es: " + fechaFormateada;
+	</script>
     
   <form name="form_reloj" class="reloj">
     <input type="text" name="reloj" size="10" style="background-color: black; color: white; font-family: Verdana, Arial, Helvetica; font-size: 20px; text-align: center; border: none;" onfocus="window.document.form_reloj.reloj.blur()">
