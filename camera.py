@@ -116,7 +116,7 @@ def generate():
                         umbral = 0.5
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
-                            student_info = f"NIE: {nit}, Nombre: {name}, Bachillerato: {bachillerato}"
+                            student_info = f" {nit},  {name},  {bachillerato}"
                             break
                     if last_result is not None:
                         break
