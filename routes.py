@@ -1,11 +1,8 @@
 from flask import Flask, Response, render_template, request, redirect, url_for
-
 from camera import generate, start_camera,stop_camera
-
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
-
 from facial_recognition import extraer_encodings
-
+from datetime import datetime
 import pickle
 
 
@@ -52,6 +49,7 @@ def video_feed():
 @app.route('/inicio')
 def inicio():
   return render_template('inicio.html')
+  
 
 @app.route('/masRecursos')
 def masRecursos():
