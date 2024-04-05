@@ -184,26 +184,43 @@ ol,ul{
   }
  
   .button {
-    background-color: #e2e1e1;
-    color: rgb(41, 124, 233);
+    background-color: #2567a5;
+    color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 1rem 2rem;
     font-size: 1.2rem;
     cursor: pointer;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
     transition: all 0.3s ease;
-    border-radius: 5%; /* add this line to add rounded corners to the button */
+  }
+  
+  .button:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #2567a5;
+    z-index: -1;
+    transition: all 0.3s ease;
+    transform: translateX(-100%);
+  }
+  
+  .button:hover:before {
+    transform: translateX(0);
   }
   
   .button:hover {
-    background-color: rgb(41, 124, 233);
-    color: #e2e1e1;
-    box-shadow: 0px 10px 20px rgba(0,0,0,0.1); /* add this line to add a shadow on hover */
-    transform: translateY(-2px);
+    color: #fff;
+    box-shadow: 0px 10px 20px rgba(10, 81, 126, 0.884);
   }
 
   .image-container {
     width: 50%;
-    text-align: center; /* add this line to center the image */
+    text-align: center;
   }
   
   .image {
