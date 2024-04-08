@@ -108,6 +108,7 @@ def generate():
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
                             break
+                        
                     if last_result is not None:
                         break
 
