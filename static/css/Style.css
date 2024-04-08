@@ -130,8 +130,8 @@ body {
 
 .navbar ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
     display: flex;
     justify-content: space-around;
 }
@@ -143,14 +143,14 @@ body {
 .navbar a {
     text-decoration: none;
     color: black;
-    padding: 5px 10px;
+    padding: 15px 20px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 15px;
+    
 }
 
 .navbar i {
@@ -159,7 +159,7 @@ body {
 
 .navbar a:hover,
 .navbar a:active {
-    color: #62B5FF;
+    color: #1170c4;
 }
 
 * {
