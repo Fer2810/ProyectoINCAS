@@ -1,40 +1,39 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
 }
 
-body{
+body {
     height: 100vh;
     width: 100vw;
     background: rgb(255, 255, 255);
 }
 
-.container{
+.container {
     height: 100%;
     width: 100%;
     position: relative;
 }
 
-.sidebar{
+.sidebar {
     height: 100%;
-    width: 60px;
+    width: 220px; /* Anchura extendida */
     background: rgb(6, 41, 73);
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
-    transition: all 0.5s ease;
 }
 
-.mainHead{
+.mainHead {
     position: relative;
     top: 0.1em;
     margin-left: 15px;
 }
 
-img{
+img {
     position: relative;
     top: 0.1em;
     height: 40px;
@@ -43,8 +42,7 @@ img{
     margin-left: 10px;
 }
 
-
-.items{
+.items {
     display: flex;
     align-items: center;
     font-size: 1.3rem;
@@ -56,70 +54,33 @@ img{
     bottom: 3em;
 }
 
-.sidebar li{
+.sidebar li {
     margin-left: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    
 }
 
-.items i{
+.items i {
     margin: 0 10px;
 }
-a{
+
+a {
     color: aliceblue;
     text-decoration: none;
 }
-.para{
-    opacity: 0;
-    transition: opacity 0.5s ease;
+
+.para {
+    opacity: 1; /* Mostrar el contenido */
 }
 
-.sidebar li:not(.logout-btn):hover {
-    background: #000;
-    color: aliceblue;
+.toggler {
+    display: none; /* No mostrar el botón de toggler */
 }
 
-
-.toggler{
-    color: aliceblue;
-    position: absolute;
-    top: 0;
-    left: 6px;
-    padding: 10px 15px;
-    font-size: 1.4rem;
-    transition: all 0.5s ease;
-}
-
-.toggler #toggle-cross {
-    display: none;
-}
-
-
-
-.active.toggler #toggle-cross {
-    display: block;
-}
-
-.active.toggler #toggle-bars {
-    display: none;
-}
-
-.active.toggler {
-    left: 170px;
-}
-
-.active.sidebar {
-    width: 220px;
-}
-
-.active.sidebar .para{
-    opacity: 1;
-}
 main {
     font-family: Enriqueta;
     padding: 7rem;
-    margin-left: 120px;
+    margin-left: 220px; /* Espacio para el sidebar */
     position: absolute;
 }
 
@@ -134,11 +95,5 @@ main p {
     font-size: 20px;
 }
 
-main img {
-    margin-left: 100px;
-    margin-top: 0;
-    position: absolute;
-    left: 35em;
-    top: 15%;
-    border-radius: 20%;
-}
+
+
