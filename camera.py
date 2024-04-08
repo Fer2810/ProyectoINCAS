@@ -13,7 +13,6 @@ $ Actualizacion de la base de datos al momento de cerrar la camara
 
 """
 
-
 import cv2
 import dlib
 import numpy as np
@@ -25,8 +24,8 @@ from conexióndb import get_facial_descriptors_and_names_from_db
 app = Flask(__name__)
 
 # Cargar el modelo de predicción facial de dlib
-predictor = dlib.shape_predictor("Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
-facial_recognition_model = dlib.face_recognition_model_v1("Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
+predictor = dlib.shape_predictor("env/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
+facial_recognition_model = dlib.face_recognition_model_v1("env/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
 
 # Inicializar el detector de caras de dlib
 detector = dlib.get_frontal_face_detector()
@@ -41,38 +40,44 @@ names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
 last_result = None
 
 # Variable para almacenar los descriptores faciales del primer rostro detectado
-first_frame_descriptors = None
+descriptor = None
 
 # Función para iniciar la cámara
 def start_camera():
-    global cap, camera_running, last_result, names_descriptors_from_db, processing
+    global cap, camera_running, last_result, names_descriptors_from_db, processing, student_info, descriptor
     if not camera_running:
         last_result = None  # Reiniciar last_result al iniciar la cámara
         # Variable para almacenar los nombres y descriptores faciales de la base de datos
-        names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
+        names_descriptors_from_db = None
         cap = cv2.VideoCapture(0)
         camera_running = True
         processing = False  # Reiniciar la bandera de procesamiento
+        student_info = None
+        descriptor = None
 
 # Función para detener la cámara
 def stop_camera():
-    global cap, camera_running, last_result, first_frame_descriptors
+    global cap, camera_running, last_result, descriptor, student_info,names_descriptors_from_db
     if camera_running:
         cap.release()
         camera_running = False
         last_result = None
-        first_frame_descriptors = None
+        descriptor = None
+        student_info = None
+        names_descriptors_from_db = None
 
 # Función para reiniciar los valores después de 5 segundos
 def reset_values():
-    global last_result, first_frame_descriptors, processing
+    global last_result, descriptor, processing, student_info, student_info,names_descriptors_from_db
     last_result = None
-    first_frame_descriptors = None
+    descriptor = None
     processing = False  # Reiniciar la bandera de procesamiento
+    student_info = None
+    names_descriptors_from_db = None
 
 # Función para procesar el video
 def generate():
-    global first_frame_descriptors, last_result, processing
+    global descriptor, last_result, processing, student_info, names_descriptors_from_db
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
@@ -81,39 +86,44 @@ def generate():
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         caras = detector(gray)
+        
+        
 
         # Verificar si se ha reiniciado la cámara
         if not last_result:
-            first_frame_descriptors = None
+            descriptor = None
 
         # Actualizar los descriptores faciales y nombres de la base de datos en cada iteración
         if not processing:
             names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
 
         # Verificar si es el primer rostro detectado y compararlo con los descriptores de la base de datos
-        if first_frame_descriptors is None:
+        if descriptor is None:
             if len(caras) > 0:
                 # Extraer descriptores faciales del primer rostro detectado
                 first_frame_descriptors = []
                 for cara in caras:
                     forma = predictor(gray, cara)
                     descriptor = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
-                    first_frame_descriptors.append(descriptor)
+                    first_frame_descriptors.append(descriptor.copy())  # Corregir el error de append
+                    # Utilizamos una copia del descriptor para evitar problemas de referencia
+                    break  # Solo necesitamos el primer rostro
 
                 # Comparar los descriptores faciales del primer rostro con los de la base de datos
                 for descriptor_actual in first_frame_descriptors:
-                    for name, descriptor_db in names_descriptors_from_db:
+                    for  nit,  name, bachillerato, descriptor_db in names_descriptors_from_db:
                         distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                         umbral = 0.5
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
+                            student_info = f" {nit},  {name},  {bachillerato}"
                             break
                         
                     if last_result is not None:
                         break
 
         # Si no se encontró ninguna coincidencia, establecer last_result en un valor que indique que el estudiante no está registrado
-        if last_result is None and first_frame_descriptors is not None:
+        if last_result is None and first_frame_descriptors:
             last_result = "Estudiante no registrado"
 
         # Función para reiniciar los valores después de 5 segundos
@@ -131,7 +141,12 @@ def generate():
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
             continue
-        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+        
+        # Enviar el frame codificado a través de SSE
+        yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + bytearray(encodedImage) + b"\r\n"
+        
+        if student_info is not None:
+            yield b"data: " + student_info.encode() + b"\n\n"
 
 # Asegúrate de que esta parte esté dentro de la función process_video
 if cap is not None:
@@ -144,3 +159,21 @@ def liberar_camara_teardown(exception=None):
 
 # Registrar la función para el evento teardown_appcontext
 app.teardown_appcontext(liberar_camara_teardown)
+  
+
+
+
+
+""" 
+SOLUCIONES A LA MUESTRA DE DATOS EN EL HTML 
+
+
+1. Montar los datos dentro de la tarjeta 
+
+2. Mostrar o mover el resuldado dentro  del videoframe hacia afuera del videoframe colocandolo como texto normal a la derecha
+
+
+
+
+
+"""

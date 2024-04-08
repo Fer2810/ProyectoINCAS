@@ -45,6 +45,13 @@ def starf():
 def video_feed():
     return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
+# Ruta para el feed de video
+@app.route("/student_info")
+def student_info():
+    return Response(generate(), mimetype="text/event-stream")
+
+
+
 
 @app.route('/inicio')
 def inicio():
