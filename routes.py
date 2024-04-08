@@ -28,6 +28,10 @@ def about():
 def profesor():
   return render_template('profesor.html')
 
+@app.route('/pin')
+def pin():
+  return render_template('pin.html')
+
 
 # Ruta para la página de inicio de cámara
 @app.route('/starf.html', methods=['GET', 'POST'])
