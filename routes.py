@@ -32,6 +32,22 @@ def profesor():
 def pin():
   return render_template('pin.html')
 
+@app.route('/seccion')
+def seccion():
+  return render_template('seccion.html')
+
+@app.route('/formuA')
+def formuA():
+  return render_template('formuA.html')
+
+@app.route('/formuP')
+def formuP():
+  return render_template('formuP.html')
+
+@app.route('/estudiante')
+def estudiante():
+  return render_template('estudiante.html')
+
 
 # Ruta para la página de inicio de cámara
 @app.route('/starf.html', methods=['GET', 'POST'])
@@ -212,10 +228,6 @@ def recuperacionAdmin():
 
     return render_template('get_password.html')
 
-
-@app.route('/estudiante')
-def estudiante():
-  return render_template('estudiante.html')
 
 # Ruta para procesar los datos del formulario de registro de estudiante
 @app.route('/submit_estudiante', methods=['POST'])
