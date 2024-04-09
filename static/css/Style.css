@@ -28,29 +28,29 @@ ol,ul{
 .navbar_menu {
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     position: relative;
     padding: 0 var(--padding_left_right);
 }
 
-.menu_hamburguesa{
+.menu_hamburguesa {
     display: none;
 }
 
-.menu_hamburguesa:checked + .ul_links{
+.menu_hamburguesa:checked+.ul_links {
     height: calc(100vh - var(--altura_header));
-} 
+}
 
 .logo {
-    margin-left: -620px;
-    padding: 10px;
+    padding: -30px;
 }
 
 .list_icon {
     color: #EAEDED;
     cursor: pointer;
+    margin-right: auto;
 }
 
 .ul_links {
@@ -58,17 +58,17 @@ ol,ul{
     background-color: #515A5A;
     position: absolute;
     top: var(--altura_header);
-    left: 75%;
+    left: 0;
     height: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; 
+    align-items: flex-start;
     gap: 1rem;
     transition: all .3s;
     font-size: 50px;
-    padding-left: 20px; 
+    padding-left: 20px;
     z-index: 20;
 }
 
