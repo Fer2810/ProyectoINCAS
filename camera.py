@@ -80,8 +80,6 @@ def reset_values():
     names_descriptors_from_db = None
     primer_rostro_detectado = None
 
-# Inicializar una bandera para indicar si se ha detectado el primer rostro
-primer_rostro_detectado = False
 
 # Función para procesar el video
 def generate():
@@ -115,8 +113,8 @@ def generate():
                     descriptor = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
                     break
 
-        # Si se ha detectado el primer rostro, proceder con la comparación de descriptores faciales
-        if primer_rostro_detectado:
+        # Si se ha detectado el primer rostro y hay caras detectadas, proceder con la comparación de descriptores faciales
+        if primer_rostro_detectado and len(caras) > 0:
             # Comparar los descriptores faciales del primer rostro con los de la base de datos
             for descriptor_actual in [descriptor]:
                 for nit, name, bachillerato, descriptor_db in names_descriptors_from_db:
@@ -129,7 +127,7 @@ def generate():
                 if last_result is not None:
                     break
 
-        # Si no se encontró ninguna coincidencia, establecer last_result en un valor que indique que el estudiante no está registrado
+        # Si no se encontró ninguna coincidencia y se detectó el primer rostro, establecer last_result en un valor que indique que el estudiante no está registrado
         if last_result is None and primer_rostro_detectado:
             last_result = "Estudiante no registrado"
 
@@ -154,6 +152,7 @@ def generate():
         
         if student_info is not None:
             yield b"data: " + student_info.encode() + b"\n\n"
+
 
 
 # Asegúrate de que esta parte esté dentro de la función process_video
