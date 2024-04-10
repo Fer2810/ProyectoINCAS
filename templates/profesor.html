@@ -41,13 +41,13 @@
     <!-- Formulario -->
     <main>
         <h2>Registro de profesor</h2>
-        <form>
+        <form action="/submit" method="POST" enctype="multipart/form-data">
             <!-- Contenedor para la vista previa de la imagen -->
             <div id="file-container">
                 <!-- Botón para agregar imagen -->
                 <div class="file-upload-container">
                     <label for="foto" class="custom-file-upload"></label>
-                    <input type="file" id="foto" name="foto" accept="image/*" onchange="previewImage(event)">
+                    <input type="file" id="foto" name="imagen" accept="image/*" onchange="previewImage(event)">
                 </div>
                 <!-- Vista previa de la imagen -->
                 <img id="file-preview" src="#" alt="Vista previa de la imagen">
@@ -70,10 +70,10 @@
                 <div class="field-container">
                     <!-- Etiqueta y campo para los apellidos -->
                     <label for="apellidos"></label>
-                    <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos">
+                    <input type="text" id="apellidos" name="apellido" placeholder="Apellidos">
                     <!-- Etiqueta y campo para el correo electrónico -->
                     <label for="correo"></label>
-                    <input type="email" id="correo" name="correo" placeholder="Correo electrónico">
+                    <input type="email" id="correo" name="email" placeholder="Correo electrónico">
                     <!-- Botón de guardar -->
                     <input type="submit" value="Guardar">
                 </div>

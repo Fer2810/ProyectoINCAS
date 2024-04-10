@@ -41,13 +41,13 @@
     <!-- Formulario -->
     <main>
         <h2>Registrar Estudiante</h2>
-        <form>
+        <form action="/submit_estudiante" method="POST" enctype="multipart/form-data">
             <!-- Contenedor para la vista previa de la imagen -->
             <div id="file-container">
                 <!-- Botón para agregar imagen -->
                 <div class="file-upload-container">
                     <label for="foto" class="custom-file-upload"></label>
-                    <input type="file" id="foto" name="foto" accept="image/*" onchange="previewImage(event)">
+                    <input type="file" id="foto" name="imagen" accept="image/*" onchange="previewImage(event)">
                 </div>
                 <!-- Vista previa de la imagen -->
                 <img id="file-preview" src="#" alt="Vista previa de la imagen">
@@ -61,11 +61,11 @@
                     <label for="nombre "></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre">
                     <label for="Apellido"></label>
-                    <input type="text" id="Apellido" name="Apellido" placeholder="Apellido">
+                    <input type="text" id="Apellido" name="apellido" placeholder="Apellido">
 
                     <!-- Etiqueta y campo para el NIP -->
                     <label for="correo electronico"></label>
-                    <input type="text" id="correo electronico" name="correo electronico" placeholder="Correo electronico">
+                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
 
                 </div>
             </div>
