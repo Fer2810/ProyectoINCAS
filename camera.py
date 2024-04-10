@@ -13,6 +13,7 @@ $ Actualizacion de la base de datos al momento de cerrar la camara
 
 """
 
+
 import cv2
 import dlib
 import numpy as np
@@ -84,12 +85,25 @@ def reset_values():
 # Función para procesar el video
 def generate():
     global descriptor, last_result, processing, student_info, names_descriptors_from_db, primer_rostro_detectado
+    
+    
+
+
+
 
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
             print("Error al capturar el frame")
             break
+        
+        try:
+             ret, frame = cap.read()
+        except cv2.error as e:
+             print(f"Error de OpenCV: {e}")
+             continue  # O realiza alguna otra acción de manejo de errores
+
+    
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         caras = detector(gray)
@@ -139,9 +153,30 @@ def generate():
         # Dibujar un rectángulo alrededor de las caras detectadas y mostrar el resultado en el frame
         for cara in caras:
             x, y, w, h = cara.left(), cara.top(), cara.width(), cara.height()
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
-            cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-
+            
+            # Calcular las coordenadas para centrar el rectángulo en la pantalla
+            centro_x = x + w // 2
+            centro_y = y + h // 2
+            ancho_recuadro = 200  # Ancho del recuadro de detección facial
+            alto_recuadro = 200   # Alto del recuadro de detección facial
+            x = centro_x - ancho_recuadro // 2
+            y = centro_y - alto_recuadro // 2
+            
+            # Limitar las coordenadas para asegurarse de que el rectángulo esté dentro de los límites de la pantalla
+            x = max(0, x)
+            y = max(0, y)
+            x = min(frame.shape[1] - ancho_recuadro, x)
+            y = min(frame.shape[0] - alto_recuadro, y)
+            
+            # Dibujar el rectángulo centrado
+            cv2.rectangle(frame, (x, y), (x+ancho_recuadro, y+alto_recuadro), (255, 0, 0), 2)
+            
+            # Recortar el frame original para capturar solo la región dentro del rectángulo
+            frame_recortado = frame[y:y+alto_recuadro, x:x+ancho_recuadro]
+            
+            # Realizar la detección facial y comparación de descriptores en el frame recortado
+            # Esto debe realizarse dentro de un nuevo bucle para procesar cada cara detectada dentro del rectángulo
+            
         # Codificar el frame como JPEG para la transmisión
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
@@ -152,8 +187,6 @@ def generate():
         
         if student_info is not None:
             yield b"data: " + student_info.encode() + b"\n\n"
-
-
 
 # Asegúrate de que esta parte esté dentro de la función process_video
 if cap is not None:
@@ -166,6 +199,7 @@ def liberar_camara_teardown(exception=None):
 
 # Registrar la función para el evento teardown_appcontext
 app.teardown_appcontext(liberar_camara_teardown)
+
   
 
 
