@@ -42,7 +42,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url(https://www.ppt-backgrounds.net/uploads/wallpapers-blue-gradient-ppt-backgrounds.jpg) center;
+    background: url() center;
     background-size: cover;
     color: #fff;
 }
