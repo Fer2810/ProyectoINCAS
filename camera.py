@@ -27,9 +27,11 @@ last_result = None
 # Variable para almacenar los descriptores faciales del primer rostro detectado
 descriptor = None
 
+primer_rostro_detectado = None
+
 # Función para iniciar la cámara
 def start_camera():
-    global cap, camera_running, last_result, names_descriptors_from_db, processing, student_info, descriptor
+    global cap, camera_running, last_result, names_descriptors_from_db, processing, student_info, descriptor, primer_rostro_detectado
     if not camera_running:
         last_result = None  # Reiniciar last_result al iniciar la cámara
         # Variable para almacenar los nombres y descriptores faciales de la base de datos
@@ -39,10 +41,11 @@ def start_camera():
         processing = False  # Reiniciar la bandera de procesamiento
         student_info = None
         descriptor = None
+        primer_rostro_detectado = None
 
 # Función para detener la cámara
 def stop_camera():
-    global cap, camera_running, last_result, descriptor, student_info,names_descriptors_from_db
+    global cap, camera_running, last_result, descriptor, student_info,names_descriptors_from_db, primer_rostro_detectado
     if camera_running:
         cap.release()
         camera_running = False
@@ -50,29 +53,44 @@ def stop_camera():
         descriptor = None
         student_info = None
         names_descriptors_from_db = None
+        primer_rostro_detectado = None
 
 # Función para reiniciar los valores después de 5 segundos
 def reset_values():
-    global last_result, descriptor, processing, student_info, student_info,names_descriptors_from_db
+    global last_result, descriptor, processing, student_info, student_info,names_descriptors_from_db, primer_rostro_detectado
     last_result = None
     descriptor = None
     processing = False  # Reiniciar la bandera de procesamiento
     student_info = None
     names_descriptors_from_db = None
+    primer_rostro_detectado = None
+
 
 # Función para procesar el video
 def generate():
-    global descriptor, last_result, processing, student_info, names_descriptors_from_db
+    global descriptor, last_result, processing, student_info, names_descriptors_from_db, primer_rostro_detectado
+    
+    
+
+
+
+
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
             print("Error al capturar el frame")
             break
+        
+        try:
+             ret, frame = cap.read()
+        except cv2.error as e:
+             print(f"Error de OpenCV: {e}")
+             continue  # O realiza alguna otra acción de manejo de errores
+
+    
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         caras = detector(gray)
-        
-        
 
         # Verificar si se ha reiniciado la cámara
         if not last_result:
@@ -83,32 +101,32 @@ def generate():
             names_descriptors_from_db = get_facial_descriptors_and_names_from_db()
 
         # Verificar si es el primer rostro detectado y compararlo con los descriptores de la base de datos
-        if descriptor is None:
+        if descriptor is None and not primer_rostro_detectado:
             if len(caras) > 0:
+                # Marcar que se ha detectado el primer rostro
+                primer_rostro_detectado = True
                 # Extraer descriptores faciales del primer rostro detectado
-                first_frame_descriptors = []
                 for cara in caras:
                     forma = predictor(gray, cara)
                     descriptor = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
-                    first_frame_descriptors.append(descriptor.copy())  # Corregir el error de append
-                    # Utilizamos una copia del descriptor para evitar problemas de referencia
-                    break  # Solo necesitamos el primer rostro
+                    break
 
-                # Comparar los descriptores faciales del primer rostro con los de la base de datos
-                for descriptor_actual in first_frame_descriptors:
-                    for  nit,  name, bachillerato, descriptor_db in names_descriptors_from_db:
-                        distance_value = distance.euclidean(descriptor_actual, descriptor_db)
-                        umbral = 0.5
-                        if distance_value < umbral:
-                            last_result = f"MATCH: {name}"
-                            student_info = f" {nit},  {name},  {bachillerato}"
-                            break
-                        
-                    if last_result is not None:
+        # Si se ha detectado el primer rostro y hay caras detectadas, proceder con la comparación de descriptores faciales
+        if primer_rostro_detectado and len(caras) > 0:
+            # Comparar los descriptores faciales del primer rostro con los de la base de datos
+            for descriptor_actual in [descriptor]:
+                for nit, name, bachillerato, descriptor_db in names_descriptors_from_db:
+                    distance_value = distance.euclidean(descriptor_actual, descriptor_db)
+                    umbral = 0.5
+                    if distance_value < umbral:
+                        last_result = f"MATCH: {name}"
+                        student_info = f" {nit},  {name},  {bachillerato}"
                         break
+                if last_result is not None:
+                    break
 
-        # Si no se encontró ninguna coincidencia, establecer last_result en un valor que indique que el estudiante no está registrado
-        if last_result is None and first_frame_descriptors:
+        # Si no se encontró ninguna coincidencia y se detectó el primer rostro, establecer last_result en un valor que indique que el estudiante no está registrado
+        if last_result is None and primer_rostro_detectado:
             last_result = "Estudiante no registrado"
 
         # Función para reiniciar los valores después de 5 segundos
@@ -119,9 +137,30 @@ def generate():
         # Dibujar un rectángulo alrededor de las caras detectadas y mostrar el resultado en el frame
         for cara in caras:
             x, y, w, h = cara.left(), cara.top(), cara.width(), cara.height()
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
-            cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-
+            
+            # Calcular las coordenadas para centrar el rectángulo en la pantalla
+            centro_x = x + w // 2
+            centro_y = y + h // 2
+            ancho_recuadro = 200  # Ancho del recuadro de detección facial
+            alto_recuadro = 200   # Alto del recuadro de detección facial
+            x = centro_x - ancho_recuadro // 2
+            y = centro_y - alto_recuadro // 2
+            
+            # Limitar las coordenadas para asegurarse de que el rectángulo esté dentro de los límites de la pantalla
+            x = max(0, x)
+            y = max(0, y)
+            x = min(frame.shape[1] - ancho_recuadro, x)
+            y = min(frame.shape[0] - alto_recuadro, y)
+            
+            # Dibujar el rectángulo centrado
+            cv2.rectangle(frame, (x, y), (x+ancho_recuadro, y+alto_recuadro), (255, 0, 0), 2)
+            
+            # Recortar el frame original para capturar solo la región dentro del rectángulo
+            frame_recortado = frame[y:y+alto_recuadro, x:x+ancho_recuadro]
+            
+            # Realizar la detección facial y comparación de descriptores en el frame recortado
+            # Esto debe realizarse dentro de un nuevo bucle para procesar cada cara detectada dentro del rectángulo
+            
         # Codificar el frame como JPEG para la transmisión
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
@@ -144,4 +183,5 @@ def liberar_camara_teardown(exception=None):
 
 # Registrar la función para el evento teardown_appcontext
 app.teardown_appcontext(liberar_camara_teardown)
+
   
