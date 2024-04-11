@@ -71,10 +71,6 @@ def generate():
     global descriptor, last_result, processing, student_info, names_descriptors_from_db, primer_rostro_detectado
     
     
-
-
-
-
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
