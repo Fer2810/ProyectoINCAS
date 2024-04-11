@@ -93,7 +93,14 @@
     border-radius: 5%;
 }
 
-
+.student-card .circle {
+    width: 142px;
+    height: 161px;
+    background-color: #ECEFF1;
+    border-radius: 5%;
+    margin-top: 40px;
+    margin-left: 3em;
+}
 
 .student-card .text-container {
     margin-right: 50px;
@@ -121,11 +128,3 @@
 .student-card .desc-text {
     font-size: 14px;
 }
-
-.menu-icon {
-    position: absolute;
-    right: 0;
-    width: 53px;
-    height: 53px;
-    
-  }

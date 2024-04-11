@@ -5,7 +5,6 @@ import pickle
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import base64
 
 # Configuración del servidor SMTP de Gmail
 SMTP_SERVER = 'smtp.gmail.com'
@@ -112,21 +111,15 @@ def send_email(to_email, message):
 def get_facial_descriptors_and_names_from_db():
     connection = create_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT nit, nombre, bachillerato, descriptores_faciales, imagen FROM estudiantes")
+    cursor.execute("SELECT nit,nombre, bachillerato, descriptores_faciales FROM estudiantes")
     rows = cursor.fetchall()
     cursor.close()
     connection.close()
 
     # Convertir los descriptores faciales de bytes a arreglo NumPy y asociarlos con los nombres correspondientes
-    student_data = []
-    for row in rows:
-        nit, nombre, bachillerato, descriptores_faciales, imagen_bytes = row
-        # Convertir la imagen de bytes a un formato utilizable (por ejemplo, base64)
-        imagen_base64 = base64.b64encode(imagen_bytes).decode('utf-8')
-        student_data.append((nit, nombre, bachillerato, pickle.loads(descriptores_faciales), imagen_base64))
+    student_data = [(row[0], row[1], row[2], pickle.loads(row[3])) for row in rows]
 
     return student_data
-
 
         
 
