@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
-<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>STARF</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estudiante.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estudio.css') }}">
 </head>
 
 <body>
     <div class="sidebar" id="sidebar">
-    <div class="sidebar" id="sidebar">
         <h2>Administración</h2>
-        <ul class="nav">
-            <li><a href="#">Personal</a>
         <ul class="nav">
             <li><a href="#">Personal</a>
                 <ul class="dropdown-content">
@@ -26,18 +22,8 @@
                             <li><a href="/formuA">Administradores</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Historial de Personal</a>
-                        <ul class="dropdown-contents">
-                            <li><a href="/formuP">Profesores</a></li>
-                            <li><a href="/formuA">Administradores</a></li>
-                        </ul>
-                    </li>
                 </ul>
             </li>
-            <li><a href="/estudiante">Estudiante</a></li>
-            <li><a href="/seccion">Secciones</a></li>
-            <li><a href="/inicio">Tomar asistencia STARF</a></li>
-            <li><a href="#">Reportes</a>
             <li><a href="/estudiante">Estudiante</a></li>
             <li><a href="/seccion">Secciones</a></li>
             <li><a href="/inicio">Tomar asistencia STARF</a></li>
@@ -49,8 +35,6 @@
             </li>
         </ul>
     </div>
-
-    <button id="menu-toggle">&#9776;</button>
 
     <button id="menu-toggle">&#9776;</button>
 
@@ -73,7 +57,7 @@
                 <!-- Contenedor para los campos de texto de nombre, NIP e ID de profesor -->
                 <div class="fiel-container">
                     <label for="NIE"></label>
-                    <input type="text" id="nie" name="nie" placeholder="NIE">
+                    <input type="text" id="nie" name="nit" placeholder="NIE">
                     <label for="nombre "></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre">
                     <label for="Apellido"></label>
@@ -143,7 +127,7 @@
             reader.readAsDataURL(event.target.files[0]);
         }
     </script>
-    <script src="static/js/menu.js"></script>
+    <script src="menu.js"></script>
 </body>
 
 </html>
