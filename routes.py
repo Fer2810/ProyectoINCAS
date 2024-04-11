@@ -66,8 +66,9 @@ def video_feed():
 def student_info():
     return Response(generate(), mimetype="text/event-stream")
 
-
-
+@app.route('/pin')
+def pin():
+  return render_template('pin.html')
 
 @app.route('/inicio')
 def inicio():
