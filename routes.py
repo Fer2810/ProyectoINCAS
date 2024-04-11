@@ -12,17 +12,6 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
-@app.route('/seccion')
-def seccion():
-  return render_template('seccion.html')
-
-@app.route('/formuP')
-def formuP():
-  return render_template('formuP.html')
-
-@app.route('/formuA')
-def formuA():
-  return render_template('formuA.html')
 
 @app.route('/recup')
 def recup():

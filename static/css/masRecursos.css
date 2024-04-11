@@ -6,25 +6,46 @@
 }
 
 body {
-    height: 100vh;
-    width: 100vw;
-    background: rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    /* Eliminar márgenes predeterminados */
+    overflow: hidden;
+    /* Evitar el desplazamiento */
 }
 
 .container {
     height: 100%;
-    width: 100%;
-    position: relative;
+    width: calc(100% - 220px);
+    /* Restar el ancho de la barra lateral */
+    margin-left: 0px;
+    /* Ajustar para dejar espacio para la barra lateral */
+    overflow: hidden;
+    /* Evitar el desplazamiento horizontal */
 }
 
 .sidebar {
     height: 100%;
-    width: 220px; /* Anchura extendida */
+    width: 220px;
+    /* Anchura extendida */
     background: rgb(6, 41, 73);
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
+    position: fixed;
+    /* Haz que el menú sea fijo */
+    top: 0;
+    /* Alinea el menú al principio de la ventana */
+    z-index: 999;
+    /* Asegúrate de que el menú esté por encima del resto del contenido */
+}
+
+.hover-images {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    /* Ajusta el margen superior según sea necesario */
 }
 
 .mainHead {
@@ -38,7 +59,7 @@ img {
     top: 0.1em;
     height: 40px;
     width: 40px;
-    border-radius: 50%;
+    border-radius: 3%;
     margin-left: 10px;
 }
 
@@ -69,19 +90,133 @@ a {
     text-decoration: none;
 }
 
-.para {
-    opacity: 1; /* Mostrar el contenido */
+
+/* Estilos para cada imagen */
+
+.hover-image {
+    position: relative;
+    overflow: hidden;
+    width: 250px;
+    height: 250px;
+    /* Altura de la imagen */
+    margin: 0 30px;
+    /* Separación entre imágenes */
+    border-radius: 20px;
+    /* Forma de rectángulo */
+    margin-top: 250px;
 }
 
-.toggler {
-    display: none; /* No mostrar el botón de toggler */
+.hover-image img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease, filter 0.5s ease;
+    /* Agregando transición para el filtro */
 }
 
-main {
-    font-family: Enriqueta;
-    padding: 7rem;
-    margin-left: 220px; /* Espacio para el sidebar */
+.hover-image:hover img {
+    transform: scale(1.1);
+    /* Efecto de zoom */
+    filter: blur(4px);
+    /* Efecto de desenfoque */
+}
+
+
+/* Estilos para el overlay con texto */
+
+.overlay {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    /* Color de fondo del overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 
+/* Estilos para el texto del overlay */
+
+.hover-text {
+    color: #fff;
+    font-size: 16px;
+    font-family: sans-serif;
+}
+
+@keyframes lights {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+
+/* Estilo para el título de la sección */
+
+.section-title {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
+/* Estilo para la línea divisoria debajo del título */
+
+.section-divider {
+    width: 50%;
+    margin: 0 auto;
+    border-bottom: 2px solid #333;
+    margin-bottom: 20px;
+}
+
+.hover-image:hover img {
+    transform: scale(1.1);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hover-image:hover .overlay {
+    opacity: 1;
+}
+
+.hover-text {
+    font-family: sans-serif, "popins";
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+}
+
+.overlay p {
+    color: #fff;
+    text-align: center;
+    margin: 0;
+}
+
+.section-title-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    /* Espaciado opcional */
+    position: relative;
+    left: 20em;
+}
