@@ -12,6 +12,22 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+@app.route('/seccion')
+def seccion():
+  return render_template('seccion.html')
+
+@app.route('/formuP')
+def formuP():
+  return render_template('formuP.html')
+
+@app.route('/formuA')
+def formuA():
+  return render_template('formuA.html')
+
+@app.route('/recup')
+def recup():
+  return render_template('recuperacion.html')
+
 @app.route('/login')
 def login():
   return render_template('login.html')
@@ -146,7 +162,7 @@ def recuperacion():
             message = f"Tu contraseña es: {contraseña_encontrada[0]}"
             if send_email(email, message):
                 mensaje = "Revisa tu correo electronico" 
-                return render_template('login.html', mensaje=mensaje)
+                return render_template('recuperacion.html', mensaje=mensaje)
             else:
                 return "Error al enviar correo electrónico. Por favor, inténtelo de nuevo más tarde."
         else:
