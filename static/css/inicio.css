@@ -1,41 +1,40 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
 }
 
-body {
+body{
     height: 100vh;
+    width: 100vw;
+    background: rgb(255, 255, 255);
+}
+
+.container{
+    height: 100%;
     width: 100%;
-    overflow: hidden;
+    position: relative;
 }
 
-.container {
+.sidebar{
     height: 100%;
-    width: calc(100% - 220px);
-    margin-left: 0px;
-    overflow: hidden;
-}
-
-.sidebar {
-    height: 100%;
-    width: 220px;
-    /* Anchura extendida */
+    width: 60px;
     background: rgb(6, 41, 73);
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
+    transition: all 0.5s ease;
 }
 
-.mainHead {
+.mainHead{
     position: relative;
     top: 0.1em;
     margin-left: 15px;
 }
 
-.imagen {
+img{
     position: relative;
     top: 0.1em;
     height: 40px;
@@ -44,7 +43,8 @@ body {
     margin-left: 10px;
 }
 
-.items {
+
+.items{
     display: flex;
     align-items: center;
     font-size: 1.3rem;
@@ -56,36 +56,70 @@ body {
     bottom: 3em;
 }
 
-.sidebar li {
+.sidebar li{
     margin-left: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    
 }
 
-.items i {
+.items i{
     margin: 0 10px;
 }
-
-a {
+a{
     color: aliceblue;
     text-decoration: none;
 }
-
-.para {
-    opacity: 1;
-    /* Mostrar el contenido */
+.para{
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-.toggler {
+.sidebar li:not(.logout-btn):hover {
+    background: #000;
+    color: aliceblue;
+}
+
+
+.toggler{
+    color: aliceblue;
+    position: absolute;
+    top: 0;
+    left: 6px;
+    padding: 10px 15px;
+    font-size: 1.4rem;
+    transition: all 0.5s ease;
+}
+
+.toggler #toggle-cross {
     display: none;
-    /* No mostrar el botón de toggler */
 }
 
+
+
+.active.toggler #toggle-cross {
+    display: block;
+}
+
+.active.toggler #toggle-bars {
+    display: none;
+}
+
+.active.toggler {
+    left: 170px;
+}
+
+.active.sidebar {
+    width: 220px;
+}
+
+.active.sidebar .para{
+    opacity: 1;
+}
 main {
     font-family: Enriqueta;
     padding: 7rem;
-    margin-left: 220px;
-    /* Espacio para el sidebar */
+    margin-left: 120px;
     position: absolute;
 }
 
@@ -100,20 +134,11 @@ main p {
     font-size: 20px;
 }
 
-.copyright {
-    position: relative;
-    top: 13em;
-    left: 10em;
-}
-
-.right-image {
+main img {
+    margin-left: 100px;
+    margin-top: 0;
     position: absolute;
-    top: 50%;
-    /* Centrado verticalmente */
-    left: 827px;
-    /* Posicionamiento a la derecha */
-    transform: translateY(-50%);
-    /* Alineado verticalmente */
-    width: 720px;
-    /* Tamaño máximo */
+    left: 35em;
+    top: 15%;
+    border-radius: 20%;
 }
