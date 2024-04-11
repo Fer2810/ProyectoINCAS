@@ -12,32 +12,68 @@
 </head>
 
 <body>
+    <main>
+        <div class="hover-images">
+            <!-- Agrega el texto "Mas recursos" encima de las imágenes con una línea debajo -->
+            <div class="section-title-container">
+                <!-- Contenedor para el título -->
+                <h2 class="section-title"> Mas recursos</h2>
+            </div>
+
+
+            <!-- Primera imagen -->
+            <div class="hover-image">
+                <a href="inicio.html">
+                    <img src="static/img/estudiante.jpeg" alt="Descripción de la imagen 1">
+                    <div class="overlay">
+                        <!-- Agrega el texto "Registro de estudiante" para que aparezca en el efecto de desvanecido -->
+                        <p class="hover-text">Registro de estudiante</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Segunda imagen -->
+            <div class="hover-image">
+                <a href="/login">
+                    <img src="static/img/pagina web.jpeg" alt="Descripción de la imagen 2">
+                    <div class="overlay">
+                        <!-- Agrega el texto "Página web" para que aparezca en el efecto de desvanecido -->
+                        <p class="hover-text">Página web</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
     <div class="container">
         <div class="sidebar">
             <div class="logo items">
-                <img src="OIG1 (1).jpeg" alt="">
+                <img src="IMG/OIG1 (1).jpeg" alt="">
                 <span class="mainHead para">
                     <h4>STARF</h4>
                     <h5>Administracion</h5>
                 </span>
             </div>
 
-            <li class="items">
-                <i class="fa-solid fa-house"></i>
-                <p class="para"><a href="/inicio">Inicio</a></p>
-            </li>
-            <li class="items" >
-                <i class="fa-solid fa-globe"></i>
-                <p class="para"><a href="/starf.html">Reconocimiento</a></p>
-            </li>
-            <li class="items">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <p class="para"><a href="/masRecursos">Mas recursos</a></p>
-            </li>
-            <li class="items">
-                <i class="fa-solid fa-envelope"></i>
-                <p class="para"><a href="/ayuda">Ayuda</a></p>
-            </li>
+            <ul>
+                <!-- Agregué una etiqueta ul para envolver los elementos li -->
+                <li class="items">
+                    <i class="fa-solid fa-house"></i>
+                    <p class="para"><a href="/inicio">Inicio</a></p>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-globe"></i>
+                    <p class="para"><a href="/starf">Reconocimiento</a></p>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <p class="para"><a href="/masRecursos">Mas recursos</a></p>
+                </li>
+                <li class="items">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p class="para"><a href="/ayuda">Ayuda</a></p>
+                </li>
+            </ul>
 
         </div>
 
@@ -45,12 +81,7 @@
             <i class="fa-solid fa-bars" id="toggle-bars"></i>
             <i class="fa-solid fa-xmark" id="toggle-cross"></i>
         </div>
-
     </div>
-
-
-
-    <script src="static/js/scripttt.js"></script>
 </body>
 
 </html>

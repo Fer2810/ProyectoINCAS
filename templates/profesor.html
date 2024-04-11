@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>STARF</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STARF</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profesor.css') }}">
 </head>
 
+
 <body>
+    <div class="sidebar" id="sidebar">
     <div class="sidebar" id="sidebar">
         <h2>Administración</h2>
         <ul class="nav">
             <li><a href="#">Personal</a>
+        <ul class="nav">
+            <li><a href="#">Personal</a>
                 <ul class="dropdown-content">
                     <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/profesor">Profesor</a></li>
                     <li><a href="/administrador">Administrador</a></li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#">Historial de Personal</a>
                         <ul class="dropdown-contents">
                             <li><a href="/formuP">Profesores</a></li>
@@ -25,6 +39,9 @@
                 </ul>
             </li>
             <li><a href="/estudiante">Estudiante</a></li>
+            <li><a href="/seccion">Secciones</a></li>
+            <li><a href="/inicio">Tomar asistencia STARF</a></li>
+            <li><a href="#">Reportes</a>
             <li><a href="/seccion">Secciones</a></li>
             <li><a href="/inicio">Tomar asistencia STARF</a></li>
             <li><a href="#">Reportes</a>
@@ -39,9 +56,12 @@
     <button id="menu-toggle">&#9776;</button>
 
     <!-- Formulario -->
+    <button id="menu-toggle">&#9776;</button>
+
+    <!-- Formulario -->
     <main>
         <h2>Registro de profesor</h2>
-        <form action="/submit" method="post" enctype="multipart/form-data">
+        <form action="/submit" method="POST" enctype="multipart/form-data">
             <!-- Contenedor para la vista previa de la imagen -->
             <div id="file-container">
                 <!-- Botón para agregar imagen -->
@@ -93,7 +113,7 @@
             reader.readAsDataURL(event.target.files[0]);
         }
     </script>
-    <script src="menu.js"></script>
+    <script src="static/js/menu.js"></script>
 </body>
 
 </html>

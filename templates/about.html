@@ -10,7 +10,10 @@
 
 <body>
     <div class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
         <h2>Administración</h2>
+        <ul class="nav">
+            <li><a href="#">Personal</a>
         <ul class="nav">
             <li><a href="#">Personal</a>
                 <ul class="dropdown-content">
@@ -22,11 +25,20 @@
                             <li><a href="/formuA">Administradores</a></li>
                         </ul>
                     </li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li><a href="/estudiante">Estudiante</a></li>
             <li><a href="/seccion">Secciones</a></li>
+            <li><a href="/estudiante">Estudiante</a></li>
+            <li><a href="/seccion">Secciones</a></li>
             <li><a href="/inicio">Tomar asistencia STARF</a></li>
+            <li><a href="#">Reportes</a>
             <li><a href="#">Reportes</a>
                 <ul class="dropdown-content">
                     <li><a href="#">En Tiempo Real</a></li>
@@ -38,7 +50,10 @@
 
     <button id="menu-toggle">&#9776;</button>
 
+    <button id="menu-toggle">&#9776;</button>
+
     <main>
+        <h2>Bienvenido a incas STARF</h2>
         <h2>Bienvenido a incas STARF</h2>
         <br>
         <br>
@@ -91,7 +106,7 @@
             // Aquí va el código JavaScript para mover el carrusel de posición
         });
     </script>
-    <script src="menu.js"></script>
+    <script src="static/js/menu.js"></script>
 </body>
 
 </html>
