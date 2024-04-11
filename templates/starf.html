@@ -67,26 +67,49 @@
     <img id="videoFrame" src="{{ url_for('video_feed') }}">
 
 
+    <!-- Sección para mostrar la información del estudiante -->
     <div id="studentInfo">
-
+      <p id="studentInfoText"></p>
+  </div>
+     
       <script>
+        var studentList = []; // Array para mantener un registro de los estudiantes
+
+        // Función para actualizar la lista de estudiantes
+        function updateStudentList(studentInfo) {
+            // Verificar si el estudiante ya está en la lista
+            if (!studentList.includes(studentInfo)) {
+                // Agregar el estudiante a la lista
+                studentList.push(studentInfo);
+
+                // Actualizar la lista de estudiantes en el HTML
+                var listItem = document.createElement('li');
+                listItem.textContent = studentInfo;
+                document.getElementById('studentList').appendChild(listItem);
+            }
+        }
+
+        // Función para mostrar la información del estudiante actualizada
+        function updateStudentInfo(studentInfo) {
+            document.getElementById('studentInfoText').textContent = studentInfo;
+        }
 
         // Crear un nuevo objeto EventSource que se conecte a la ruta /student_info
         var eventSource = new EventSource('/student_info');
 
-
         // Agregar un evento 'message' al objeto EventSource para manejar los mensajes recibidos
         eventSource.onmessage = function(event) {
-          // Obtener el contenido del mensaje (student_info)
-          var studentInfo = event.data;
+            // Obtener el contenido del mensaje (student_info)
+            var studentInfo = event.data;
 
-          // Actualizar el contenido del elemento HTML con id 'studentInfo'
-          document.getElementById('studentInfo').innerHTML = studentInfo;
+            // Llamar a las funciones para actualizar la lista de estudiantes y la información del estudiante
+            updateStudentList(studentInfo);
+            updateStudentInfo(studentInfo);
         };
 
         // Agregar un evento 'error' para manejar errores de conexión
         eventSource.onerror = function(event) {
-          console.error("Error en la conexión SSE:", event);
+            console.error("Error en la conexión SSE:", event);
         }; 
     </script>
   
@@ -108,6 +131,10 @@
         <a href="/inicio" class="btn btn-info">Volver</a>
 
     </div>
-  
+    <!-- Sección para mostrar la lista de estudiantes -->
+    <div id="studentListSection">
+      <h2>Lista de Estudiantes:</h2>
+      <ul id="studentList"></ul>
+  </div>
 </body>
 </html>
