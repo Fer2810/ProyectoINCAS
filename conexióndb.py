@@ -110,7 +110,7 @@ def send_email(to_email, message):
 def get_facial_descriptors_and_names_from_db():
     connection = create_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT nit,nombre, bachillerato, descriptores_faciales FROM estudiantes")
+    cursor.execute("SELECT nie ,nombre, bachillerato, descriptores_faciales FROM estudiantes")
     rows = cursor.fetchall()
     cursor.close()
     connection.close()
@@ -128,7 +128,7 @@ def generate_random_password(length=12):
 
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion, año):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, seccion, año):
     try:
         cursor = conn.cursor()
 
@@ -137,12 +137,12 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
 
         # Consulta SQL para insertar un estudiante en la tabla Estudiantes
         insert_query = """
-        INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion, año)
+        INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen, descriptores_faciales, seccion, año)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         # Datos a insertar en la tabla
-        data = (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion, año)
+        data = (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_bytes, seccion, año)
 
         # Ejecutar la consulta SQL
         cursor.execute(insert_query, data)
