@@ -52,6 +52,13 @@ def video_feed():
 @app.route("/student_info")
 def student_info():
     return Response(generate(), mimetype="text/event-stream")
+  
+@app.route("/student_image")
+def student_image():
+    # Obtener la imagen del alumno
+    
+    # Devolver la imagen como una respuesta con el tipo de contenido adecuado
+    return Response(generate(), mimetype="image/jpeg")
 
 
 

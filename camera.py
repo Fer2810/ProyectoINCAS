@@ -21,6 +21,7 @@ from flask import Flask
 from scipy.spatial import distance
 import threading
 from conexióndb import get_facial_descriptors_and_names_from_db
+import base64
 
 app = Flask(__name__)
 
@@ -86,25 +87,12 @@ def reset_values():
 def generate():
     global descriptor, last_result, processing, student_info, names_descriptors_from_db, primer_rostro_detectado
     
-    
-
-
-
-
     while camera_running:
         ret, frame = cap.read()
         if not ret or frame is None:
             print("Error al capturar el frame")
             break
         
-        try:
-             ret, frame = cap.read()
-        except cv2.error as e:
-             print(f"Error de OpenCV: {e}")
-             continue  # O realiza alguna otra acción de manejo de errores
-
-    
-
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         caras = detector(gray)
 
@@ -131,12 +119,13 @@ def generate():
         if primer_rostro_detectado and len(caras) > 0:
             # Comparar los descriptores faciales del primer rostro con los de la base de datos
             for descriptor_actual in [descriptor]:
-                for nit, name, bachillerato, descriptor_db in names_descriptors_from_db:
+                for nit, name, bachillerato, descriptor_db, imagen_base64 in names_descriptors_from_db:
                     distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                     umbral = 0.5
                     if distance_value < umbral:
                         last_result = f"MATCH: {name}"
-                        student_info = f" {nit},  {name},  {bachillerato}"
+                        student_info = f"{nit}, {name}, {bachillerato}"
+                        student_image = imagen_base64
                         break
                 if last_result is not None:
                     break
@@ -185,8 +174,14 @@ def generate():
         # Enviar el frame codificado a través de SSE
         yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + bytearray(encodedImage) + b"\r\n"
         
+        # Enviar los datos del estudiante y la imagen como eventos SSE
         if student_info is not None:
             yield b"data: " + student_info.encode() + b"\n\n"
+        if student_image is not None:
+            yield b"image: " + student_image.encode() + b"\n\n"
+
+
+
 
 # Asegúrate de que esta parte esté dentro de la función process_video
 if cap is not None:
