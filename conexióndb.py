@@ -23,21 +23,20 @@ def create_connection():
 def create_table(conn):
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS Datos_Prof (
-                    id_docente VARCHAR(255) NOT NULL PRIMARY KEY,
+                    nip int(255) NOT NULL PRIMARY KEY,
                     nombre VARCHAR(255) NOT NULL,
                     apellido VARCHAR(255) NOT NULL,
-                    nip VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
                     imagen LONGBLOB NOT NULL,
                     contraseña VARCHAR(255) NOT NULL
                 )''')
     conn.commit()
 
-def insert_usuario(conn, nombre, apellido, nip, email, id_docente, imagen):
+def insert_usuario(conn, nombre, apellido, nip, email, imagen):
     cursor = conn.cursor()
     password = generate_random_password()  # Generar una contraseña aleatoria
-    sql = '''INSERT INTO Datos_Prof (nombre, apellido, nip, email, id_docente, imagen, contraseña) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
-    values = (nombre, apellido, nip, email, id_docente, imagen, password)
+    sql = '''INSERT INTO Datos_Prof (nombre, apellido, nip, email, imagen, contraseña) VALUES (%s, %s, %s, %s, %s, %s)'''
+    values = (nombre, apellido, nip, email,  imagen, password)
     cursor.execute(sql, values)
     conn.commit()
     return password
@@ -129,7 +128,7 @@ def generate_random_password(length=12):
 
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion, año):
     try:
         cursor = conn.cursor()
 
@@ -138,12 +137,12 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
 
         # Consulta SQL para insertar un estudiante en la tabla Estudiantes
         insert_query = """
-        INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion, año)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         # Datos a insertar en la tabla
-        data = (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes)
+        data = (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion, año)
 
         # Ejecutar la consulta SQL
         cursor.execute(insert_query, data)

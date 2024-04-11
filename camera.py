@@ -1,18 +1,3 @@
-
-""" 
-$ Deteccion, extración y comparacion en tiempo real de descriptores faciales.
-$ Video frame fluido
-$ Actualizacion de la base de datos al momento de cerrar la camara
-
-
-
-??? Falta mostrar los datos del alumno en la pantalla estilo carnet de estudiante
-??? Falta registrar la hora de llegada en la tabla 
-
-
-
-"""
-
 import cv2
 import dlib
 import numpy as np
@@ -160,20 +145,3 @@ def liberar_camara_teardown(exception=None):
 # Registrar la función para el evento teardown_appcontext
 app.teardown_appcontext(liberar_camara_teardown)
   
-
-
-
-
-""" 
-SOLUCIONES A LA MUESTRA DE DATOS EN EL HTML 
-
-
-1. Montar los datos dentro de la tarjeta 
-
-2. Mostrar o mover el resuldado dentro  del videoframe hacia afuera del videoframe colocandolo como texto normal a la derecha
-
-
-
-
-
-"""

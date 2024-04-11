@@ -12,6 +12,22 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+@app.route('/seccion')
+def seccion():
+  return render_template('seccion.html')
+
+@app.route('/formuP')
+def formuP():
+  return render_template('formuP.html')
+
+@app.route('/formuA')
+def formuA():
+  return render_template('formuA.html')
+
+@app.route('/recup')
+def recup():
+  return render_template('recuperacion.html')
+
 @app.route('/login')
 def login():
   return render_template('login.html')
@@ -75,7 +91,6 @@ def submit():
     apellido = request.form['apellido']
     nip = request.form['nip']
     email = request.form['email']
-    id_docente = request.form['id_docente']
     imagen = request.files['imagen'].read()
 
     # Conectar a la base de datos
@@ -83,7 +98,7 @@ def submit():
     create_table(conn)
 
     # Insertar datos en la base de datos
-    insert_usuario(conn, nombre, apellido, nip, email, id_docente, imagen)
+    insert_usuario(conn, nombre, apellido, nip, email, imagen)
 
     # Cerrar la conexión
     close_connection(conn)
@@ -127,7 +142,7 @@ def recuperacion():
             message = f"Tu contraseña es: {contraseña_encontrada[0]}"
             if send_email(email, message):
                 mensaje = "Revisa tu correo electronico" 
-                return render_template('login.html', mensaje=mensaje)
+                return render_template('recuperacion.html', mensaje=mensaje)
             else:
                 return "Error al enviar correo electrónico. Por favor, inténtelo de nuevo más tarde."
         else:
@@ -226,6 +241,9 @@ def submit_estudiante():
         bachillerato = request.form['bachillerato']
         imagen = request.files['imagen']  # Obtener la imagen del formulario
         imagen_bytes = imagen.read()  # Leer los bytes de la imagen
+        seccion = request.form['seccion']
+        año = request.form['año']
+        
 
         # Extraer los encodings de la imagen
         encoding_imagen = extraer_encodings(imagen_bytes)
@@ -237,7 +255,7 @@ def submit_estudiante():
                 create_table(conn)  # Asegúrate de que la tabla exista
 
                 # Insertar datos en la base de datos
-                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen)
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion, año)
 
                 # Cerrar la conexión
                 close_connection(conn)
@@ -249,12 +267,12 @@ def submit_estudiante():
             return 'No se detectaron caras en la imagen. Intente con otra imagen.'
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion, año):
     cursor = conn.cursor()
     # Convertir el arreglo NumPy a bytes usando pickle
     encoding_bytes = pickle.dumps(encoding_imagen)
-    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes))
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion, año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion, año))
     conn.commit()
     cursor.close()
 

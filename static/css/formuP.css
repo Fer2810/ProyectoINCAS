@@ -84,6 +84,67 @@ main h2 {
     margin-bottom: 1rem;
 }
 
+.button-blue {
+    width: 150px;
+    background-color: #00274C;
+    color: #fff;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    font-size: 18px;
+    align-items: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    padding: 10px;
+}
+
+th,
+td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+button {
+    margin-bottom: 10px;
+}
+
+.content {
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.button-container button {
+    margin: 0 65px;
+    /* Agrega un espacio entre los botones */
+}
+
+.content {
+    display: absolute;
+    margin-left: 250px;
+    padding: 45px;
+    justify-content: space-evenly;
+}
+
+#menu-toggle {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     .sidebar {
         display: none;
@@ -114,7 +175,7 @@ main h2 {
     }
     main {
         margin-left: 0;
-        padding: 35px;
+        padding: 1rem;
     }
     #menu-toggle {
         display: block;
@@ -122,75 +183,24 @@ main h2 {
         top: 0;
         left: 0;
         background-color: transparent;
-        color: #696060;
+        color: rgb(107, 107, 107);
         border: none;
         padding: 10px;
         cursor: pointer;
         z-index: 2;
+        transition: transform 0.3s ease-in-out;
     }
-    .carrusel-responsivo {
-        padding: 0%;
+    .content {
+        margin-left: auto;
+        padding: 40px;
+    }
+    .button-container {
         display: flex;
+        flex-direction: row;
+        justify-content: center;
     }
-}
-
-
-/* Estilos para el carrusel */
-
-.carousel {
-    position: block;
-    /* Posición fija */
-    top: 40px;
-    /* Posiciona en la parte superior */
-    right: 0;
-    /* Posiciona en el lado derecho */
-    width: 350px;
-    /* Ancho del carrusel */
-    height: 550px;
-    /* Altura igual al tamaño de la ventana */
-    padding: 0px;
-    box-sizing: border-box;
-    /* Incluye el padding en el cálculo del tamaño */
-    border-radius: 50px;
-    /* Redondear el carrusel */
-    padding: 30px;
-}
-
-.carousel .slide {
-    display: none;
-    /* Ocultar todas las imágenes */
-    width: 100%;
-    /* Ajustar ancho al contenedor */
-    height: 100%;
-    /* Ajustar altura al contenedor */
-    margin-left: 0px;
-    /* Mover la imagen hacia la izquierda */
-}
-
-.carousel .slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* Para ajustar la imagen a las dimensiones del contenedor */
-    border-radius: 50px;
-    /* Redondear las esquinas de las imágenes */
-}
-
-.carousel .active {
-    display: block;
-    /* Mostrar imagen activa */
-}
-
-.carrusel-responsivo {
-    position: relative;
-    width: 100%;
-    margin-top: 20px;
-}
-
-@media (min-width: 1090px) {
-    .carrusel-responsivo {
-        position: absolute;
-        bottom: 0;
-        width: 30%;
+    .button-blue {
+        margin: 5px 10px;
+        /* Ajusta el margen horizontal */
     }
 }
