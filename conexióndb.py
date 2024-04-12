@@ -6,6 +6,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+
 # Configuración del servidor SMTP de Gmail
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587
@@ -19,6 +20,8 @@ def create_connection():
         password="",
         database="app_incas"
     )
+
+
 
 def create_table(conn):
     cursor = conn.cursor()
@@ -152,7 +155,8 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, b
         print("Datos de estudiante insertados correctamente.")
     except mysql.connector.Error as e:
         print("Error al insertar datos de estudiante:", e)
-        
+
+
 
 def close_connection(conn):
     conn.close()
