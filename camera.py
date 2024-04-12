@@ -111,12 +111,12 @@ def generate():
         if primer_rostro_detectado and len(caras) > 0:
             # Comparar los descriptores faciales del primer rostro con los de la base de datos
             for descriptor_actual in [descriptor]:
-                for nit, name, bachillerato, descriptor_db in names_descriptors_from_db:
+                for nie, name, bachillerato, descriptor_db in names_descriptors_from_db:
                     distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                     umbral = 0.5
                     if distance_value < umbral:
                         last_result = f"MATCH: {name}"
-                        student_info = f" {nit},  {name},  {bachillerato}"
+                        student_info = f" {nie},  {name},  {bachillerato}"
                         break
                 if last_result is not None:
                     break
