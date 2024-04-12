@@ -9,8 +9,8 @@ from conexióndb import get_facial_descriptors_and_names_from_db
 app = Flask(__name__)
 
 # Cargar el modelo de predicción facial de dlib
-predictor = dlib.shape_predictor("ProyectoINCAS/env/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
-facial_recognition_model = dlib.face_recognition_model_v1("ProyectoINCAS/env/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
+predictor = dlib.shape_predictor("env/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
+facial_recognition_model = dlib.face_recognition_model_v1("env/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
 
 # Inicializar el detector de caras de dlib
 detector = dlib.get_frontal_face_detector()
@@ -115,12 +115,12 @@ def generate():
         if primer_rostro_detectado and len(caras) > 0:
             # Comparar los descriptores faciales del primer rostro con los de la base de datos
             for descriptor_actual in [descriptor]:
-                for nit, name, bachillerato, descriptor_db in names_descriptors_from_db:
+                for nie, name, bachillerato, descriptor_db in names_descriptors_from_db:
                     distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                     umbral = 0.5
                     if distance_value < umbral:
                         last_result = f"MATCH: {name}"
-                        student_info = f" {nit},  {name},  {bachillerato}"
+                        student_info = f" {nie},  {name},  {bachillerato}"
                         break
                 if last_result is not None:
                     break
