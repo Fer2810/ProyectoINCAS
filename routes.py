@@ -46,7 +46,7 @@ def profesor():
 
 
 # Ruta para la página de inicio de cámara
-@app.route('/starf.html', methods=['GET', 'POST'])
+@app.route('/starf', methods=['GET', 'POST'])
 def starf():
     if request.method == 'POST':
         if request.form['action'] == 'start_camera':
