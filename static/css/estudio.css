@@ -1,7 +1,14 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.nav li:hover>ul {
+    display: block;
 }
 
 .sidebar {
@@ -15,7 +22,7 @@ body {
 }
 
 .sidebar h2 {
-    color: white;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -29,136 +36,156 @@ body {
 }
 
 .sidebar ul li a {
-    color: white;
+    color: #f1eeee;
     text-decoration: none;
     display: block;
 }
 
 .sidebar ul li a:hover {
     background-color: #00274C;
+    padding: 5px;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #015baf;
-    min-width: 160px;
     box-shadow: 0px 8px 16px 0px #41018a;
     z-index: 2;
+    border-radius: 10px;
+}
+
+.dropdown-contents {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+    border-radius: 10px;
+    margin-left: 23px;
 }
 
 .dropdown-content a {
     color: #5e7285;
-    padding: 12px 16px;
     text-decoration: none;
     display: block;
+    border-radius: 5px;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
-main {
-    padding: 7rem;
-    margin-left: 300px;
-}
-
-main h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-
-
-
-
-
-
-
-
-
 .chat-container {
-    max-width: 500px; /* Ancho máximo del contenedor del chat */
-    margin: 0 auto; /* Centra el contenedor en la página */
-    border: 1px solid #ccc; /* Borde alrededor del contenedor */
+    max-width: 500px;
+    /* Ancho máximo del contenedor del chat */
+    margin: 0 auto;
+    /* Centra el contenedor en la página */
+    border: 1px solid #ccc;
+    /* Borde alrededor del contenedor */
 }
 
 .messages {
-    max-height: 300px; /* Altura máxima para el área de mensajes */
-    overflow-y: auto; /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
+    max-height: 300px;
+    /* Altura máxima para el área de mensajes */
+    overflow-y: auto;
+    /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
 }
 
 .input-container {
-    display: flex; /* Usa flexbox para alinear el campo de entrada y el botón */
-    padding: 10px; /* Espacio alrededor del campo de entrada y el botón */
-    background-color: #f9f9f9; /* Fondo del área de entrada de mensajes */
+    display: flex;
+    /* Usa flexbox para alinear el campo de entrada y el botón */
+    padding: 10px;
+    /* Espacio alrededor del campo de entrada y el botón */
+    background-color: #f9f9f9;
+    /* Fondo del área de entrada de mensajes */
 }
 
 input[type="text"] {
-    flex: 1; /* El campo de entrada de texto ocupa todo el espacio restante */
-    padding: 8px; /* Espaciado dentro del campo de entrada */
-    border: 1px solid #ccc; /* Borde alrededor del campo de entrada */
-    border-radius: 5px; /* Borde redondeado del campo de entrada */
+    flex: 1;
+    /* El campo de entrada de texto ocupa todo el espacio restante */
+    padding: 8px;
+    /* Espaciado dentro del campo de entrada */
+    border: 1px solid #ccc;
+    /* Borde alrededor del campo de entrada */
+    border-radius: 20px;
+    /* Borde redondeado del campo de entrada */
 }
 
+
+/* Estilos para los botones */
+
+button,
+input[type="submit"],
+select {
+    margin: left
+}
+
+
+/* Estilos para el botón de enviar */
+
+input[type="submit"],
 button {
-    padding: 8px 15px; /* Espaciado dentro del botón */
-    margin-left: 10px; /* Margen a la izquierda del botón */
-    background-color: #007bff; /* Color de fondo del botón */
-    color: #fff; /* Color del texto del botón */
-    border: none; /* Sin borde alrededor del botón */
-    border-radius: 5px; /* Borde redondeado del botón */
-    cursor: pointer; /* Cursor de puntero cuando se pasa por encima del botón */
+    padding: 8px 15px;
+    /* Espaciado dentro del botón */
+    margin-left: 10px;
+    /* Margen a la izquierda del botón */
+    background-color: #007bff;
+    /* Color de fondo del botón */
+    color: #fff;
+    /* Color del texto del botón */
+    border: none;
+    /* Sin borde alrededor del botón */
+    border-radius: 20px;
+    /* Borde redondeado del botón */
+    cursor: pointer;
+    /* Cursor de puntero cuando se pasa por encima del botón */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transiciones */
+    margin-top: 2px;
+    margin-bottom: 20px;
 }
 
-button:hover {
-    background-color: #0056b3; /* Cambio de color de fondo cuando se pasa el cursor sobre el botón */
+
+/* Estilos para los botones de selección */
+
+select {
+    padding: 8px 15px;
+    /* Espaciado dentro del botón */
+    margin-left: 10px;
+    /* Margen a la izquierda del botón */
+    border: 1px solid #5a3535;
+    /* Borde */
+    border-radius: 20px;
+    /* Borde redondeado */
+    box-sizing: border-box;
+    /* Tamaño incluyendo el borde y el relleno */
+    cursor: pointer;
+    /* Cursor de puntero cuando se pasa por encima del botón */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transiciones */
+    margin-top: 2px;
+    margin-bottom: 20px;
 }
 
-/*para editar el formulario*/
-
-/* Estilos para el cuerpo de la página */
-body {
-    font-family: Arial, sans-serif;
-    /* Fuente del texto */
-    background-color: #f4f4f4;
-    /* Color de fondo */
-    margin: 0;
-    /* Elimina los márgenes */
-    padding: 0;
-    /* Elimina el padding */
-    display: flex;
-    justify-content: center;
-    /* Centra horizontalmente */
-    align-items: center;
-    /* Centra verticalmente */
-    height: 100vh;
-    /* Altura completa de la ventana */
-}
 
 /* Estilos para el formulario */
-form {
-    background-color: #fff;
-    /* Color de fondo */
-    padding: 100px 100px;
-    /* Espaciado interno */
-    /* Modifica aquí para ajustar el padding que rodea los botones */
-    border-radius: 10px;
-    /* Borde redondeado */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    /* Sombra */
-    width: 600px;
-    /* Ancho del formulario */
-    position: relative;
-    display: flex;
-    /* Activamos el modelo de caja flex para distribuir en dos columnas */
-    left: 5em;
+
+main {
+    margin-left: 220px;
+    margin-bottom: 20px;
 }
 
+form {
+    width: 850px;
+    display: flex;
+}
+
+
 /* Estilos para cada columna */
+
 .column {
-    width: 50%;
+    width: 100%;
     /* Ancho del 50% para cada columna */
     padding: 10px;
     /* Espaciado interno */
@@ -170,29 +197,41 @@ form {
     /* Alinear elementos en columna */
 }
 
+.create-subject {
+    float: right;
+    font-size: 13px
+}
+
+
 /* Estilos para los campos de texto y el botón de enviar */
+
 input[type="text"],
 input[type="email"],
 input[type="file"],
 input[type="submit"] {
-    width: calc(100% - 22px);
+    width: 100%;
     /* Ancho del campo */
     padding: 10px;
     /* Espaciado interno */
-    margin-bottom: 10px;
+    margin-top: 25px;
     /* Margen inferior */
-    border: 1px solid #ccc;
+    border: 1px solid #5a3535;
     /* Borde */
-    border-radius: 5px;
+    border-radius: 20px;
     /* Borde redondeado */
     box-sizing: border-box;
     /* Tamaño incluyendo el borde y el relleno */
 }
 
+.create-subject {
+    float: right;
+    font-size: 13px
+}
+
+
 /* Estilos para el botón de enviar */
+
 input[type="submit"] {
-    width: calc(100% - 22px);
-    /* Ancho del botón */
     background-color: #4CAF50;
     /* Color de fondo */
     color: white;
@@ -203,35 +242,102 @@ input[type="submit"] {
     /* Cursor de puntero */
     transition: background-color 0.3s, transform 0.3s;
     /* Transiciones */
-    margin-top: 2px;
+    margin-top: 10px;
 }
 
+
 /* Estilos para el botón de enviar al pasar el cursor */
+
 input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #47eb4f;
     /* Cambiar color de fondo */
     transform: scale(1.05);
     /* Aumentar tamaño */
-    box-shadow: 0 0 10px #45a049;
+    box-shadow: 0 0 10px #3ccf44;
     /* Sombra */
 }
 
+input[type="file"] {
+    display: none;
+    /* Oculta el input por defecto */
+}
+
+
+/* Estilo para el botón personalizado */
+
+.custom-file-upload {
+    background-color: #000000;
+    /* Cambia el color de fondo */
+    color: #dddada;
+    /* Cambia el color del texto */
+    padding: 10px;
+    /* Añade espacio interno */
+    cursor: pointer;
+    /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 20px;
+    /* Añade bordes redondeados */
+    position: relative;
+    /* Para posicionar el icono y el texto */
+    width: 100%;
+}
+
+
+/* Estilo para el icono */
+
+.custom-file-upload::after {
+    content: '📷';
+    /* Agrega el icono */
+    margin-left: 0px;
+    /* Añade espacio entre el texto y el icono */
+}
+
+
+/* Estilo para el texto */
+
+.custom-file-upload:hover::after {
+    content: 'Subir_Foto';
+    /* Cambia el texto al pasar el cursor sobre el botón */
+    margin-left: 2px;
+    /* Ajusta el espacio entre el texto y el icono */
+}
+
+.field-container {
+    margin-top: 25px;
+}
+
+#seccion {
+    margin-left: 38px;
+    margin-top: 5px;
+}
+
+#genero {
+    margin-left: 40px;
+    margin-top: 5px;
+}
+
+#id {
+    margin-left: 1rem;
+    margin-top: 2px;
+}
+
+
 /* Estilos para la vista previa de la imagen */
+
 #file-container {
     position: relative;
     /* Posición relativa */
 }
 
 #file-preview {
-    width: 163px;
+    width: 155px;
     /* Ancho de la imagen previa */
     /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
-    height: 130px;
+    height: 155px;
     /* Altura de la imagen previa */
     /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
     border-radius: 10px;
     /* Borde redondeado */
-    position: absolute;
+    position: none;
     /* Posición absoluta */
     top: 50%;
     /* Centrar verticalmente */
@@ -242,5 +348,81 @@ input[type="submit"]:hover {
     /* Centrar verticalmente */
     display: none;
     /* Ocultar inicialmente */
-    margin-top: 15px;
+    margin-top: 90px;
+    margin-right: 20px;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        height: 100%;
+        width: 250px;
+        top: 0;
+        left: 0;
+        background-color: #001529;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    .sidebar.open {
+        display: block;
+    }
+    .sidebar ul li {
+        padding: 10px 20px;
+    }
+    .sidebar ul li a {
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+    .sidebar ul li a:hover {
+        background-color: #00274C;
+    }
+    main {
+        margin-left: 0;
+        padding: 15px;
+        margin-top: 50px;
+    }
+    #menu-toggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        color: #5f5757;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 2;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 80%;
+        margin: auto;
+        padding: 5%;
+        flex-direction: column;
+    }
+    .column {
+        padding: 0;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    input[type="submit"] {
+        margin-bottom: 20px;
+    }
+    #file-preview {
+        margin-top: 95px;
+    }
+    #file-container {
+        padding: 15px;
+    }
 }

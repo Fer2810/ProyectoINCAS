@@ -1,40 +1,41 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
 }
 
-body{
+body {
     height: 100vh;
-    width: 100vw;
-    background: rgb(255, 255, 255);
-}
-
-.container{
-    height: 100%;
     width: 100%;
-    position: relative;
+    overflow: hidden;
 }
 
-.sidebar{
+.container {
     height: 100%;
-    width: 60px;
+    width: calc(100% - 220px);
+    margin-left: 0px;
+    overflow: hidden;
+}
+
+.sidebar {
+    height: 100%;
+    width: 220px;
+    /* Anchura extendida */
     background: rgb(6, 41, 73);
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
-    transition: all 0.5s ease;
 }
 
-.mainHead{
+.mainHead {
     position: relative;
     top: 0.1em;
     margin-left: 15px;
 }
 
-img{
+.imagen {
     position: relative;
     top: 0.1em;
     height: 40px;
@@ -43,8 +44,7 @@ img{
     margin-left: 10px;
 }
 
-
-.items{
+.items {
     display: flex;
     align-items: center;
     font-size: 1.3rem;
@@ -56,63 +56,91 @@ img{
     bottom: 3em;
 }
 
-.sidebar li{
+.sidebar li {
     margin-left: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    
 }
 
-.items i{
+.items i {
     margin: 0 10px;
 }
-a{
+
+a {
     color: aliceblue;
     text-decoration: none;
 }
-.para{
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
 
-.sidebar li:not(.logout-btn):hover {
-    background: #000;
-    color: aliceblue;
-}
-
-
-.toggler{
-    color: aliceblue;
-    position: absolute;
-    top: 0;
-    left: 6px;
-    padding: 10px 15px;
-    font-size: 1.4rem;
-    transition: all 0.5s ease;
-}
-
-.toggler #toggle-cross {
-    display: none;
-}
-
-
-
-.active.toggler #toggle-cross {
-    display: block;
-}
-
-.active.toggler #toggle-bars {
-    display: none;
-}
-
-.active.toggler {
-    left: 170px;
-}
-
-.active.sidebar {
-    width: 220px;
-}
-
-.active.sidebar .para{
+.para {
     opacity: 1;
+    /* Mostrar el contenido */
+}
+
+.toggler {
+    display: none;
+    /* No mostrar el botón de toggler */
+}
+
+main {
+    font-family: Enriqueta;
+    padding: 7rem;
+    margin-left: 220px;
+    /* Espacio para el sidebar */
+    position: absolute;
+}
+
+main h1 {
+    font-family: Enriqueta;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+main p {
+    font-size: 20px;
+}
+
+.copyright {
+    position: relative;
+    top: 13em;
+    left: 10em;
+}
+
+.content {
+    position: absolute;
+    top: 55%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact-item {
+    margin-bottom: 20px;
+}
+
+.contact-item i {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.contact-item p {
+    display: inline;
+}
+
+.right-image {
+    position: absolute;
+    top: 50%;
+    /* Centrado verticalmente */
+    left: 578px;
+    /* Posicionamiento a la derecha */
+    transform: translateY(-50%);
+    /* Alineado verticalmente */
+    width: 1055px;
+    /* Tamaño máximo */
 }

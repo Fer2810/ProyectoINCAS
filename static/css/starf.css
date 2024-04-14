@@ -61,3 +61,91 @@
     left: calc(430px + 20px);  /* Ajusta el valor según el ancho del videoFrame y el margen */
     margin-left: 3em;
 }
+
+
+
+
+/* Estilos para mantener el espacio a la derecha del video frame */
+#videoFrameContainer {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px; /* Espacio entre el video frame y la tarjeta del alumno */
+}
+
+/* Estilos para la tarjeta del alumno */
+.student-card {
+    background-color: #d2d9dd;
+    width: 400px;
+    height: 240px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    right: -430px; /* Posición inicial fuera de la pantalla */
+    transform: translateY(-50%);
+    z-index: 999; /* Asegurar que esté por encima del video frame */
+    transition: right 0.5s ease; /* Transición suave */
+    margin-top: 9em;
+    display: none; /* Ocultar la tarjeta por defecto */
+}
+
+.student-card .svg-background,
+.student-card .svg-background2 {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #284661;
+    clip-path: polygon(0 0, 14% 0, 48% 100%, 0% 100%);
+}
+
+.student-card .svg-background2 {
+    background-color: rgba(0,0,0,0.12);
+    left: 20px;
+    z-index: -1; /* Asegurar que esté detrás del contenido */
+}
+
+.student-card .profile-img {
+    width: 130px;
+    height: 150px;
+    margin-top: 45px;
+    margin-left: 3.3em;
+    border-radius: 5%;
+}
+
+.student-card .circle {
+    width: 142px;
+    height: 161px;
+    background-color: #ECEFF1;
+    border-radius: 5%;
+    margin-top: 40px;
+    margin-left: 3em;
+}
+
+.student-card .text-container {
+    margin-right: 50px;
+    margin-top: 45px;
+    margin-left: 3em;
+    max-width: 230px;
+    text-align: left;
+    position: absolute;
+    top: 0; /* Alinear el texto en la parte superior */
+    left: 180px; /* Ajustar la posición del texto */
+    color: #263238;
+    font-size: 18px;
+}
+
+.student-card .title-text {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.student-card .info-text {
+    margin-bottom: 10px;
+}
+
+.student-card .desc-text {
+    font-size: 14px;
+}

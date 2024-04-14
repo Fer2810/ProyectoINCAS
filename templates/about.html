@@ -1,37 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STARF</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
 </head>
 
 <body>
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <h2>Administración</h2>
-        <ul>
-            <li class="dropdown">
-                <a href="#">Personal</a>
+        <ul class="nav">
+            <li><a href="#">Personal</a>
                 <ul class="dropdown-content">
                     <li><a href="/profesor">Profesor</a></li>
                     <li><a href="/administrador">Administrador</a></li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
-            <li><a href="#">Estudiante</a></li>
-            <li><a href="#">Secciones</a></li>
-            <li><a href="#">Materias</a></li>
-            <li class="dropdown">
-                <a href="#">Horarios</a>
-                <ul class="dropdown-content">
-                    <li><a href="#">Crear Jornada</a></li>
-                    <li><a href="#">Administrar Jornada</a></li>
-                </ul>
-            </li>
+            <li><a href="/estudiante">Estudiante</a></li>
+            <li><a href="/seccion">Secciones</a></li>
             <li><a href="/inicio">Tomar asistencia STARF</a></li>
-            <li class="dropdown">
-                <a href="#">Reportes</a>
+            <li><a href="#">Reportes</a>
                 <ul class="dropdown-content">
                     <li><a href="#">En Tiempo Real</a></li>
                     <li><a href="#">Normal</a></li>
@@ -40,8 +36,10 @@
         </ul>
     </div>
 
+    <button id="menu-toggle">&#9776;</button>
+
     <main>
-        <h2>Bievenido a incas STARF</h2>
+        <h2>Bienvenido a incas STARF</h2>
         <br>
         <br>
         <p><strong>-Toma de asistencia </strong>
@@ -52,6 +50,48 @@
             <br>rasgos faciales en cuestión de segundos y registrará
             <br>su asistencia en el sistema.</p>
     </main>
+    <!-- Carrusel -->
+    <div class="carousel carrusel-responsivo">
+        <!-- Contenido del carrusel aquí -->
+        <div class="slide active">
+            <img src="static/img/imagen1.jpg" alt="Image 1">
+        </div>
+        <div class="slide">
+            <img src="static/img/imagen2.jpg" alt="Image 2">
+        </div>
+        <div class="slide">
+            <img src="static/img/imagen3.jpg" alt="Image 3">
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('resize', function() {
+            const carrusel = document.querySelector('.carrusel-responsivo');
+            const slides = document.querySelectorAll('.slide');
+
+            if (window.innerWidth < 1090) {
+                carrusel.style.position = 'relative';
+                carrusel.style.bottom = '0';
+                carrusel.style.width = '100%';
+
+                slides.forEach(function(slide) {
+                    slide.style.width = '100%';
+                });
+            } else {
+                carrusel.style.position = 'static';
+                carrusel.style.bottom = 'auto';
+                carrusel.style.width = 'auto';
+
+                slides.forEach(function(slide) {
+                    slide.style.width = 'auto';
+                });
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aquí va el código JavaScript para mover el carrusel de posición
+        });
+    </script>
+    <script src="static/js/menu.js"></script>
 </body>
 
 </html>

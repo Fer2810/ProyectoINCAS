@@ -1,65 +1,23 @@
-
 body {
     font-family: Arial, sans-serif;
+    /* Fuente del texto */
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    background: #fff;
+    /* Color de fondo */
+    margin: 0 auto;
+    /* Elimina los márgenes */
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Elimina el padding */
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 100vh;
+    /* Altura completa de la ventana */
 }
 
-h2 {
-    text-align: center;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
+.nav li:hover>ul {
     display: block;
-    margin-bottom: 5px;
-}
-
-input[type="text"], input[type="email"], input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-input[type="file"] {
-    width: 100%;
-    padding: 10px;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 .sidebar {
@@ -68,12 +26,12 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #00396e;
+    background-color: #001529;
     padding-top: 20px;
 }
 
 .sidebar h2 {
-    color: white;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -87,42 +45,268 @@ body {
 }
 
 .sidebar ul li a {
-    color: white;
+    color: #f1eeee;
     text-decoration: none;
     display: block;
 }
 
 .sidebar ul li a:hover {
     background-color: #00274C;
+    padding: 5px;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #112e49;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px #1f6fb9;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
     z-index: 2;
+    border-radius: 10px;
+}
+
+.dropdown-contents {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+    border-radius: 10px;
+    margin-left: 23px;
 }
 
 .dropdown-content a {
     color: #5e7285;
-    padding: 12px 16px;
     text-decoration: none;
     display: block;
+    border-radius: 5px;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+
+/* Estilos para el formulario */
+
 main {
-    padding: 7rem;
-    margin-left: 300px;
+    margin-left: 235px;
+    margin-bottom: 20px;
 }
 
-main h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+form {
+    width: 850px;
+    display: flex;
+}
+
+
+/* Estilos para cada columna */
+
+.column {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Estilos para los campos de texto y el botón de enviar */
+
+input[type="text"],
+input[type="email"],
+input[type="file"],
+input[type="submit"] {
+    width: 100%;
+    /* Ancho del campo */
+    padding: 10px;
+    /* Espaciado interno */
+    margin-top: 25px;
+    /* Margen inferior */
+    border: 1px solid #5a3535;
+    /* Borde */
+    border-radius: 20px;
+    /* Borde redondeado */
+    box-sizing: border-box;
+    /* Tamaño incluyendo el borde y el relleno */
+}
+
+
+/* Estilos para el botón de enviar */
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    /* Color de fondo */
+    color: white;
+    /* Color del texto */
+    border: none;
+    /* Sin borde */
+    cursor: pointer;
+    /* Cursor de puntero */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transiciones */
+    margin-top: 20px;
+}
+
+
+/* Estilos para el botón de enviar al pasar el cursor */
+
+input[type="submit"]:hover {
+    background-color: #47eb4f;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #3ccf44;
+}
+
+
+/* Estilo base para el input de tipo file */
+
+input[type="file"] {
+    display: none;
+    /* Oculta el input por defecto */
+}
+
+
+/* Estilo para el botón personalizado */
+
+.custom-file-upload {
+    background-color: #000000;
+    /* Cambia el color de fondo */
+    color: #dddada;
+    /* Cambia el color del texto */
+    padding: 10px;
+    /* Añade espacio interno */
+    cursor: pointer;
+    /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 20px;
+    /* Añade bordes redondeados */
+    position: relative;
+    /* Para posicionar el icono y el texto */
+    width: 100%;
+}
+
+
+/* Estilo para el icono */
+
+.custom-file-upload::after {
+    content: '📷';
+    /* Agrega el icono */
+    margin-left: 0px;
+    /* Añade espacio entre el texto y el icono */
+}
+
+
+/* Estilo para el texto */
+
+.custom-file-upload:hover::after {
+    content: 'Subir_Foto';
+    /* Cambia el texto al pasar el cursor sobre el botón */
+    margin-left: 10px;
+    /* Ajusta el espacio entre el texto y el icono */
+}
+
+
+/* Estilos para la vista previa de la imagen */
+
+#file-container {
+    position: relative;
+}
+
+#file-preview {
+    width: 155px;
+    /* Ancho de la imagen previa */
+    /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
+    height: 155px;
+    /* Altura de la imagen previa */
+    /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
+    border-radius: 10px;
+    /* Borde redondeado */
+    position: none;
+    /* Posición absoluta */
+    top: 50%;
+    /* Centrar verticalmente */
+    left: -0px;
+    /* Mover hacia la izquierda */
+    /* Ajusta aquí para mover la vista previa de la imagen */
+    transform: translateY(-50%);
+    /* Centrar verticalmente */
+    display: none;
+    /* Ocultar inicialmente */
+    margin-top: 90px;
+    margin-right: 20px;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        height: 100%;
+        width: 250px;
+        top: 0;
+        left: 0;
+        background-color: #001529;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    .sidebar.open {
+        display: block;
+    }
+    .sidebar ul li {
+        padding: 10px 20px;
+    }
+    .sidebar ul li a {
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+    .sidebar ul li a:hover {
+        background-color: #00274C;
+    }
+    main {
+        margin-left: 0;
+        padding: 35px;
+    }
+    #menu-toggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        color: #696060;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 2;
+    }
+}
+
+
+/* Media queries para hacer que el formulario sea responsive */
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 85%;
+        margin: auto;
+        padding: 5%;
+        flex-direction: column;
+    }
+    .column {
+        padding: 0;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    input[type="submit"] {
+        margin-bottom: 20px;
+    }
+    #file-preview {
+        margin-top: 95px;
+    }
+    #file-container {
+        padding: 15px;
+    }
 }
