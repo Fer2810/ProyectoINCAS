@@ -168,16 +168,19 @@ select {
     margin-bottom: 20px;
 }
 
-
-/* Estilos para el formulario */
-
 main {
-    margin-left: 220px;
-    margin-bottom: 20px;
+    margin-left: 70px;
 }
 
+main{
+    margin-left: 220px;
+    margin-bottom: 70px;
+}
+/* Estilos para el formulario */
+
 form {
-    width: 850px;
+    margin-left: 10px;
+    width: 780px;
     display: flex;
 }
 
@@ -213,7 +216,7 @@ input[type="submit"] {
     /* Ancho del campo */
     padding: 10px;
     /* Espaciado interno */
-    margin-top: 25px;
+    margin-bottom: 10px;
     /* Margen inferior */
     border: 1px solid #5a3535;
     /* Borde */
@@ -242,7 +245,7 @@ input[type="submit"] {
     /* Cursor de puntero */
     transition: background-color 0.3s, transform 0.3s;
     /* Transiciones */
-    margin-top: 10px;
+    margin-top: 2px;
 }
 
 
@@ -295,29 +298,22 @@ input[type="file"] {
 /* Estilo para el texto */
 
 .custom-file-upload:hover::after {
-    content: 'Subir_Foto';
+    content: 'SubirFoto';
     /* Cambia el texto al pasar el cursor sobre el botón */
     margin-left: 2px;
     /* Ajusta el espacio entre el texto y el icono */
 }
 
-.field-container {
-    margin-top: 25px;
-}
-
 #seccion {
     margin-left: 38px;
-    margin-top: 5px;
 }
 
 #genero {
     margin-left: 40px;
-    margin-top: 5px;
 }
 
 #id {
     margin-left: 1rem;
-    margin-top: 2px;
 }
 
 
@@ -349,7 +345,6 @@ input[type="file"] {
     display: none;
     /* Ocultar inicialmente */
     margin-top: 90px;
-    margin-right: 20px;
 }
 
 #menu-toggle {
@@ -420,7 +415,7 @@ input[type="file"] {
         margin-bottom: 20px;
     }
     #file-preview {
-        margin-top: 95px;
+        margin-top: 75px;
     }
     #file-container {
         padding: 15px;

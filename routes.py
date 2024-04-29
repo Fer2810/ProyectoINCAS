@@ -246,12 +246,12 @@ def submit_estudiante():
         apellido = request.form['apellido']
         correo_electronico = request.form['correo_electronico']
         genero = request.form['genero']
-        nie = request.form['nie']
+        nit = request.form['nit']
         bachillerato = request.form['bachillerato']
         imagen = request.files['imagen']  # Obtener la imagen del formulario
         imagen_bytes = imagen.read()  # Leer los bytes de la imagen
         seccion = request.form['seccion']
-        año = request.form['año']
+       
         
 
         # Extraer los encodings de la imagen
@@ -264,7 +264,7 @@ def submit_estudiante():
                 create_table(conn)  # Asegúrate de que la tabla exista
 
                 # Insertar datos en la base de datos
-                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, seccion, año)
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion)
 
                 # Cerrar la conexión
                 close_connection(conn)
@@ -276,12 +276,12 @@ def submit_estudiante():
             return 'No se detectaron caras en la imagen. Intente con otra imagen.'
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, seccion, año):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion):
     cursor = conn.cursor()
     # Convertir el arreglo NumPy a bytes usando pickle
     encoding_bytes = pickle.dumps(encoding_imagen)
-    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen, descriptores_faciales, seccion, año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                   (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_bytes, seccion, año))
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion))
     conn.commit()
     cursor.close()
 
