@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>STARF</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/estudio.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estudiante.css') }}">
 </head>
 
 <body>
@@ -38,8 +38,9 @@
 
     <button id="menu-toggle">&#9776;</button>
 
-    <!-- Formulario -->
-    <main>
+
+     <!-- Formulario -->
+     <main>
         <h2>Registrar Estudiante</h2>
         <form action="/submit_estudiante" method="POST" enctype="multipart/form-data">
             <!-- Contenedor para la vista previa de la imagen -->
@@ -55,17 +56,17 @@
             <!-- Columna 1 -->
             <div class="column">
                 <!-- Contenedor para los campos de texto de nombre, NIP e ID de profesor -->
-                <div class="fiel-container">
+                <div class="field-container">
                     <label for="NIE"></label>
-                    <input type="text" id="nie" name="nie" placeholder="NIE">
+                    <input type="text" id="nie" name="nit" placeholder="NIE">
                     <label for="nombre "></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre">
-                    <label for="Apellido"></label>
-                    <input type="text" id="Apellido" name="apellido" placeholder="Apellido">
-
-                    <!-- Etiqueta y campo para el NIP -->
-                    <label for="correo electronico"></label>
-                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
+                    <label for="genero">Género</label>
+                    <select id="genero" name="genero">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                    </select>
+                    <br>
 
                 </div>
             </div>
@@ -75,39 +76,20 @@
                 <div class="field-container">
                     <!-- Etiqueta y campo para los apellidos -->
 
-                    <label for="bachillerato">Bachillerato</label>
-                    <select id="bachillerato" name="bachillerato">
-                        <option value="General">General</option>
-                        <option value="Software">Software</option>
-                        <option value="Electricidad">Electricidad</option>
-                        <option value="Turismo">Turismo</option>
-                        <option value="Agropecuario">Agropecuario</option>
-                        <option value="Contabiduría">Contabiduría</option>
-                    </select>
-                    <br>
-                    <label for="genero">Género</label>
-                    <select id="genero" name="genero">
-                        <option value="masculino">Masculino</option>
-                        <option value="femenino">Femenino</option>
-                    </select>
-                    <br>
-                    <label for="seccion">Sección</label>
+                    
+                    <label for="Apellido"></label>
+                    <input type="text" id="Apellido" name="apellido" placeholder="Apellido">
+
+                    <!-- Etiqueta y campo para el NIP -->
+                    <label for="correo electronico"></label>
+                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
+                    <label for="seccion">ID Sección</label>
                     <select id="seccion" name="seccion">
-                        <option value="M">M</option>
-                        <option value="N">N</option>
-                        <option value="F">F</option>
-                        <option value="K">K</option>
-                        <option value="D">D</option>
-                        <option value="H">H</option>
-                        <option value="A">A</option>
-                        <option value="E">E</option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        
                     </select>
-                    <label id="id" for="año">Año</label>
-                    <select id="año" name="año">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
+                    
                     <!-- Botón de guardar -->
                     <input type="submit" value="Guardar">
                 </div>
