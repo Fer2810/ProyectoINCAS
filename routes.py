@@ -1,6 +1,6 @@
 from flask import Flask, Response, render_template, request, redirect, url_for
 from camera import generate, start_camera,stop_camera
-from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
+from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin, insert_seccion
 from facial_recognition import extraer_encodings
 from datetime import datetime
 import pickle
@@ -284,6 +284,39 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
                    (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion))
     conn.commit()
     cursor.close()
+
+# Ruta para procesar los datos del formulario de sección
+@app.route('/submit_seccion', methods=['POST'])
+def submit_seccion():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        id_seccion = request.form['id_seccion']
+        bachillerato = request.form['bachillerato']
+        seccion = request.form['seccion']
+        año = request.form['año']
+
+        try:
+            # Conectar a la base de datos
+            conn = create_connection()
+            create_table(conn)  # Asegúrate de que la tabla exista
+
+            # Insertar datos en la base de datos
+            insert_seccion(conn, id_seccion, bachillerato, seccion, año)
+
+            # Cerrar la conexión
+            close_connection(conn)
+
+            return 'Datos de sección enviados a la base de datos correctamente'
+        except Exception as e:
+            return f'Error al procesar y almacenar los datos de la sección: {str(e)}'
+
+def insert_seccion(conn, id_seccion, bachillerato, seccion, año):
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO secciones (id_seccion, bachillerato, seccion, año) VALUES (%s, %s, %s, %s)",
+                   (id_seccion, bachillerato, seccion, año))
+    conn.commit()
+    cursor.close()
+
 
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 # Cargar el modelo de predicción facial de dlib
 predictor = dlib.shape_predictor("ProyectoINCAS/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
-facial_recognition_model = dlib.face_recognition_model_v1("ProyectoINCAS/Lib/site-packages/dlib/models/shape_predictor_68_face_landmarks.dat")
+facial_recognition_model = dlib.face_recognition_model_v1("ProyectoINCAS/Lib/site-packages/dlib/models/dlib_face_recognition_resnet_model_v1.dat")
 
 # Inicializar el detector de caras de dlib
 detector = dlib.get_frontal_face_detector()
