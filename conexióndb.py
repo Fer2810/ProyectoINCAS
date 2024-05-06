@@ -157,6 +157,29 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
         print("Error al insertar datos de estudiante:", e)
 
 
+def insert_seccion(conn, id_seccion, seccion, bachillerato, año):
+    try:
+        cursor = conn.cursor()
+
+        # Consulta SQL para insertar una sección en la tabla Secciones
+        insert_query = """
+        INSERT INTO secciones (ID_secciones, Secciones, Bachillerato, Año)
+        VALUES (%s, %s, %s, %s)
+        """
+
+        # Datos a insertar en la tabla
+        data = (id_seccion, seccion, bachillerato, año)
+
+        # Ejecutar la consulta SQL
+        cursor.execute(insert_query, data)
+
+        # Confirmar los cambios en la base de datos
+        conn.commit()
+        print("Datos de sección insertados correctamente.")
+    except mysql.connector.Error as e:
+        print("Error al insertar datos de sección:", e)
+
+import mysql.connector
 
 def close_connection(conn):
     conn.close()
