@@ -5,7 +5,6 @@ from facial_recognition import extraer_encodings
 from datetime import datetime
 import pickle
 
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -316,8 +315,6 @@ def insert_seccion(conn, id_seccion, bachillerato, seccion, año):
                    (id_seccion, bachillerato, seccion, año))
     conn.commit()
     cursor.close()
-
-
 
 if __name__ == '__main__':
   app.run(debug=True)

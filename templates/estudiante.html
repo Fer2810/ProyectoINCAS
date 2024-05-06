@@ -85,11 +85,10 @@
                     <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
                     <label for="seccion">ID Sección</label>
                     <select id="seccion" name="seccion">
-                        <option value=""></option>
-                        <option value=""></option>
-                        
+                        {% for seccion in secciones %}
+                        <option value="{{ seccion }}">{{ seccion }}</option>
+                        {% endfor %}
                     </select>
-                    
                     <!-- Botón de guardar -->
                     <input type="submit" value="Guardar">
                 </div>

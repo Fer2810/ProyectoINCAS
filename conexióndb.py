@@ -179,7 +179,7 @@ def insert_seccion(conn, id_seccion, seccion, bachillerato, año):
     except mysql.connector.Error as e:
         print("Error al insertar datos de sección:", e)
 
-
+import mysql.connector
 
 def close_connection(conn):
     conn.close()
