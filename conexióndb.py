@@ -18,7 +18,7 @@ def create_connection():
         host="localhost",
         user="root",
         password="",
-        database="appstarf"
+        database="app_incas"
     )
 
 
