@@ -290,7 +290,6 @@ def submit_seccion():
     if request.method == 'POST':
         # Obtener datos del formulario
         id_seccion = request.form['id_seccion']
-        bachillerato = request.form['bachillerato']
         seccion = request.form['seccion']
         año = request.form['año']
 
@@ -300,7 +299,7 @@ def submit_seccion():
             create_table(conn)  # Asegúrate de que la tabla exista
 
             # Insertar datos en la base de datos
-            insert_seccion(conn, id_seccion, bachillerato, seccion, año)
+            insert_seccion(conn, id_seccion, seccion, año)
 
             # Cerrar la conexión
             close_connection(conn)
@@ -309,10 +308,10 @@ def submit_seccion():
         except Exception as e:
             return f'Error al procesar y almacenar los datos de la sección: {str(e)}'
 
-def insert_seccion(conn, id_seccion, bachillerato, seccion, año):
+def insert_seccion(conn, id_seccion, seccion, año):
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO secciones (id_seccion, bachillerato, seccion, año) VALUES (%s, %s, %s, %s)",
-                   (id_seccion, bachillerato, seccion, año))
+    cursor.execute("INSERT INTO secciones (id_seccion, seccion, año) VALUES (%s, %s, %s)",
+                   (id_seccion, seccion, año))
     conn.commit()
     cursor.close()
 

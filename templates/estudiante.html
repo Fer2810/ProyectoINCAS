@@ -67,6 +67,15 @@
                         <option value="femenino">Femenino</option>
                     </select>
                     <br>
+                    <label for="bachillerato">Bachillerato</label>
+                    <select id="bachillerato" name="bachillerato">
+                        <option value="General">General</option>
+                        <option value="Software">Software</option>
+                        <option value="Electricidad">Electricidad</option>
+                        <option value="Turismo">Turismo</option>
+                        <option value="Agropecuario">Agropecuario</option>
+                        <option value="Contabiduría">Contabiduría</option>
+                    </select>
 
                 </div>
             </div>
@@ -83,6 +92,7 @@
                     <!-- Etiqueta y campo para el NIP -->
                     <label for="correo electronico"></label>
                     <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
+                    <br>
                     <label for="seccion">ID Sección</label>
                     <select id="seccion" name="seccion">
                         {% for seccion in secciones %}
