@@ -318,4 +318,3 @@ def insert_seccion(conn, id_seccion, bachillerato, seccion, año):
 
 if __name__ == '__main__':
   app.run(debug=True)
-
