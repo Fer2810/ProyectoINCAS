@@ -1,0 +1,265 @@
+/* Estilos para el cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Estilos para la barra de navegación */
+.nav li:hover>ul {
+    display: block;
+}
+
+/* Estilos para la barra lateral */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #001529;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    color: #f1eeee;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background-color: #00274C;
+    padding: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+    border-radius: 10px;
+}
+
+.dropdown-contents {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+    border-radius: 10px;
+    margin-left: 23px;
+}
+
+.dropdown-content a {
+    color: #5e7285;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Estilos para el contenido fuera de la barra lateral */
+.chat-container {
+    max-width: 500px;
+    /* Ancho máximo del contenedor del chat */
+    margin: 0 auto;
+    /* Centra el contenedor en la página */
+    border: 1px solid #ccc;
+    /* Borde alrededor del contenedor */
+}
+
+.messages {
+    max-height: 300px;
+    /* Altura máxima para el área de mensajes */
+    overflow-y: auto;
+    /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
+}
+
+.input-container {
+    display: flex;
+    /* Usa flexbox para alinear el campo de entrada y el botón */
+    padding: 10px;
+    /* Espacio alrededor del campo de entrada y el botón */
+    background-color: #f9f9f9;
+    /* Fondo del área de entrada de mensajes */
+}
+
+input[type="text"] {
+    flex: 1;
+    /* El campo de entrada de texto ocupa todo el espacio restante */
+    padding: 8px;
+    /* Espaciado dentro del campo de entrada */
+    border: 1px solid #ccc;
+    /* Borde alrededor del campo de entrada */
+    border-radius: 20px;
+    /* Borde redondeado del campo de entrada */
+}
+
+/* Estilos para los botones */
+button,
+input[type="submit"],
+select {
+    margin: left;
+}
+
+/* Estilos para el botón de enviar */
+input[type="submit"],
+button {
+    padding: 8px 15px;
+    /* Espaciado dentro del botón */
+    margin-left: 10px;
+    /* Margen a la izquierda del botón */
+    background-color: #007bff;
+    /* Color de fondo del botón */
+    color: #fff;
+    /* Color del texto del botón */
+    border: none;
+    /* Sin borde alrededor del botón */
+    border-radius: 20px;
+    /* Borde redondeado del botón */
+    cursor: pointer;
+    /* Cursor de puntero cuando se pasa por encima del botón */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transiciones */
+    margin-top: 2px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para los botones de selección */
+select {
+    padding: 8px 15px;
+    /* Espaciado dentro del botón */
+    margin-left: 10px;
+    /* Margen a la izquierda del botón */
+    border: 1px solid #5a3535;
+    /* Borde */
+    border-radius: 20px;
+    /* Borde redondeado */
+    box-sizing: border-box;
+    /* Tamaño incluyendo el borde y el relleno */
+    cursor: pointer;
+    /* Cursor de puntero cuando se pasa por encima del botón */
+    transition: background-color 0.3s, transform 0.3s;
+    /* Transiciones */
+    margin-top: 2px;
+    margin-bottom: 20px;
+}
+
+main {
+    margin-left: 70px;
+}
+
+main {
+    margin-left: 220px;
+    margin-bottom: 70px;
+}
+
+/* Estilos para el botón de menú en pantallas pequeñas */
+#menu-toggle {
+    display: none;
+}
+
+/* Estilos para la barra lateral en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        height: 100%;
+        width: 250px;
+        top: 0;
+        left: 0;
+        background-color: #001529;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidebar.open {
+        display: block;
+    }
+
+    .sidebar ul li {
+        padding: 10px 20px;
+    }
+
+    .sidebar ul li a {
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+
+    .sidebar ul li a:hover {
+        background-color: #00274C;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 15px;
+        margin-top: 50px;
+    }
+
+    /* Estilos para el botón de menú en pantallas pequeñas */
+    #menu-toggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        color: #5f5757;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 2;
+    }
+}
+
+/* Estilos para el formulario en pantallas pequeñas */
+@media screen and (max-width: 600px) {
+    form {
+        width: 80%;
+        margin: auto;
+        padding: 5%;
+        flex-direction: column;
+    }
+
+    .column {
+        padding: 0;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    input[type="submit"] {
+        margin-bottom: 20px;
+    }
+
+    #file-preview {
+        margin-top: 75px;
+    }
+
+    #file-container {
+        padding: 15px;
+    }
+}

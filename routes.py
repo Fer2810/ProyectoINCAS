@@ -11,6 +11,10 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+@app.route('/verSecciones')
+def verSecciones():
+  return render_template('verSecciones.html')
+
 @app.route('/indexPersonal')
 def indexPersonal():
   return render_template('indexPersonal.html')
