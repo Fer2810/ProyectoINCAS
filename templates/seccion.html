@@ -1,110 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Secciones y Grados</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STARF</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/seccion.css') }}">
+</head>
 
-    <body>
-        <div class="sidebar" id="sidebar">
-            <h2>Administración</h2>
-            <ul class="nav">
-                <li><a href="#">Personal</a>
-                    <ul class="dropdown-content">
-                        <li><a href="/profesor">Profesor</a></li>
-                        <li><a href="/administrador">Administrador</a></li>
-                        <li><a href="#">Historial de Personal</a>
-                            <ul class="dropdown-contents">
-                                <li><a href="/formuP">Profesores</a></li>
-                                <li><a href="/formuA">Administradores</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="/estudiante">Estudiante</a></li>
-                <li><a href="/seccion">Secciones</a></li>
-                <li><a href="/inicio">Tomar asistencia STARF</a></li>
-                <li><a href="#">Reportes</a>
-                    <ul class="dropdown-content">
-                        <li><a href="#">En Tiempo Real</a></li>
-                        <li><a href="#">Normal</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul class="nav">
+            <li><a href="#">Personal</a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
+                    <li><a href="/formuB">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuB">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="/estudiante">Estudiante</a></li>
+            <li><a href="/seccion">Secciones</a></li>
+            <li><a href="/inicio">Tomar asistencia STARF</a></li>
+            <li><a href="#">Reportes</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
-        <button id="menu-toggle">&#9776;</button>
+    <button id="menu-toggle">&#9776;</button>
 
-        <main>
-            <h1>Buscar Secciones y Grados</h1>
-            <label for="busqueda">Buscar Sección o Grado:</label>
-            <input type="text" id="busqueda" onkeyup="buscar()">
-            <br><br>
-            <div class="excel-table" id="resultados">
-                <!-- Los resultados se mostrarán aquí -->
+<!-- Formulario -->
+<main>
+    <h2>Secciones</h2>
+    <form action="/submit_seccion" method="post">
+        <!-- Columna 1 -->
+        <div class="column">
+            <!-- Contenedor para los campos de texto de nombre, NIP e ID de profesor -->
+            <div class="field-container">
+                <!-- Etiqueta y campo para el nombre -->
+                <label for="id_seccion">ID Sección:</label>
+                <input type="text" id="id_seccion" name="id_seccion" placeholder="ID Sección">
+                <label for="año">Año:</label>
+                <select id="año" name="año">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
             </div>
-        </main>
+        </div>
+        <!-- Columna 2 -->
+        <div class="column">
+            <!-- Contenedor para los campos de texto de apellidos, correo electrónico y botón de guardar -->
+            <div class="field-container">
+                <!-- Etiqueta y campo para los apellidos -->
+                <label for="seccion">Sección:</label>
+                <input type="text" id="seccion" name="seccion" placeholder="Sección">
+                <!-- Botón de guardar -->
+                <input type="submit" value="Guardar">
+            </div>
+        </div>
+    </form>
+</main>
 
-        <script>
-            function buscar() {
-                var input, filter, cells, i, cell, txtValue;
-                input = document.getElementById("busqueda");
-                filter = input.value.toUpperCase();
-                cells = document.getElementsByClassName("excel-cell");
 
-                for (i = 0; i < cells.length; i++) {
-                    cell = cells[i];
-                    txtValue = cell.textContent || cell.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        cell.style.display = "block";
-                    } else {
-                        cell.style.display = "none";
-                    }
-                }
-            }
-
-            // Aquí puedes cargar los resultados desde un archivo JSON o una llamada AJAX
-            // Por simplicidad, aquí los resultados están hardcodeados
-            var resultados = [
-                "Sección ",
-                "Sección ",
-                "Sección ",
-                "Sección ",
-                "Grado 1",
-                "Grado 2",
-                "Grado 3",
-                "Grado 4",
-                "Sección E",
-                "Sección F",
-                "Sección G",
-                "Sección H",
-                "Grado 5",
-                "Grado 6",
-                "Grado 7",
-                "Grado 8",
-                "Sección E",
-                "Sección F",
-                "Sección G",
-                "Sección H",
-                "Sección ",
-                "Sección ",
-                "Sección ",
-                "Sección ",
-            ];
-
-            var resultadosDiv = document.getElementById("resultados");
-
-            resultados.forEach(function(resultado) {
-                var cell = document.createElement("div");
-                cell.className = "excel-cell";
-                cell.textContent = resultado;
-                resultadosDiv.appendChild(cell);
-            });
-        </script>
-
-        <script src="menu.js"></script>
-    </body>
+    <!-- Script para la vista previa de la imagen -->
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var img = document.getElementById('file-preview');
+                img.src = reader.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+    <script src="menu.js"></script>
+</body>
 
 </html>

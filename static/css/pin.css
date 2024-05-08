@@ -3,8 +3,6 @@ to use (the only way i know to do this correctly is using JS)
 this is meant to be wide supported and it really depends on you browsers
 if i realize any way to stylize the eye it could be added in the future
 in other input type*/
-<<<<<<< HEAD
-=======
 body{
   margin: 180px;
   padding: 200px;
@@ -15,7 +13,6 @@ body{
   background-repeat: no-repeat;
 
 }
->>>>>>> Diegos
 
 
 .group {
@@ -202,21 +199,12 @@ body{
   .submit-button {
     width: 250px;
     border: none;
-<<<<<<< HEAD
-    color: hsla(192, 100%, 88%, 0.806);
-    background: linear-gradient(
-      150deg,
-      transparent 10%,
-      rgba(102, 224, 255, 0.2) 27%,
-      rgba(102, 224, 255, 0.2) 63%,
-=======
     color: hsla(192, 28%, 21%, 0.806);
     background: linear-gradient(
       150deg,
       transparent 10%,
       rgba(8, 12, 14, 0.2) 27%,
       rgba(1, 78, 88, 0.2) 63%,
->>>>>>> Diegos
       transparent 100%
     );
     clip-path: polygon(0 0, 85% 0%, 100% 0, 100% 15%, 100% 90%, 91% 100%, 0 100%);
@@ -234,7 +222,6 @@ body{
   }
   
 
-<<<<<<< HEAD
   body{
     margin: 180px;
     padding: 200px;
@@ -246,8 +233,6 @@ body{
   
   }
 
-=======
->>>>>>> Diegos
 
 
 

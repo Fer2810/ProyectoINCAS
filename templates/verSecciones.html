@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STARF</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verSecciones.css') }}">
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul class="nav">
+            <li><a href="#">Personal</a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="/estudiante">Estudiante</a></li>
+            <li><a href="/seccion">Secciones</a></li>
+            <li><a href="/inicio">Tomar asistencia STARF</a></li>
+            <li><a href="#">Reportes</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <button id="menu-toggle">&#9776;</button>
+
+    <main>
+    <h1>Secciones</h1>
+    <button onclick="printActiveSections()">Imprimir Secciones Activas</button>
+    <br>
+    {% for seccion in secciones %}
+    <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+        <p>ID Sección: {{ seccion[0] }}</p>
+        <p>Sección: {{ seccion[1] }}</p>
+        <p>Grado Escolar: {{ seccion[2] }}</p>
+        <label>Estado:
+            <input type="checkbox" {% if seccion[4]=='activa' %}checked{% endif %}
+                onclick="toggleState('{{ seccion[0] }}', this.checked)">
+        </label>
+    </div>
+    {% endfor %}
+    
+    <script>
+        function toggleState(seccionId, checked) {
+            fetch('/toggle_state', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: seccionId,
+                    state: checked ? 'activa' : 'inactiva'
+                })
+            });
+        }
+
+        function printActiveSections() {
+            fetch('/print_active_sections', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+    </script>
+
+    </main>

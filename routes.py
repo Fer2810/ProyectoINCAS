@@ -1,16 +1,72 @@
 from flask import Flask, Response, render_template, request, redirect, url_for
 from camera import generate, start_camera,stop_camera
-from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
+from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin, insert_seccion
 from facial_recognition import extraer_encodings
 from datetime import datetime
 import pickle
-
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
   return render_template('index.html')
+
+# Ruta para mostrar todas las secciones en tarjetas HTML
+@app.route('/verSecciones')
+def verSecciones():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM secciones")
+    secciones = cursor.fetchall()
+    conn.close()
+    return render_template('verSecciones.html', secciones=secciones)
+
+# Ruta para cambiar el estado de una sección (activar/desactivar)
+@app.route('/toggle_state', methods=['POST'])
+def toggle_state():
+    data = request.json
+    seccion_id = data.get('id_seccion')
+    new_state = data.get('state')
+    
+    conn = create_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("UPDATE secciones SET estado = %s WHERE id = %s", (new_state, seccion_id))
+        conn.commit()
+        return '', 204
+    except Exception as e:
+        conn.rollback()
+        return str(e), 500
+    finally:
+        conn.close()
+
+# Ruta para imprimir en la terminal las secciones activas
+@app.route('/print_active_sections', methods=['POST'])
+def print_active_sections():
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT id_seccion, seccion FROM secciones WHERE estado = 'activa'")
+        active_sections = cursor.fetchall()
+        for section in active_sections:
+            print(f"ID: {section[0]}, Sección: {section[1]}")
+        return '', 204
+    except Exception as e:
+        print("Error:", e)
+        return str(e), 500
+    finally:
+        conn.close()
+
+
+@app.route('/indexPersonal')
+def indexPersonal():
+  return render_template('indexPersonal.html')
+
+@app.route('/cursos')
+def cursos():
+  return render_template('cursos.html')
 
 @app.route('/seccion')
 def seccion():
@@ -238,12 +294,12 @@ def submit_estudiante():
         apellido = request.form['apellido']
         correo_electronico = request.form['correo_electronico']
         genero = request.form['genero']
-        nie = request.form['nie']
+        nit = request.form['nit']
         bachillerato = request.form['bachillerato']
         imagen = request.files['imagen']  # Obtener la imagen del formulario
         imagen_bytes = imagen.read()  # Leer los bytes de la imagen
         seccion = request.form['seccion']
-        año = request.form['año']
+       
         
 
         # Extraer los encodings de la imagen
@@ -256,7 +312,7 @@ def submit_estudiante():
                 create_table(conn)  # Asegúrate de que la tabla exista
 
                 # Insertar datos en la base de datos
-                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, seccion, año)
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion)
 
                 # Cerrar la conexión
                 close_connection(conn)
@@ -268,16 +324,45 @@ def submit_estudiante():
             return 'No se detectaron caras en la imagen. Intente con otra imagen.'
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, seccion, año):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion):
     cursor = conn.cursor()
     # Convertir el arreglo NumPy a bytes usando pickle
     encoding_bytes = pickle.dumps(encoding_imagen)
-    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen, descriptores_faciales, seccion, año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                   (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_bytes, seccion, año))
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion))
     conn.commit()
     cursor.close()
 
+# Ruta para procesar los datos del formulario de sección
+@app.route('/submit_seccion', methods=['POST'])
+def submit_seccion():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        id_seccion = request.form['id_seccion']
+        seccion = request.form['seccion']
+        año = request.form['año']
+
+        try:
+            # Conectar a la base de datos
+            conn = create_connection()
+            create_table(conn)  # Asegúrate de que la tabla exista
+
+            # Insertar datos en la base de datos
+            insert_seccion(conn, id_seccion, seccion, año)
+
+            # Cerrar la conexión
+            close_connection(conn)
+
+            return 'Datos de sección enviados a la base de datos correctamente'
+        except Exception as e:
+            return f'Error al procesar y almacenar los datos de la sección: {str(e)}'
+
+def insert_seccion(conn, id_seccion, seccion, año):
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO secciones (id_seccion, seccion, año) VALUES (%s, %s, %s)",
+                   (id_seccion, seccion, año))
+    conn.commit()
+    cursor.close()
 
 if __name__ == '__main__':
   app.run(debug=True)
-

@@ -1,3 +1,4 @@
+/* Estilos para el cuerpo */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -7,10 +8,12 @@ body {
     height: 100vh;
 }
 
+/* Estilos para la barra de navegación */
 .nav li:hover>ul {
     display: block;
 }
 
+/* Estilos para la barra lateral */
 .sidebar {
     height: 100%;
     width: 250px;
@@ -76,6 +79,7 @@ body {
     display: block;
 }
 
+/* Estilos para el contenido fuera de la barra lateral */
 .chat-container {
     max-width: 500px;
     /* Ancho máximo del contenedor del chat */
@@ -112,18 +116,14 @@ input[type="text"] {
     /* Borde redondeado del campo de entrada */
 }
 
-
 /* Estilos para los botones */
-
 button,
 input[type="submit"],
 select {
-    margin: left
+    margin: left;
 }
 
-
 /* Estilos para el botón de enviar */
-
 input[type="submit"],
 button {
     padding: 8px 15px;
@@ -146,9 +146,7 @@ button {
     margin-bottom: 20px;
 }
 
-
 /* Estilos para los botones de selección */
-
 select {
     padding: 8px 15px;
     /* Espaciado dentro del botón */
@@ -172,144 +170,44 @@ main {
     margin-left: 70px;
 }
 
-main{
+main {
     margin-left: 220px;
     margin-bottom: 70px;
 }
-/* Estilos para el formulario */
 
-form {
-    margin-left: 10px;
-    width: 780px;
-    display: flex;
-}
-
-
-/* Estilos para cada columna */
-
-.column {
-    width: 100%;
-    /* Ancho del 50% para cada columna */
-    padding: 10px;
-    /* Espaciado interno */
-    box-sizing: border-box;
-    /* Tamaño incluyendo el borde y el relleno */
-    display: flex;
-    /* Para alinear verticalmente los elementos */
-    flex-direction: column;
-    /* Alinear elementos en columna */
-}
-
-.create-subject {
-    float: right;
-    font-size: 13px
-}
-
-
-/* Estilos para los campos de texto y el botón de enviar */
-
-input[type="text"],
-input[type="email"],
-input[type="file"],
-input[type="submit"] {
-    width: 100%;
-    /* Ancho del campo */
-    padding: 10px;
-    /* Espaciado interno */
-    margin-bottom: 10px;
-    /* Margen inferior */
-    border: 1px solid #5a3535;
-    /* Borde */
-    border-radius: 20px;
-    /* Borde redondeado */
-    box-sizing: border-box;
-    /* Tamaño incluyendo el borde y el relleno */
-}
-
-.create-subject {
-    float: right;
-    font-size: 13px
-}
-
-
-/* Estilos para el botón de enviar */
-
-input[type="submit"] {
-    background-color: #4CAF50;
-    /* Color de fondo */
-    color: white;
-    /* Color del texto */
-    border: none;
-    /* Sin borde */
-    cursor: pointer;
-    /* Cursor de puntero */
-    transition: background-color 0.3s, transform 0.3s;
-    /* Transiciones */
-    margin-top: 2px;
-}
-
-
-/* Estilos para el botón de enviar al pasar el cursor */
-
-input[type="submit"]:hover {
-    background-color: #47eb4f;
-    /* Cambiar color de fondo */
-    transform: scale(1.05);
-    /* Aumentar tamaño */
-    box-shadow: 0 0 10px #3ccf44;
-    /* Sombra */
-}
-
-input[type="file"] {
-    display: none;
-    /* Oculta el input por defecto */
-}
-
-
-/* Estilo para el botón personalizado */
-
-.custom-file-upload {
-    background-color: #000000;
-    /* Cambia el color de fondo */
-    color: #dddada;
-    /* Cambia el color del texto */
-    padding: 10px;
-    /* Añade espacio interno */
-    cursor: pointer;
-    /* Cambia el cursor al pasar sobre el botón */
-    border-radius: 20px;
-    /* Añade bordes redondeados */
-    position: relative;
-    /* Para posicionar el icono y el texto */
-    width: 100%;
-}
-
-
-/* Estilo para el icono */
-
-.custom-file-upload::after {
-    content: '📷';
-    /* Agrega el icono */
-    margin-left: 0px;
-    /* Añade espacio entre el texto y el icono */
-}
-
-
-/* Estilo para el texto */
-
-.custom-file-upload:hover::after {
-    content: 'SubirFoto';
-    /* Cambia el texto al pasar el cursor sobre el botón */
-    margin-left: 2px;
-    /* Ajusta el espacio entre el texto y el icono */
-}
-
-
-
+/* Estilos para el botón de menú en pantallas pequeñas */
 #menu-toggle {
     display: none;
 }
 
+/* Estilos para las tarjetas de secciones */
+.secciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Organiza las tarjetas en una cuadrícula flexible */
+    gap: 20px;
+    /* Espacio entre las tarjetas */
+}
+
+.seccion-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seccion-card h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.seccion-card label {
+    display: block;
+    margin-top: 10px;
+}
+
+/* Estilos para la barra lateral en pantallas pequeñas */
 @media screen and (max-width: 768px) {
     .sidebar {
         display: none;
@@ -324,25 +222,32 @@ input[type="file"] {
         transition: 0.5s;
         padding-top: 60px;
     }
+
     .sidebar.open {
         display: block;
     }
+
     .sidebar ul li {
         padding: 10px 20px;
     }
+
     .sidebar ul li a {
         display: block;
         color: white;
         text-decoration: none;
     }
+
     .sidebar ul li a:hover {
         background-color: #00274C;
     }
+
     main {
         margin-left: 0;
         padding: 15px;
         margin-top: 50px;
     }
+
+    /* Estilos para el botón de menú en pantallas pequeñas */
     #menu-toggle {
         display: block;
         position: fixed;
@@ -357,6 +262,7 @@ input[type="file"] {
     }
 }
 
+/* Estilos para el formulario en pantallas pequeñas */
 @media screen and (max-width: 600px) {
     form {
         width: 80%;
@@ -364,18 +270,22 @@ input[type="file"] {
         padding: 5%;
         flex-direction: column;
     }
+
     .column {
         padding: 0;
     }
+
     input[type="text"],
     input[type="email"],
     input[type="file"],
     input[type="submit"] {
         margin-bottom: 20px;
     }
+
     #file-preview {
         margin-top: 75px;
     }
+
     #file-container {
         padding: 15px;
     }
