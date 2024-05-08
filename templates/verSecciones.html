@@ -37,3 +37,45 @@
     </div>
 
     <button id="menu-toggle">&#9776;</button>
+
+    <main>
+    <h1>Secciones</h1>
+    <button onclick="printActiveSections()">Imprimir Secciones Activas</button>
+    <br>
+    {% for seccion in secciones %}
+    <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+        <p>ID Sección: {{ seccion[0] }}</p>
+        <p>Sección: {{ seccion[1] }}</p>
+        <p>Grado Escolar: {{ seccion[2] }}</p>
+        <label>Estado:
+            <input type="checkbox" {% if seccion[4]=='activa' %}checked{% endif %}
+                onclick="toggleState('{{ seccion[0] }}', this.checked)">
+        </label>
+    </div>
+    {% endfor %}
+    
+    <script>
+        function toggleState(seccionId, checked) {
+            fetch('/toggle_state', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: seccionId,
+                    state: checked ? 'activa' : 'inactiva'
+                })
+            });
+        }
+
+        function printActiveSections() {
+            fetch('/print_active_sections', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+    </script>
+
+    </main>

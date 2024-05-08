@@ -180,6 +180,33 @@ main {
     display: none;
 }
 
+/* Estilos para las tarjetas de secciones */
+.secciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Organiza las tarjetas en una cuadrícula flexible */
+    gap: 20px;
+    /* Espacio entre las tarjetas */
+}
+
+.seccion-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seccion-card h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.seccion-card label {
+    display: block;
+    margin-top: 10px;
+}
+
 /* Estilos para la barra lateral en pantallas pequeñas */
 @media screen and (max-width: 768px) {
     .sidebar {

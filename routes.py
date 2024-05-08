@@ -11,9 +11,54 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+# Ruta para mostrar todas las secciones en tarjetas HTML
 @app.route('/verSecciones')
 def verSecciones():
-  return render_template('verSecciones.html')
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM secciones")
+    secciones = cursor.fetchall()
+    conn.close()
+    return render_template('verSecciones.html', secciones=secciones)
+
+# Ruta para cambiar el estado de una sección (activar/desactivar)
+@app.route('/toggle_state', methods=['POST'])
+def toggle_state():
+    data = request.json
+    seccion_id = data.get('id_seccion')
+    new_state = data.get('state')
+    
+    conn = create_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("UPDATE secciones SET estado = %s WHERE id = %s", (new_state, seccion_id))
+        conn.commit()
+        return '', 204
+    except Exception as e:
+        conn.rollback()
+        return str(e), 500
+    finally:
+        conn.close()
+
+# Ruta para imprimir en la terminal las secciones activas
+@app.route('/print_active_sections', methods=['POST'])
+def print_active_sections():
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT id_seccion, seccion FROM secciones WHERE estado = 'activa'")
+        active_sections = cursor.fetchall()
+        for section in active_sections:
+            print(f"ID: {section[0]}, Sección: {section[1]}")
+        return '', 204
+    except Exception as e:
+        print("Error:", e)
+        return str(e), 500
+    finally:
+        conn.close()
+
 
 @app.route('/indexPersonal')
 def indexPersonal():
