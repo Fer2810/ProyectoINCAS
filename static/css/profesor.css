@@ -16,6 +16,7 @@ body {
     /* Altura completa de la ventana */
 }
 
+
 .nav li:hover>ul {
     display: block;
 }
@@ -41,7 +42,7 @@ body {
 }
 
 .sidebar ul li {
-    padding: 10px;
+    padding: 6px;
 }
 
 .sidebar ul li a {
@@ -165,6 +166,32 @@ input[type="file"] {
 }
 
 
+/* Estilos para los campos de texto, lista desplegable y botón de enviar */
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #5a3535;
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+
+/* Estilo para hacer más pequeño el campo de lista desplegable */
+
+select#seccion {
+    width: calc(100% - 20rem);
+    /* Reducir el ancho por 20px */
+    padding: 8px;
+    /* Reducir el relleno */
+}
+
+
+/* Resto de los estilos permanecen igual */
+
+
 /* Estilo para el botón personalizado */
 
 .custom-file-upload {
@@ -252,24 +279,30 @@ input[type="file"] {
         transition: 0.5s;
         padding-top: 60px;
     }
+
     .sidebar.open {
         display: block;
     }
+
     .sidebar ul li {
         padding: 10px 20px;
     }
+
     .sidebar ul li a {
         display: block;
         color: white;
         text-decoration: none;
     }
+
     .sidebar ul li a:hover {
         background-color: #00274C;
     }
+
     main {
         margin-left: 0;
         padding: 35px;
     }
+
     #menu-toggle {
         display: block;
         position: fixed;
@@ -294,18 +327,22 @@ input[type="file"] {
         padding: 5%;
         flex-direction: column;
     }
+
     .column {
         padding: 0;
     }
+
     input[type="text"],
     input[type="email"],
     input[type="file"],
     input[type="submit"] {
         margin-bottom: 20px;
     }
+
     #file-preview {
         margin-top: 95px;
     }
+
     #file-container {
         padding: 15px;
     }

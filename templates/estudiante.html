@@ -12,7 +12,20 @@
     <div class="sidebar" id="sidebar">
         <h2>Administración</h2>
         <ul class="nav">
-            <li><a href="#">Personal</a>
+            <li>
+                <a href="#">
+                    <h4 href="#">Administar Sección</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/seccion">Crear Sección</a></li>
+                    <li><a href="/verSecciones">Ver Sección</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Personal</h4>
+                </a>
                 <ul class="dropdown-content">
                     <li><a href="/profesor">Profesor</a></li>
                     <li><a href="/administrador">Administrador</a></li>
@@ -24,10 +37,24 @@
                     </li>
                 </ul>
             </li>
-            <li><a href="/estudiante">Estudiante</a></li>
-            <li><a href="/seccion">Secciones</a></li>
-            <li><a href="/inicio">Tomar asistencia STARF</a></li>
-            <li><a href="#">Reportes</a>
+            <li>
+                <a href="#">
+                    <h4>Estudiante</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/estudiante">Registrar Estudiante</a></li>
+                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/inicio">
+                    <h4>Tomar asistencia STARF</h4>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Reportes</h4>
+                </a>
                 <ul class="dropdown-content">
                     <li><a href="#">En Tiempo Real</a></li>
                     <li><a href="#">Normal</a></li>
@@ -38,9 +65,8 @@
 
     <button id="menu-toggle">&#9776;</button>
 
-
-     <!-- Formulario -->
-     <main>
+    <!-- Formulario -->
+    <main>
         <h2>Registrar Estudiante</h2>
         <form action="/submit_estudiante" method="POST" enctype="multipart/form-data">
             <!-- Contenedor para la vista previa de la imagen -->
@@ -76,30 +102,22 @@
                         <option value="Agropecuario">Agropecuario</option>
                         <option value="Contabiduría">Contabiduría</option>
                     </select>
-
                 </div>
             </div>
             <!-- Columna 2 -->
             <div class="column">
                 <!-- Contenedor para los campos de texto de apellidos, correo electrónico y botón de guardar -->
                 <div class="field-container">
-                    <!-- Etiqueta y campo para los apellidos -->
-
-                    
                     <label for="Apellido"></label>
                     <input type="text" id="Apellido" name="apellido" placeholder="Apellido">
-
-                    <!-- Etiqueta y campo para el NIP -->
                     <label for="correo electronico"></label>
-                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
+                    <input type="text" id="correo electronico" name="correo_electronico"
+                        placeholder="Correo electronico">
                     <br>
                     <label for="seccion">ID Sección</label>
                     <select id="seccion" name="seccion">
-                        {% for seccion in secciones %}
-                        <option value="{{ seccion }}">{{ seccion }}</option>
-                        {% endfor %}
+                        <!-- Las opciones se cargarán dinámicamente -->
                     </select>
-                    <!-- Botón de guardar -->
                     <input type="submit" value="Guardar">
                 </div>
             </div>
@@ -110,16 +128,33 @@
     <script>
         function previewImage(event) {
             var reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 var img = document.getElementById('file-preview');
                 img.src = reader.result;
                 img.style.display = 'block';
             };
             reader.readAsDataURL(event.target.files[0]);
         }
+
+        // Cargar las secciones desde la base de datos
+        function loadSecciones() {
+            fetch('/get_secciones')
+                .then(response => response.json())
+                .then(data => {
+                    const seccionSelect = document.getElementById('seccion');
+                    data.secciones.forEach(seccion => {
+                        const option = document.createElement('option');
+                        option.value = seccion.id;
+                        option.textContent = seccion.id;  // Aquí cambia 'seccion.seccion' a 'seccion.id'
+                        seccionSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al cargar secciones:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSecciones);
     </script>
     <script src="menu.js"></script>
 </body>
 
 </html>
-

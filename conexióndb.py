@@ -22,24 +22,27 @@ def create_connection():
     )
 
 
-
+# Crear tabla de Datos_Prof si no existe
 def create_table(conn):
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS Datos_Prof (
-                    nip int(255) NOT NULL PRIMARY KEY,
+                    nip INT(255) NOT NULL PRIMARY KEY,
                     nombre VARCHAR(255) NOT NULL,
                     apellido VARCHAR(255) NOT NULL,
                     email VARCHAR(255) NOT NULL,
                     imagen LONGBLOB NOT NULL,
-                    contraseña VARCHAR(255) NOT NULL
+                    contraseña VARCHAR(255) NOT NULL,
+                    id_seccion INT,
+                    FOREIGN KEY (id_seccion) REFERENCES secciones(id_seccion)
                 )''')
+    
     conn.commit()
 
-def insert_usuario(conn, nombre, apellido, nip, email, imagen):
+def insert_usuario(conn, nombre, apellido, nip, email, imagen, id_seccion):
     cursor = conn.cursor()
     password = generate_random_password()  # Generar una contraseña aleatoria
-    sql = '''INSERT INTO Datos_Prof (nombre, apellido, nip, email, imagen, contraseña) VALUES (%s, %s, %s, %s, %s, %s)'''
-    values = (nombre, apellido, nip, email,  imagen, password)
+    sql = '''INSERT INTO Datos_Prof (nombre, apellido, nip, email, imagen, contraseña, id_seccion) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
+    values = (nombre, apellido, nip, email, imagen, password, id_seccion)
     cursor.execute(sql, values)
     conn.commit()
     return password
@@ -140,8 +143,8 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
 
         # Consulta SQL para insertar un estudiante en la tabla Estudiantes
         insert_query = """
-        INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO Estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         # Datos a insertar en la tabla
@@ -157,29 +160,6 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
         print("Error al insertar datos de estudiante:", e)
 
 
-def insert_seccion(conn, id_seccion, seccion, año):
-    try:
-        cursor = conn.cursor()
-
-        # Consulta SQL para insertar una sección en la tabla Secciones
-        insert_query = """
-        INSERT INTO secciones (ID_secciones, Secciones, Año)
-        VALUES (%s, %s, %s)
-        """
-
-        # Datos a insertar en la tabla
-        data = (id_seccion, seccion, año)
-
-        # Ejecutar la consulta SQL
-        cursor.execute(insert_query, data)
-
-        # Confirmar los cambios en la base de datos
-        conn.commit()
-        print("Datos de sección insertados correctamente.")
-    except mysql.connector.Error as e:
-        print("Error al insertar datos de sección:", e)
-
-import mysql.connector
 
 def close_connection(conn):
     conn.close()
