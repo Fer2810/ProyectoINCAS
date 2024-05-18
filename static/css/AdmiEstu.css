@@ -2,6 +2,12 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45vh;
+    flex-direction: column;
+    /* Para centrar verticalmente los elementos */
 }
 
 .nav li:hover>ul {
@@ -73,81 +79,46 @@ body {
     display: block;
 }
 
-main {
-    padding: 7rem;
-    margin-left: 300px;
+input[type="text"] {
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #5a3535;
+    border-radius: 20px;
+    box-sizing: border-box;
 }
 
-main h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+#section-search {
+    width: 110px;
 }
 
-.button-blue {
-    width: 150px;
-    background-color: #00274C;
-    color: #fff;
-    padding: 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 15px;
-    font-size: 18px;
-    align-items: center;
+#search-container {
+    display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+    /* Ajusta el ancho máximo según sea necesario */
+    padding: 10px;
+    /* Agrega relleno para un mejor espaciado */
+}
+
+#search-container input {
+    margin-right: 25px;
 }
 
 table {
-    width: 100%;
+    width: 64rem;
     border-collapse: collapse;
-    margin-top: 15px;
-    padding: 10px;
 }
 
 th,
 td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
 
 th {
-    background-color: #34495e;
-    color: white;
-}
-
-tr:nth-child(even) {
     background-color: #f2f2f2;
-}
-
-tr:hover {
-    background-color: #ddd;
-}
-
-img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-button {
-    margin-bottom: 10px;
-}
-
-.content {
-    text-align: center;
-}
-
-.button-container {
-    display: flex;
-    margin-top: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
-.button-container button {
-    margin: 0 65px;
-    /* Agrega un espacio entre los botones */
+    font-weight: bold;
 }
 
 .content {
@@ -155,6 +126,43 @@ button {
     margin-left: 250px;
     padding: 45px;
     justify-content: space-evenly;
+}
+
+.button-blue {
+    width: 110px;
+    background-color: #06b33a;
+    color: #fff;
+    padding: 9px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    font-size: 18px;
+    align-items: center;
+}
+
+
+/* Estilos para el botón de modificar */
+
+#modify-btn {
+    position: absolute;
+    top: 135px;
+    /* Ajusta la posición vertical según sea necesario */
+    right: 50px;
+    /* Ajusta la posición horizontal según sea necesario */
+    background-color: #06b33a;
+    /* Color de fondo verde */
+    color: rgb(255, 255, 255);
+    /* Color de texto blanco */
+    border: none;
+    /* Sin borde */
+    padding: 10px 20px;
+    /* Espaciado interior */
+    font-size: 18px;
+    /* Tamaño de fuente */
+    cursor: pointer;
+    /* Cursor de apuntar */
+    border-radius: 20px;
+    /* Borde redondeado */
 }
 
 #menu-toggle {
@@ -211,21 +219,5 @@ button {
         cursor: pointer;
         z-index: 2;
         transition: transform 0.3s ease-in-out;
-    }
-
-    .content {
-        margin-left: auto;
-        padding: 40px;
-    }
-
-    .button-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .button-blue {
-        margin: 5px 10px;
-        /* Ajusta el margen horizontal */
     }
 }

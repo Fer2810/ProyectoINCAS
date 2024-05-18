@@ -1,9 +1,10 @@
 from flask import Flask, Response, render_template, request, redirect, url_for
 from camera import generate, start_camera,stop_camera
-from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin, insert_seccion
+from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
 from facial_recognition import extraer_encodings
 from datetime import datetime
 import pickle
+import base64
 
 app = Flask(__name__)
 
@@ -60,6 +61,36 @@ def print_active_sections():
         conn.close()
 
 
+# Tu código Flask para obtener los datos binarios de la imagen de la base de datos
+@app.route('/formuA')
+def mostrar_registros():
+    # Conectar a la base de datos y obtener un cursor
+    db = create_connection()
+    cursor = db.cursor()
+
+    # Ejecutar una consulta SQL para seleccionar todos los registros de tu tabla
+    cursor.execute("SELECT id_administrador, nombre, apellidos, correo, imagen FROM administradores")
+    # Obtener todos los registros
+    registros = cursor.fetchall()
+
+    # Convertir los datos binarios de la imagen a cadena base64
+    registros_con_imagen_base64 = []
+    for registro in registros:
+        id_administrador = registro[0]
+        nombre = registro[1]
+        apellidos = registro[2]
+        correo = registro[3]
+        imagen_binaria = registro[4]
+        imagen_base64 = base64.b64encode(imagen_binaria).decode('utf-8')
+        registros_con_imagen_base64.append((id_administrador, nombre, apellidos, correo, imagen_base64))
+
+    # Cerrar el cursor y la conexión
+    cursor.close()
+    db.close()
+
+    # Renderizar la plantilla HTML y pasar los registros como contexto
+    return render_template('formuA.html', registros=registros_con_imagen_base64)
+
 @app.route('/indexPersonal')
 def indexPersonal():
   return render_template('indexPersonal.html')
@@ -76,9 +107,7 @@ def seccion():
 def formuP():
   return render_template('formuP.html')
 
-@app.route('/formuA')
-def formuA():
-  return render_template('formuA.html')
+
 
 @app.route('/recup')
 def recup():
@@ -99,6 +128,10 @@ def about():
 @app.route('/profesor')
 def profesor():
   return render_template('profesor.html')
+
+@app.route('/AdmiEstu')
+def AdmiEstu():
+  return render_template('AdmiEstu.html')
 
 
 # Ruta para la página de inicio de cámara
@@ -142,25 +175,26 @@ def ayuda():
 # Ruta para procesar los datos del formulario
 @app.route('/submit', methods=['POST'])
 def submit():
-  if request.method == 'POST':
-    # Obtener datos del formulario
-    nombre = request.form['nombre']
-    apellido = request.form['apellido']
-    nip = request.form['nip']
-    email = request.form['email']
-    imagen = request.files['imagen'].read()
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        nip = request.form['nip']
+        email = request.form['email']
+        imagen = request.files['imagen'].read()
+        id_seccion = request.form['id_seccion']  # Obtener el id_seccion del formulario
 
-    # Conectar a la base de datos
-    conn = create_connection()
-    create_table(conn)
+        # Conectar a la base de datos
+        conn = create_connection()
+        create_table(conn)
 
-    # Insertar datos en la base de datos
-    insert_usuario(conn, nombre, apellido, nip, email, imagen)
+        # Insertar datos en la base de datos
+        insert_usuario(conn, nombre, apellido, nip, email, imagen, id_seccion)
 
-    # Cerrar la conexión
-    close_connection(conn)
+        # Cerrar la conexión
+        close_connection(conn)
 
-    return 'Datos enviados a la base de datos y correo electrónico enviado con éxito'
+        return 'Datos enviados a la base de datos y correo electrónico enviado con éxito'
   
 
 @app.route('/loginn', methods=['POST'])
@@ -212,6 +246,8 @@ def recuperacion():
 @app.route('/administrador')
 def administrador():
   return render_template('administrador.html')
+
+
 
 # Ruta para procesar los datos del formulario de administrador
 @app.route('/admin_form', methods=['POST'])
@@ -285,6 +321,18 @@ def recuperacionAdmin():
 def estudiante():
   return render_template('estudiante.html')
 
+@app.route('/get_secciones', methods=['GET'])
+def get_secciones():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_seccion, seccion FROM secciones")
+    secciones = cursor.fetchall()
+    conn.close()
+
+    secciones_list = [{"id": row[0], "seccion": row[1]} for row in secciones]
+    return {"secciones": secciones_list}
+
+
 # Ruta para procesar los datos del formulario de registro de estudiante
 @app.route('/submit_estudiante', methods=['POST'])
 def submit_estudiante():
@@ -299,8 +347,6 @@ def submit_estudiante():
         imagen = request.files['imagen']  # Obtener la imagen del formulario
         imagen_bytes = imagen.read()  # Leer los bytes de la imagen
         seccion = request.form['seccion']
-       
-        
 
         # Extraer los encodings de la imagen
         encoding_imagen = extraer_encodings(imagen_bytes)
@@ -322,6 +368,7 @@ def submit_estudiante():
                 return f'Error al procesar y almacenar la imagen: {str(e)}'
         else:
             return 'No se detectaron caras en la imagen. Intente con otra imagen.'
+
 
 
 def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion):
