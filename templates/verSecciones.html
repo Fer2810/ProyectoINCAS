@@ -62,47 +62,120 @@
             </li>
         </ul>
     </div>
+    
 
-    <button id="menu-toggle">&#9776;</button>
+   
 
-    <main>
-    <h1>Secciones</h1>
-    <button onclick="printActiveSections()">Imprimir Secciones Activas</button>
-    <br>
-    {% for seccion in secciones %}
-    <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
-        <p>ID Sección: {{ seccion[0] }}</p>
-        <p>Sección: {{ seccion[1] }}</p>
-        <p>Grado Escolar: {{ seccion[2] }}</p>
-        <label>Estado:
-            <input type="checkbox" {% if seccion[4]=='activa' %}checked{% endif %}
-                onclick="toggleState('{{ seccion[0] }}', this.checked)">
-        </label>
+
+
+    <div class="container">
+
+        <h2 class="titulo">
+            <center>Secciones para habilitar</center>
+        </h2>
+        <!--Button habilitar secciones -->
+        
+        <button type="button" class="btn btn-success" id="bootstrapButton" onclick="toggleSections()">Habilitar Secciones</button>
+    <div class="row">
+
+       
+
+       
+
+
+        {% for seccion in secciones %}
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="category mb-30">
+                    <div class="job">
+                        <span class="colors1 mb-4">Id: {{ seccion[0] }}</span>
+                        <span class="colors1 mb-4">Sección {{ seccion[1] }}</span>
+                        <h4>Seleccione esta aula para habilitarla</h4>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <!-- Botón para habilitar sección -->
+                            <button type="button" class="buttonSecciones" data-seccion-id="{{ seccion[0] }}"
+                                    data-seccion-estado="{{ seccion[2] }}" onclick="toggleDeactivate(this)">
+                                {{ 'Habilitar' if seccion[2] == '0' else 'Deshabilitar' }}
+                            </button>
+
+                            <!-- Botón para editar -->
+                            <button type="button" class="btn-editar" id="bootstrapEdit">Editar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
     </div>
-    {% endfor %}
+
+</div>
+
+
+
+
+    <!--Button enviar alumnos al tabla vacía-->
     
     <script>
-        function toggleState(seccionId, checked) {
-            fetch('/toggle_state', {
+        function toggleSections() {
+            var button = document.getElementById("bootstrapButton");
+            if (button.textContent === "Habilitar Secciones") {
+                button.textContent = "Deshabilitar Secciones";
+                button.classList.add("disabled"); // Agregar la clase para el color rojo
+            } else {
+                button.textContent = "Habilitar Secciones";
+                button.classList.remove("disabled"); // Quitar la clase para volver al color verde
+            }
+        }
+
+        function toggleDeactivate(buttonSecciones) {
+            var seccionId = buttonSecciones.getAttribute("data-seccion-id");
+            var seccionEstado = buttonSecciones.getAttribute("data-seccion-estado");
+
+            fetch('/toggleDeactivate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     id: seccionId,
-                    state: checked ? 'activa' : 'inactiva'
+                    state: seccionEstado === '0' ? '1' : '0' // Cambiar de 0 a 1 y viceversa
                 })
+            }).then(function (response) {
+                if (response.ok) {
+                    console.log('Estado de la sección actualizado correctamente.');
+                    // Cambiar el estado del botón después de actualizar el estado en el servidor
+                    var newState = seccionEstado === '0' ? '1' : '0';
+                    buttonSecciones.setAttribute("data-seccion-estado", newState);
+
+                     // Cambiar el texto del botón y el color
+                    if (newState === '1') {
+                        buttonSecciones.textContent = "Deshabilitar";
+                        buttonSecciones.classList.add("disabled"); // Cambiar a rojo
+                    } else {
+                        buttonSecciones.textContent = "Habilitar";
+                        buttonSecciones.classList.remove("disabled"); // Cambiar a verde
+                    }
+                } else {
+                    console.error('Error al actualizar el estado de la sección.');
+                }
+            }).catch(function (error) {
+                console.error('Error al realizar la solicitud:', error);
             });
         }
 
-        function printActiveSections() {
-            fetch('/print_active_sections', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+        
+
+       
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var bootstrapEditButton = document.getElementById("bootstrapEdit");
+            bootstrapEditButton.addEventListener("click", function () {
+                // Redirige al usuario a card.html
+                window.location.href = "{{ url_for('secciones') }}";
             });
-        }
+        });
     </script>
 
-    </main>
+</body>
+
+</html>

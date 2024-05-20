@@ -1,4 +1,5 @@
-from flask import Flask, Response, render_template, request, redirect, url_for
+from flask import Flask, Response, render_template, request, redirect, url_for,jsonify
+import mysql.connector
 from camera import generate, start_camera,stop_camera
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
 from facial_recognition import extraer_encodings
@@ -13,34 +14,45 @@ def index():
   return render_template('index.html')
 
 # Ruta para mostrar todas las secciones en tarjetas HTML
+
+
+# Ruta para mostrar todas las secciones en tarjetas HTML
 @app.route('/verSecciones')
 def verSecciones():
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM secciones")
+    cursor.execute("SELECT id, seccion, estado FROM secciones")
     secciones = cursor.fetchall()
     conn.close()
     return render_template('verSecciones.html', secciones=secciones)
 
-# Ruta para cambiar el estado de una sección (activar/desactivar)
-@app.route('/toggle_state', methods=['POST'])
+@app.route('/toggleDeactivate', methods=['POST'])
 def toggle_state():
     data = request.json
-    seccion_id = data.get('id_seccion')
-    new_state = data.get('state')
-    
-    conn = create_connection()
-    cursor = conn.cursor()
-    
+    seccion_id = data.get('id')
+    state = data.get('state')
     try:
-        cursor.execute("UPDATE secciones SET estado = %s WHERE id = %s", (new_state, seccion_id))
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE secciones SET estado = %s WHERE id = %s", (state, seccion_id))
         conn.commit()
-        return '', 204
-    except Exception as e:
+        return jsonify({'message': 'Estado de la sección actualizado correctamente'}), 200
+    except mysql.connector.Error as e:
         conn.rollback()
-        return str(e), 500
+        return jsonify({'error': str(e)}), 500
     finally:
+        cursor.close()
         conn.close()
+        
+        
+@app.route('/secciones')   
+def secciones():
+ return render_template('secciones.html')
+        
+        
+        
+        
+        
 
 # Ruta para imprimir en la terminal las secciones activas
 @app.route('/print_active_sections', methods=['POST'])
@@ -410,6 +422,16 @@ def insert_seccion(conn, id_seccion, seccion, año):
                    (id_seccion, seccion, año))
     conn.commit()
     cursor.close()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 if __name__ == '__main__':
   app.run(debug=True)

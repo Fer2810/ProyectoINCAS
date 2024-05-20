@@ -1,0 +1,465 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    justify-content: center;
+    align-items: center;
+    margin-top: 65px;
+}
+
+.nav li:hover>ul {
+    display: block;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #001529;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    color: #f1eeee;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background-color: #00274C;
+    padding: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+    border-radius: 10px;
+}
+
+.dropdown-contents {
+    display: none;
+    position: absolute;
+    background-color: #015baf;
+    box-shadow: 0px 8px 16px 0px #41018a;
+    z-index: 2;
+    border-radius: 10px;
+    margin-left: 23px;
+}
+
+.dropdown-content a {
+    color: #5e7285;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.cards{
+    margin-bottom: 15em;
+}
+
+.tarjeta-container {
+    border: 1px solid #bdbcbc;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 50%;
+    border-radius: 10px;
+    margin-left: 28rem;
+    text-align: left;
+    box-shadow: 0px 0px 10px rgba(117, 117, 117, 0.712);
+    position: relative;
+    top: 6em;
+    
+}
+
+.tarjeta {
+    margin-left: 5px;
+}
+
+.tarjeta h3{
+    background-color: #2a58f075;
+    /* Color de fondo del rectángulo */
+    color: rgb(10, 66, 250);
+    /* Color del texto */
+    border-radius: 20px;
+    /* Esquinas redondeadas */
+    padding: 5px 15px;
+    /* Espaciado interno */
+    margin-bottom: 5px;
+    /* Margen inferior */
+    display: inline-block;
+    /* Para que el rectángulo se ajuste al texto */
+
+}
+
+.botones-tarjeta button {
+    margin-top: 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    /* Esquinas redondeadas para los botones */
+    padding: 5px 10px;
+    color: white;
+    /* Color de texto blanco */
+    border: none;
+    /* Sin borde */
+    cursor: pointer;
+    /* Cambio de cursor al pasar el mouse */
+}
+
+/*style para el titulo de las secciones*/
+main {
+  margin-left: 650px;
+}
+/*estilos para el boton*/
+/* Estilos para el botón de enviar */
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  border: none;
+  /* Sin borde */
+  cursor: pointer;
+  /* Cursor de puntero */
+  transition: background-color 0.3s, transform 0.3s;
+  /* Transiciones */
+  margin-top: 2px;
+  position: relative;
+    top: 3em;
+    right: 9em;
+}
+
+
+/* Estilos para el botón de retroceder al pasar el cursor */
+
+input[type="submit"]:hover {
+  background-color: #47eb4f;
+  /* Cambiar color de fondo */
+  transform: scale(1.05);
+  /* Aumentar tamaño */
+  box-shadow: 0 0 10px #3ccf44;
+  /* Sombra */
+}
+
+/*estilo para el boton de retroceder*/
+
+input[type="submit"] {
+    width: 15%;
+    /* Ancho del campo */
+    padding: 10px;
+    /* Espaciado interno */
+    margin-bottom: 10px;
+    /* Margen inferior */
+    border: 1px solid #5a3535;
+    /* Borde */
+    border-radius: 5px;
+    /* Borde redondeado */
+    box-sizing: border-box;
+    /* Tamaño incluyendo el borde y el relleno */
+    position: relative;
+    left: -15em;
+}
+
+
+
+/* Estilos para organizar los botones en la misma línea */
+
+.botones-tarjeta button {
+    display: inline-block;
+}
+/*para modificación del check*/
+.checkbox-container {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 360px;
+  position: relative; /* Cambia a relative para poder usar top */
+  top: -120px; /* Ajusta este valor según necesites */
+}
+
+/*estilos para el check*/
+
+
+.checkbox-wrapper-19 {
+  box-sizing: border-box;
+  --background-color: #fff;
+  --checkbox-height: 25px;
+}
+
+@-moz-keyframes dothabottomcheck-19 {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: calc(var(--checkbox-height) / 2);
+  }
+}
+
+@-webkit-keyframes dothabottomcheck-19 {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: calc(var(--checkbox-height) / 2);
+  }
+}
+
+@keyframes dothabottomcheck-19 {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: calc(var(--checkbox-height) / 2);
+  }
+}
+
+@keyframes dothatopcheck-19 {
+  0% {
+    height: 0;
+  }
+
+  50% {
+    height: 0;
+  }
+
+  100% {
+    height: calc(var(--checkbox-height) * 1.2);
+  }
+}
+
+@-webkit-keyframes dothatopcheck-19 {
+  0% {
+    height: 0;
+  }
+
+  50% {
+    height: 0;
+  }
+
+  100% {
+    height: calc(var(--checkbox-height) * 1.2);
+  }
+}
+
+@-moz-keyframes dothatopcheck-19 {
+  0% {
+    height: 0;
+  }
+
+  50% {
+    height: 0;
+  }
+
+  100% {
+    height: calc(var(--checkbox-height) * 1.2);
+  }
+}
+
+.checkbox-wrapper-19 input[type=checkbox] {
+  display: none;
+}
+
+.checkbox-wrapper-19 .check-box {
+  height: var(--checkbox-height);
+  width: var(--checkbox-height);
+  background-color: transparent;
+  border: calc(var(--checkbox-height) * .1) solid #000;
+  border-radius: 5px;
+  position: relative;
+  display: inline-block;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: border-color ease 0.2s;
+  -o-transition: border-color ease 0.2s;
+  -webkit-transition: border-color ease 0.2s;
+  transition: border-color ease 0.2s;
+  cursor: pointer;
+}
+
+.checkbox-wrapper-19 .check-box::before,
+  .checkbox-wrapper-19 .check-box::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: absolute;
+  height: 0;
+  width: calc(var(--checkbox-height) * .2);
+  background-color: #34b93d;
+  display: inline-block;
+  -moz-transform-origin: left top;
+  -ms-transform-origin: left top;
+  -o-transform-origin: left top;
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+  border-radius: 5px;
+  content: " ";
+  -webkit-transition: opacity ease 0.5;
+  -moz-transition: opacity ease 0.5;
+  transition: opacity ease 0.5;
+}
+
+.checkbox-wrapper-19 .check-box::before {
+  top: calc(var(--checkbox-height) * .72);
+  left: calc(var(--checkbox-height) * .41);
+  box-shadow: 0 0 0 calc(var(--checkbox-height) * .05) var(--background-color);
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.checkbox-wrapper-19 .check-box::after {
+  top: calc(var(--checkbox-height) * .37);
+  left: calc(var(--checkbox-height) * .05);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.checkbox-wrapper-19 input[type=checkbox]:checked + .check-box,
+  .checkbox-wrapper-19 .check-box.checked {
+  border-color: #34b93d;
+}
+
+.checkbox-wrapper-19 input[type=checkbox]:checked + .check-box::after,
+  .checkbox-wrapper-19 .check-box.checked::after {
+  height: calc(var(--checkbox-height) / 2);
+  -moz-animation: dothabottomcheck-19 0.2s ease 0s forwards;
+  -o-animation: dothabottomcheck-19 0.2s ease 0s forwards;
+  -webkit-animation: dothabottomcheck-19 0.2s ease 0s forwards;
+  animation: dothabottomcheck-19 0.2s ease 0s forwards;
+}
+
+.checkbox-wrapper-19 input[type=checkbox]:checked + .check-box::before,
+  .checkbox-wrapper-19 .check-box.checked::before {
+  height: calc(var(--checkbox-height) * 1.2);
+  -moz-animation: dothatopcheck-19 0.4s ease 0s forwards;
+  -o-animation: dothatopcheck-19 0.4s ease 0s forwards;
+  -webkit-animation: dothatopcheck-19 0.4s ease 0s forwards;
+  animation: dothatopcheck-19 0.4s ease 0s forwards;
+}
+
+
+
+.asistencia-btn {
+    background-color: #9a9a9b;
+}
+
+
+/* Estilos para el botón de Habilitar */
+/* Estilos para el botón de Habilitar */
+
+.habilitar-btn {
+  background-color: #00c742;
+  /* Color verde por defecto */
+  width: 110px; /* Ancho del botón */
+  height: 40px; /* Altura del botón */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  border-radius: 5px; /* Esquinas redondeadas */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cambia el cursor a pointer */
+  display: inline-block; /* Para ajustar el tamaño */
+  text-align: center; /* Alinear el texto al centro */
+}
+
+/* Estilos para el botón Habilitar cuando está en estado "Desactivar" */
+
+.habilitar-btn.desactivado {
+  background-color: rgb(218, 52, 52);
+  /* Color rojo cuando está desactivado */
+  /* Mantiene el mismo tamaño y estilo base */
+}
+
+
+/* Estilo para la línea separadora */
+
+.separador {
+    border-top: 1px solid rgb(179, 177, 177);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        height: 100%;
+        width: 250px;
+        top: 0;
+        left: 0;
+        background-color: #001529;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+    .sidebar.open {
+        display: block;
+    }
+    .sidebar ul li {
+        padding: 10px 20px;
+    }
+    .sidebar ul li a {
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+    .sidebar ul li a:hover {
+        background-color: #00274C;
+    }
+    main {
+        margin-left: 0;
+        padding: 15px;
+        margin-top: 50px;
+    }
+    #menu-toggle {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        color: #5f5757;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 2;
+    }
+}
+
+/* css para las card y check buttom del estilo principal*/

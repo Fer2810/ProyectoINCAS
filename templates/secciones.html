@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STARF</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/secciones.css')}}">
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul class="nav">
+            <li><a href="#">Personal</a>
+                <ul class="dropdown-content">
+                    <li><a href="profesor.html">Profesor</a></li>
+                    <li><a href="administrador.html">Administrador</a></li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="formuP.html">Profesores</a></li>
+                            <li><a href="formuA.html">Administradores</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">Estudiante</a>
+                <ul class="dropdown-content">
+                    <li><a href="REstudiante.html">Registrar Estudiante</a></li>
+                    <li><a href="AEstudiante.html">Admistrar Estudiante</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Administar Sección</a>
+                <ul class="dropdown-content">
+                    <li><a href="crearSeccion.html">Crear Sección</a></li>
+                    <li><a href="#">Ver Sección</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Tomar asistencia STARF</a></li>
+            <li><a href="#">Reportes</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <button id="menu-toggle">&#9776;</button>
+
+    <main>
+        <h2>Desarrollo de software</h2><br>
+        <input type="submit" value="Retroceder" id="retroceder">
+    </main> 
+
+
+
+
+
+<section class="cards">
+<!-- Tarjetas -->
+<div class="tarjeta-container">
+    <div class="tarjeta">
+        <h3>ID Sección: 1</h3>
+        <h2>Primer año seccion K</h2>
+        <p> Vidal Antonio Amaya Lopez</p>
+        <!-- Línea separadora -->
+        <div class="separador"></div>
+        <div class="botones-tarjeta">
+            <button class="habilitar-btn">Habilitar</button>
+            <div class="checkbox-container"></div>
+        </div>
+    </div>
+</div>
+
+<div class="tarjeta-container">
+    <div class="tarjeta">
+        <h3>ID Sección: 2</h3>
+        <h2>Segundo año seccion K</h2>
+        <p> Vidal Antonio Amaya Lopez</p>
+        <!-- Línea separadora -->
+        <div class="separador"></div>
+        <div class="botones-tarjeta">
+            <button class="habilitar-btn">Habilitar</button>
+            <div class="checkbox-container"></div>
+        </div>
+    </div>
+</div>
+
+<div class="tarjeta-container">
+    <div class="tarjeta">
+        <h3>ID Sección: 3</h3>
+        <h2>Tercer año seccion K</h2>
+        <p> Vidal Antonio Amaya Lopez</p>
+        <!-- Línea separadora -->
+        <div class="separador"></div>
+        <div class="botones-tarjeta">
+            <button class="habilitar-btn">Habilitar</button>
+            <div class="checkbox-container"></div>
+        </div>
+    </div>
+</div>
+
+</section>
+
+
+
+    
+    <!-- Script para manejar eventos -->
+    <script>
+      // Función para manejar clic en el botón de habilitar
+      function toggleButton(event) {
+          var habilitarBtn = event.target;
+
+          // Cambiar el texto y la clase del botón
+          if (habilitarBtn.textContent === "Habilitar") {
+              habilitarBtn.textContent = "Desactivar";
+              habilitarBtn.classList.add('desactivado'); /* Agregar clase 'desactivado' al botón */
+          } else {
+              habilitarBtn.textContent = "Habilitar";
+              habilitarBtn.classList.remove('desactivado'); /* Eliminar clase 'desactivado' del botón */
+          }
+      }
+
+      // Agregar evento de clic a todos los botones de habilitar
+      var habilitarBtns = document.querySelectorAll('.habilitar-btn');
+      habilitarBtns.forEach(function(btn) {
+          btn.addEventListener('click', toggleButton);
+      });
+    </script>
+    <script src="menu.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var bootstrapDeactivateButton = document.getElementById("retroceder");
+            bootstrapDeactivateButton.addEventListener("click", function () {
+                // Redirige al usuario a card.html
+                window.location.href = "{{ url_for('verSecciones') }}";
+            });
+        });
+    </script>
+</body>
+
+</html>

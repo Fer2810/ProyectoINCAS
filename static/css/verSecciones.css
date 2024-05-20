@@ -79,134 +79,6 @@ body {
     display: block;
 }
 
-/* Estilos para el contenido fuera de la barra lateral */
-.chat-container {
-    max-width: 500px;
-    /* Ancho máximo del contenedor del chat */
-    margin: 0 auto;
-    /* Centra el contenedor en la página */
-    border: 1px solid #ccc;
-    /* Borde alrededor del contenedor */
-}
-
-.messages {
-    max-height: 300px;
-    /* Altura máxima para el área de mensajes */
-    overflow-y: auto;
-    /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
-}
-
-.input-container {
-    display: flex;
-    /* Usa flexbox para alinear el campo de entrada y el botón */
-    padding: 10px;
-    /* Espacio alrededor del campo de entrada y el botón */
-    background-color: #f9f9f9;
-    /* Fondo del área de entrada de mensajes */
-}
-
-input[type="text"] {
-    flex: 1;
-    /* El campo de entrada de texto ocupa todo el espacio restante */
-    padding: 8px;
-    /* Espaciado dentro del campo de entrada */
-    border: 1px solid #ccc;
-    /* Borde alrededor del campo de entrada */
-    border-radius: 20px;
-    /* Borde redondeado del campo de entrada */
-}
-
-/* Estilos para los botones */
-button,
-input[type="submit"],
-select {
-    margin: left;
-}
-
-/* Estilos para el botón de enviar */
-input[type="submit"],
-button {
-    padding: 8px 15px;
-    /* Espaciado dentro del botón */
-    margin-left: 10px;
-    /* Margen a la izquierda del botón */
-    background-color: #007bff;
-    /* Color de fondo del botón */
-    color: #fff;
-    /* Color del texto del botón */
-    border: none;
-    /* Sin borde alrededor del botón */
-    border-radius: 20px;
-    /* Borde redondeado del botón */
-    cursor: pointer;
-    /* Cursor de puntero cuando se pasa por encima del botón */
-    transition: background-color 0.3s, transform 0.3s;
-    /* Transiciones */
-    margin-top: 2px;
-    margin-bottom: 20px;
-}
-
-/* Estilos para los botones de selección */
-select {
-    padding: 8px 15px;
-    /* Espaciado dentro del botón */
-    margin-left: 10px;
-    /* Margen a la izquierda del botón */
-    border: 1px solid #5a3535;
-    /* Borde */
-    border-radius: 20px;
-    /* Borde redondeado */
-    box-sizing: border-box;
-    /* Tamaño incluyendo el borde y el relleno */
-    cursor: pointer;
-    /* Cursor de puntero cuando se pasa por encima del botón */
-    transition: background-color 0.3s, transform 0.3s;
-    /* Transiciones */
-    margin-top: 2px;
-    margin-bottom: 20px;
-}
-
-main {
-    margin-left: 70px;
-}
-
-main {
-    margin-left: 220px;
-    margin-bottom: 70px;
-}
-
-/* Estilos para el botón de menú en pantallas pequeñas */
-#menu-toggle {
-    display: none;
-}
-
-/* Estilos para las tarjetas de secciones */
-.secciones {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    /* Organiza las tarjetas en una cuadrícula flexible */
-    gap: 20px;
-    /* Espacio entre las tarjetas */
-}
-
-.seccion-card {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.seccion-card h2 {
-    margin-top: 0;
-    font-size: 18px;
-}
-
-.seccion-card label {
-    display: block;
-    margin-top: 10px;
-}
-
 /* Estilos para la barra lateral en pantallas pequeñas */
 @media screen and (max-width: 768px) {
     .sidebar {
@@ -289,4 +161,226 @@ main {
     #file-container {
         padding: 15px;
     }
+}
+
+
+
+
+
+
+
+/*Ajustar top del contenedor de las card*/
+.row{
+    margin-top:10em;
+}
+
+.titulo{
+    margin-top: 10em;
+    margin-left: 10em;
+   
+}
+
+/*Cards de secciones*/
+
+.category .job {
+    height: 220px;
+    border: 1px solid transparent;
+    padding: 30px 19px 25px 19px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: 900px;
+    position: relative;
+    margin-left: 14em;
+    
+    
+
+   
+}
+
+
+
+
+.category .job:hover {
+    border: 1px solid #0d6efd;
+}
+
+.category .job span {
+    padding: 6px 20px;
+    font-weight: 400;
+    border-radius: 26px;
+    display: inline-block;
+}
+
+/*
+.category .job .colors1 {
+    font-weight: 800;
+    color: #F27E42;
+    background: #f27e4242;
+}
+
+*/
+
+/*
+.category .job .colors1 {
+     font-weight: 800;
+    color: #9cff2a;
+    background: #86f2425a;
+}
+
+*/
+
+
+
+
+.category .job .colors1 {
+    font-weight: 800;
+    color: #4294F2;
+    background: rgba(66, 148, 255, 0.26);
+}
+
+
+
+
+
+
+.category .job .colors2 {
+    font-weight: 800;
+    color: #4294F2;
+    background: rgba(66, 148, 255, 0.26);
+}
+
+.category .job .colors3 {
+    font-weight: 800;
+    color: #2EB98D;
+   
+    background: #5fffcf63;
+}
+
+.category .job .colors4 {
+    font-weight: 800;
+    color: #6A42F2;
+    background: rgba(106, 66, 242, 0.07);
+}
+
+.category .job .colors5 {
+    font-weight: 800;
+    color: #F162BC;
+    background: rgba(241, 98, 188, 0.07);
+}
+
+.category .job .colors2 {
+    font-weight: 800;
+    color: #4294F2;
+    background: rgba(66, 148, 255, 0.26);
+}
+
+
+
+
+
+.place {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    padding-left: 0px;
+    color: #76787A;
+}
+
+.left {
+    font-weight: 800;
+}
+
+.category .job span.time {
+    font-weight: 900;
+}
+
+
+
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+
+ul{
+
+    padding-top: 1em;
+}
+
+
+/*Botón para habilitar todas las secciones*/
+
+/* Estilo para el botón */
+.btn-success {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    margin-top: 5em;
+    margin-left: 37.5em;
+    width: 200px; /* Establecer un ancho fijo */
+    height: 50px; /* Establecer una altura fija */
+}
+
+
+
+
+/*Botón para editar las secciones*/
+
+
+
+.btn {
+    top: 10%;
+    left: -13%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 25px;
+    background-color: #0d6efd;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Estilos cuando el botón está deshabilitado */
+.btn.disabled {
+    background-color: red;
+}
+
+/*Boton para habilitar seccion*/
+
+.buttonSecciones {
+    margin: 15px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 25px;
+    background-color: green;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 150px;
+    margin-left: -0.1em;
+}
+
+/* Estilos cuando el botón está deshabilitado */
+.buttonSecciones.disabled {
+    background-color: red;
+}
+
+
+
+
+
+
+.btn-editar {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #0d6efd;
+    color: white;
+    font-size: 16px;
 }
