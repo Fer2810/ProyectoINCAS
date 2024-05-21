@@ -77,6 +77,7 @@ body {
 
 .cards{
     margin-bottom: 15em;
+    
 }
 
 .tarjeta-container {
@@ -84,13 +85,13 @@ body {
     background-color: #ffffff;
     padding: 10px;
     margin-bottom: 20px;
-    width: 50%;
+    width: 800px;
     border-radius: 10px;
     margin-left: 28rem;
     text-align: left;
     box-shadow: 0px 0px 10px rgba(117, 117, 117, 0.712);
     position: relative;
-    top: 6em;
+    top: 2em;
     
 }
 
@@ -130,10 +131,17 @@ body {
 
 /*style para el titulo de las secciones*/
 main {
-  margin-left: 650px;
+  margin-left: 660px;
 }
 /*estilos para el boton*/
 /* Estilos para el botón de enviar */
+
+.titulo{
+    margin-top: -1em;
+    margin-bottom: -1em;
+    margin-left: 2.5em;
+    
+}
 
 input[type="submit"] {
   background-color: #4CAF50;
@@ -146,10 +154,13 @@ input[type="submit"] {
   /* Cursor de puntero */
   transition: background-color 0.3s, transform 0.3s;
   /* Transiciones */
-  margin-top: 2px;
+  margin-top: 1em;
   position: relative;
-    top: 3em;
+    top: 1em;
     right: 9em;
+    margin-left: -0.9em;
+    height: 50px;
+    
 }
 
 
@@ -167,7 +178,7 @@ input[type="submit"]:hover {
 /*estilo para el boton de retroceder*/
 
 input[type="submit"] {
-    width: 15%;
+    width: 24%;
     /* Ancho del campo */
     padding: 10px;
     /* Espaciado interno */
@@ -198,6 +209,9 @@ input[type="submit"] {
   position: relative; /* Cambia a relative para poder usar top */
   top: -120px; /* Ajusta este valor según necesites */
 }
+
+
+
 
 /*estilos para el check*/
 

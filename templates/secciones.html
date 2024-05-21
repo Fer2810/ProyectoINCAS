@@ -12,32 +12,49 @@
     <div class="sidebar" id="sidebar">
         <h2>Administración</h2>
         <ul class="nav">
-            <li><a href="#">Personal</a>
+            <li>
+                <a href="#">
+                    <h4 href="#">Administar Sección</h4>
+                </a>
                 <ul class="dropdown-content">
-                    <li><a href="profesor.html">Profesor</a></li>
-                    <li><a href="administrador.html">Administrador</a></li>
+                    <li><a href="/seccion">Crear Sección</a></li>
+                    <li><a href="/verSecciones">Ver Sección</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Personal</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
                     <li><a href="#">Historial de Personal</a>
                         <ul class="dropdown-contents">
-                            <li><a href="formuP.html">Profesores</a></li>
-                            <li><a href="formuA.html">Administradores</a></li>
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
                         </ul>
                     </li>
                 </ul>
             </li>
-            <li><a href="#">Estudiante</a>
+            <li>
+                <a href="#">
+                    <h4>Estudiante</h4>
+                </a>
                 <ul class="dropdown-content">
-                    <li><a href="REstudiante.html">Registrar Estudiante</a></li>
-                    <li><a href="AEstudiante.html">Admistrar Estudiante</a></li>
+                    <li><a href="/estudiante">Registrar Estudiante</a></li>
+                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
                 </ul>
             </li>
-            <li><a href="#">Administar Sección</a>
-                <ul class="dropdown-content">
-                    <li><a href="crearSeccion.html">Crear Sección</a></li>
-                    <li><a href="#">Ver Sección</a></li>
-                </ul>
+            <li>
+                <a href="/inicio">
+                    <h4>Tomar asistencia STARF</h4>
+                </a>
             </li>
-            <li><a href="#">Tomar asistencia STARF</a></li>
-            <li><a href="#">Reportes</a>
+            <li>
+                <a href="#">
+                    <h4>Reportes</h4>
+                </a>
                 <ul class="dropdown-content">
                     <li><a href="#">En Tiempo Real</a></li>
                     <li><a href="#">Normal</a></li>
@@ -46,11 +63,12 @@
         </ul>
     </div>
 
-    <button id="menu-toggle">&#9776;</button>
+
+
 
     <main>
-        <h2>Desarrollo de software</h2><br>
-        <input type="submit" value="Retroceder" id="retroceder">
+        <h2 class="titulo">Desarrollo de software</h2><br>
+        <input type="submit" value="Retroceder" id="retroceder" class="regresar">
     </main> 
 
 
@@ -102,6 +120,8 @@
 </div>
 
 </section>
+
+
 
 
 
