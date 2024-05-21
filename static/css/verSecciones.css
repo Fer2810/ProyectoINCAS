@@ -171,24 +171,31 @@ body {
 
 /*Ajustar top del contenedor de las card*/
 .row{
-    margin-top:10em;
+    margin-top:4em;
+    margin-bottom: 5em;
 }
 
 .titulo{
-    margin-top: 10em;
-    margin-left: 10em;
+    margin-top: 13em;
+    margin-left: 7em;
+    margin-bottom: 4em;
+
    
+}
+
+.container{
+    margin-top: 3.5em;
 }
 
 /*Cards de secciones*/
 
 .category .job {
-    height: 220px;
+    height: 190px;
     border: 1px solid transparent;
     padding: 30px 19px 25px 19px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    width: 900px;
+    width: 800px;
     position: relative;
     margin-left: 14em;
     
@@ -335,7 +342,7 @@ ul{
 
 .btn {
     top: 10%;
-    left: -13%;
+    left: -10%;
     border: none;
     border-radius: 5px;
     padding: 10px 25px;
@@ -343,6 +350,8 @@ ul{
     color: white;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 1em;
+    margin-bottom: 3em;
 }
 
 /* Estilos cuando el botón está deshabilitado */

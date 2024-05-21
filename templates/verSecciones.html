@@ -114,56 +114,65 @@
     <!--Button enviar alumnos al tabla vacía-->
     
     <script>
-        function toggleSections() {
-            var button = document.getElementById("bootstrapButton");
-            if (button.textContent === "Habilitar Secciones") {
-                button.textContent = "Deshabilitar Secciones";
-                button.classList.add("disabled"); // Agregar la clase para el color rojo
-            } else {
-                button.textContent = "Habilitar Secciones";
-                button.classList.remove("disabled"); // Quitar la clase para volver al color verde
-            }
-        }
-
-        function toggleDeactivate(buttonSecciones) {
-            var seccionId = buttonSecciones.getAttribute("data-seccion-id");
-            var seccionEstado = buttonSecciones.getAttribute("data-seccion-estado");
-
-            fetch('/toggleDeactivate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: seccionId,
-                    state: seccionEstado === '0' ? '1' : '0' // Cambiar de 0 a 1 y viceversa
-                })
-            }).then(function (response) {
-                if (response.ok) {
-                    console.log('Estado de la sección actualizado correctamente.');
-                    // Cambiar el estado del botón después de actualizar el estado en el servidor
-                    var newState = seccionEstado === '0' ? '1' : '0';
-                    buttonSecciones.setAttribute("data-seccion-estado", newState);
-
-                     // Cambiar el texto del botón y el color
-                    if (newState === '1') {
-                        buttonSecciones.textContent = "Deshabilitar";
-                        buttonSecciones.classList.add("disabled"); // Cambiar a rojo
-                    } else {
-                        buttonSecciones.textContent = "Habilitar";
-                        buttonSecciones.classList.remove("disabled"); // Cambiar a verde
-                    }
-                } else {
-                    console.error('Error al actualizar el estado de la sección.');
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtener todos los botones de secciones
+            var buttonsSecciones = document.querySelectorAll(".buttonSecciones");
+    
+            // Iterar sobre cada botón de sección
+            buttonsSecciones.forEach(function(buttonSecciones) {
+                // Obtener el estado actual del botón
+                var currentState = buttonSecciones.getAttribute("data-seccion-estado");
+    
+                // Función para cambiar el estado y actualizar el botón
+                function toggleDeactivate() {
+                    var seccionId = buttonSecciones.getAttribute("data-seccion-id");
+                    var seccionEstado = buttonSecciones.getAttribute("data-seccion-estado");
+    
+                    fetch('/toggleDeactivate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: seccionId,
+                            state: seccionEstado === '0' ? '1' : '0' // Cambiar de 0 a 1 y viceversa
+                        })
+                    }).then(function (response) {
+                        if (response.ok) {
+                            console.log('Estado de la sección actualizado correctamente.');
+                            // Cambiar el estado del botón después de actualizar el estado en el servidor
+                            var newState = seccionEstado === '0' ? '1' : '0';
+                            buttonSecciones.setAttribute("data-seccion-estado", newState);
+    
+                            // Cambiar el texto del botón y el color
+                            if (newState === '1') {
+                                buttonSecciones.textContent = "Deshabilitar";
+                                buttonSecciones.classList.add("disabled"); // Cambiar a rojo
+                            } else {
+                                buttonSecciones.textContent = "Habilitar";
+                                buttonSecciones.classList.remove("disabled"); // Cambiar a verde
+                            }
+                        } else {
+                            console.error('Error al actualizar el estado de la sección.');
+                        }
+                    }).catch(function (error) {
+                        console.error('Error al realizar la solicitud:', error);
+                    });
                 }
-            }).catch(function (error) {
-                console.error('Error al realizar la solicitud:', error);
+    
+                // Configurar el estado inicial del botón
+                if (currentState === '1') {
+                    buttonSecciones.textContent = "Deshabilitar";
+                    buttonSecciones.classList.add("disabled"); // Cambiar a rojo
+                } else {
+                    buttonSecciones.textContent = "Habilitar";
+                    buttonSecciones.classList.remove("disabled"); // Cambiar a verde
+                }
+    
+                // Agregar el evento de clic a cada botón
+                buttonSecciones.addEventListener("click", toggleDeactivate);
             });
-        }
-
-        
-
-       
+        });
     </script>
     
     <script>
