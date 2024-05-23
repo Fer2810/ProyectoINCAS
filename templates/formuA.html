@@ -14,12 +14,11 @@
         <ul class="nav">
             <li>
                 <a href="#">
-                    <h4 href="#">Administar Sección</h4>
+                    <h4>Administrar Sección</h4>
                 </a>
                 <ul class="dropdown-content">
                     <li><a href="/seccion">Crear Sección</a></li>
-                    <li><a href="/verSecciones">Ver Sección</a>
-                    </li>
+                    <li><a href="/verSecciones">Ver Sección</a></li>
                 </ul>
             </li>
             <li>
@@ -43,7 +42,7 @@
                 </a>
                 <ul class="dropdown-content">
                     <li><a href="/estudiante">Registrar Estudiante</a></li>
-                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+                    <li><a href="/AdmiEstu">Administrar Estudiante</a></li>
                 </ul>
             </li>
             <li>
@@ -73,20 +72,31 @@
                     <th>Apellidos</th>
                     <th>Correo</th>
                     <th>Imagen</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            {% for registro in registros %}
-            <tr>
-                <td>{{ registro[0] }}</td>
-                <td>{{ registro[1] }}</td>
-                <td>{{ registro[2] }}</td>
-                <td>{{ registro[3] }}</td>
-                <td><img src="data:image/jpeg;base64,{{ registro[4] }}" width="100" height="100"></td>
-            </tr>
-            {% endfor %}
-           
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro[0] }}</td>
+                    <td>{{ registro[1] }}</td>
+                    <td>{{ registro[2] }}</td>
+                    <td>{{ registro[3] }}</td>
+                    <td><img src="data:image/jpeg;base64,{{ registro[4] }}" width="100" height="100"></td>
+                    <td>
+                        <a href="/editar_administrador/{{ registro[0] }}">Editar</a>
+                        <!-- Agrega el botón de eliminar dentro de un formulario -->
+                        <form action="/eliminar_administrador" method="POST" style="display:inline;">
+                            <input type="hidden" name="id_administrador" value="{{ registro[0] }}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    
+
 </body>
 
 </html>

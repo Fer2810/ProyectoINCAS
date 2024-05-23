@@ -91,6 +91,122 @@ def mostrar_registros():
     # Renderizar la plantilla HTML y pasar los registros como contexto
     return render_template('formuA.html', registros=registros_con_imagen_base64)
 
+@app.route('/editar_administrador/<int:id_administrador>', methods=['GET', 'POST'])
+def editar_administrador(id_administrador):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        apellidos = request.form['apellidos']
+        correo = request.form['correo']
+        imagen = request.files['imagen'].read() if request.files['imagen'] else None
+
+        # Actualizar los datos del administrador en la base de datos
+        if imagen:
+            cursor.execute("UPDATE administradores SET nombre=%s, apellidos=%s, correo=%s, imagen=%s WHERE id_administrador=%s",
+                           (nombre, apellidos, correo, imagen, id_administrador))
+        else:
+            cursor.execute("UPDATE administradores SET nombre=%s, apellidos=%s, correo=%s WHERE id_administrador=%s",
+                           (nombre, apellidos, correo, id_administrador))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect(url_for('mostrar_registros'))
+
+    cursor.execute("SELECT id_administrador, nombre, apellidos, correo FROM administradores WHERE id_administrador=%s", (id_administrador,))
+    administrador = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('editar_administrador.html', administrador=administrador)
+
+@app.route('/eliminar_administrador', methods=['POST'])
+def eliminar_administrador():
+    if request.method == 'POST':
+        # Obtener el ID del administrador a eliminar desde el formulario
+        id_administrador = request.form['id_administrador']
+
+        # Conectar a la base de datos
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        try:
+            # Ejecutar la consulta SQL para eliminar al administrador
+            cursor.execute("DELETE FROM administradores WHERE id_administrador = %s", (id_administrador,))
+            conn.commit()
+            return redirect(url_for('mostrar_registros'))
+        except Exception as e:
+            # Manejar cualquier error que ocurra durante la eliminación
+            return f'Error al eliminar el administrador: {str(e)}'
+        finally:
+            cursor.close()
+            conn.close()
+
+
+@app.route('/editar_profesor/<int:id_profesor>', methods=['GET', 'POST'])
+def editar_profesor(id_profesor):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        email = request.form['email']
+        imagen = request.files['imagen'].read() if request.files['imagen'] else None
+        id_seccion = request.form['id_seccion']  # Obtener el nuevo ID de la sección
+
+        # Actualizar los datos del profesor en la base de datos
+        if imagen:
+            cursor.execute("UPDATE Datos_Prof SET nombre=%s, apellido=%s, email=%s, imagen=%s, id_seccion=%s WHERE nip=%s",
+                           (nombre, apellido, email, imagen, id_seccion, id_profesor))
+        else:
+            cursor.execute("UPDATE Datos_Prof SET nombre=%s, apellido=%s, email=%s, id_seccion=%s WHERE nip=%s",
+                           (nombre, apellido, email, id_seccion, id_profesor))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect(url_for('formuP'))
+
+    cursor.execute("SELECT nip, nombre, apellido, email, imagen, id_seccion FROM Datos_Prof WHERE nip=%s", (id_profesor,))
+    profesor = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('editar_profesor.html', profesor=profesor)
+
+@app.route('/eliminar_profesor', methods=['POST'])
+def eliminar_profesor():
+    if request.method == 'POST':
+        # Obtener el ID del profesor a eliminar desde el formulario
+        id_profesor = request.form['id_profesor']
+
+        # Conectar a la base de datos
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        try:
+            # Ejecutar la consulta SQL para eliminar al profesor
+            cursor.execute("DELETE FROM Datos_Prof WHERE nip = %s", (id_profesor,))
+            conn.commit()
+            return redirect(url_for('formuP'))
+        except Exception as e:
+            # Manejar cualquier error que ocurra durante la eliminación
+            return f'Error al eliminar el profesor: {str(e)}'
+        finally:
+            cursor.close()
+            conn.close()
+
+
+
 @app.route('/indexPersonal')
 def indexPersonal():
   return render_template('indexPersonal.html')
@@ -105,7 +221,37 @@ def seccion():
 
 @app.route('/formuP')
 def formuP():
-  return render_template('formuP.html')
+    # Conectar a la base de datos y obtener un cursor
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Ejecutar una consulta SQL para seleccionar todos los registros de profesores
+        cursor.execute("SELECT nip, nombre, apellido, email, imagen, id_seccion FROM Datos_Prof")
+        # Obtener todos los registros
+        profesores = cursor.fetchall()
+    except Exception as e:
+        print("Error al obtener datos de profesores:", e)
+        profesores = []
+
+    # Cerrar el cursor y la conexión
+    cursor.close()
+    conn.close()
+
+    # Convertir los datos binarios de la imagen a cadena base64
+    registros_con_imagen_base64 = []
+    for profesor in profesores:
+        id_profesor = profesor[0]
+        nombre = profesor[1]
+        apellido = profesor[2]
+        email = profesor[3]
+        imagen_binaria = profesor[4]
+        imagen_base64 = base64.b64encode(imagen_binaria).decode('utf-8')
+        id_seccion = profesor[5]
+        registros_con_imagen_base64.append((id_profesor, nombre, apellido, email, imagen_base64, id_seccion))
+
+    # Renderizar la plantilla HTML y pasar los registros como contexto
+    return render_template('formuP.html', profesores=registros_con_imagen_base64)
 
 
 
