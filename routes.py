@@ -44,11 +44,17 @@ def toggle_state():
         cursor.close()
         conn.close()
         
+@app.route('/secciones/<string:seccion>')
+def secciones(seccion):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT seccion, año, estado FROM años WHERE seccion = %s", (seccion,))
+    años = cursor.fetchall()
+    conn.close()
+    return render_template('secciones.html', años=años)
         
-@app.route('/secciones')   
-def secciones():
- return render_template('secciones.html')
         
+
         
         
         

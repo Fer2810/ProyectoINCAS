@@ -75,51 +75,23 @@
 
 
 
-<section class="cards">
-<!-- Tarjetas -->
-<div class="tarjeta-container">
-    <div class="tarjeta">
-        <h3>ID Sección: 1</h3>
-        <h2>Primer año seccion K</h2>
-        <p> Vidal Antonio Amaya Lopez</p>
-        <!-- Línea separadora -->
-        <div class="separador"></div>
-        <div class="botones-tarjeta">
-            <button class="habilitar-btn">Habilitar</button>
-            <div class="checkbox-container"></div>
-        </div>
-    </div>
-</div>
-
-<div class="tarjeta-container">
-    <div class="tarjeta">
-        <h3>ID Sección: 2</h3>
-        <h2>Segundo año seccion K</h2>
-        <p> Vidal Antonio Amaya Lopez</p>
-        <!-- Línea separadora -->
-        <div class="separador"></div>
-        <div class="botones-tarjeta">
-            <button class="habilitar-btn">Habilitar</button>
-            <div class="checkbox-container"></div>
-        </div>
-    </div>
-</div>
-
-<div class="tarjeta-container">
-    <div class="tarjeta">
-        <h3>ID Sección: 3</h3>
-        <h2>Tercer año seccion K</h2>
-        <p> Vidal Antonio Amaya Lopez</p>
-        <!-- Línea separadora -->
-        <div class="separador"></div>
-        <div class="botones-tarjeta">
-            <button class="habilitar-btn">Habilitar</button>
-            <div class="checkbox-container"></div>
-        </div>
-    </div>
-</div>
-
-</section>
+    <section class="cards">
+        <!-- Tarjetas -->
+        {% for año in años %}
+            <div class="tarjeta-container">
+                <div class="tarjeta">
+                    <h3>Sección: {{ año[0] }}</h3>
+                    <h2>Año: {{ año[1] }}</h2>
+                    <!-- Línea separadora -->
+                    <div class="separador"></div>
+                    <div class="botones-tarjeta">
+                        <button class="habilitar-btn">Habilitar</button>
+                        <div class="checkbox-container"></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 
 
 
