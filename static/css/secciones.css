@@ -393,8 +393,7 @@ input[type="submit"] {
 /* Estilos para el botón de Habilitar */
 
 .habilitar-btn {
-  background-color: #00c742;
-  /* Color verde por defecto */
+  background-color: #00c742; /* Color verde por defecto */
   width: 110px; /* Ancho del botón */
   height: 40px; /* Altura del botón */
   padding: 10px 20px; /* Espaciado interno */
@@ -407,13 +406,11 @@ input[type="submit"] {
   text-align: center; /* Alinear el texto al centro */
 }
 
-/* Estilos para el botón Habilitar cuando está en estado "Desactivar" */
-
 .habilitar-btn.desactivado {
-  background-color: rgb(218, 52, 52);
-  /* Color rojo cuando está desactivado */
-  /* Mantiene el mismo tamaño y estilo base */
+  background-color: rgb(218, 52, 52); /* Color rojo cuando está desactivado */
 }
+
+
 
 
 /* Estilo para la línea separadora */

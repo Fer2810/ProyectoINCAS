@@ -82,10 +82,11 @@
                 <div class="tarjeta">
                     <h3>Sección: {{ año[0] }}</h3>
                     <h2>Año: {{ año[1] }}</h2>
-                    <!-- Línea separadora -->
                     <div class="separador"></div>
                     <div class="botones-tarjeta">
-                        <button class="habilitar-btn">Habilitar</button>
+                        <button class="habilitar-btn" data-seccion="{{ año[0] }}" data-anio="{{ año[1] }}" data-anio-estado="{{ año[2] }}">
+                            {{ 'Habilitar' if año[2] == 0 else 'Desactivar' }}
+                        </button>
                         <div class="checkbox-container"></div>
                     </div>
                 </div>
@@ -100,26 +101,64 @@
     
     <!-- Script para manejar eventos -->
     <script>
-      // Función para manejar clic en el botón de habilitar
-      function toggleButton(event) {
-          var habilitarBtn = event.target;
+        document.addEventListener("DOMContentLoaded", function () {
+            var habilitarBtns = document.querySelectorAll('.habilitar-btn');
+            
+            habilitarBtns.forEach(function(btn) {
+                // Set initial button state and color
+                var currentState = btn.getAttribute('data-anio-estado');
+                if (currentState === '1') {
+                    btn.textContent = 'Desactivar';
+                    btn.classList.add("disabled"); // Cambiar a rojo
+                } else {
+                    btn.textContent = 'Habilitar';
+                    btn.classList.remove("disabled"); // Cambiar a verde
+                }
 
-          // Cambiar el texto y la clase del botón
-          if (habilitarBtn.textContent === "Habilitar") {
-              habilitarBtn.textContent = "Desactivar";
-              habilitarBtn.classList.add('desactivado'); /* Agregar clase 'desactivado' al botón */
-          } else {
-              habilitarBtn.textContent = "Habilitar";
-              habilitarBtn.classList.remove('desactivado'); /* Eliminar clase 'desactivado' del botón */
-          }
-      }
+                // Add click event listener
+                btn.addEventListener('click', function() {
+                    var seccion = btn.getAttribute('data-seccion');
+                    var anio = btn.getAttribute('data-anio');
+                    var anioEstado = btn.getAttribute('data-anio-estado');
+                    var newState = anioEstado === '0' ? '1' : '0';
 
-      // Agregar evento de clic a todos los botones de habilitar
-      var habilitarBtns = document.querySelectorAll('.habilitar-btn');
-      habilitarBtns.forEach(function(btn) {
-          btn.addEventListener('click', toggleButton);
-      });
+                    fetch('/toggleAnio', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            seccion: seccion,
+                            anio: anio,
+                            state: newState
+                        })
+                    }).then(function(response) {
+                        if (response.ok) {
+                            // Update the button state and color
+                            btn.setAttribute('data-anio-estado', newState);
+                            if (newState === '1') {
+                                btn.textContent = 'Desactivar';
+                                btn.classList.add("disabled"); // Cambiar a rojo
+                            } else {
+                                btn.textContent = 'Habilitar';
+                                btn.classList.remove("disabled"); // Cambiar a verde
+                            }
+                        } else {
+                            console.error('Error al actualizar el estado del año.');
+                        }
+                    }).catch(function(error) {
+                        console.error('Error al realizar la solicitud:', error);
+                    });
+                });
+            });
+        });
     </script>
+
+
+
+
+
+
     <script src="menu.js"></script>
 
 

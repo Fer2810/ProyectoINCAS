@@ -55,7 +55,20 @@ def secciones(seccion):
         
         
 
-        
+@app.route('/toggleAnio', methods=['POST'])
+def toggle_anio():
+    data = request.get_json()
+    seccion = data['seccion']
+    anio = data['anio']
+    new_state = data['state']
+
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE años SET estado = %s WHERE seccion = %s AND año = %s", (new_state, seccion, anio))
+    conn.commit()
+    conn.close()
+
+    return jsonify(success=True)
         
         
         
