@@ -1,7 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
@@ -65,6 +63,7 @@ body {
     z-index: 2;
     border-radius: 10px;
     margin-left: 23px;
+    width: 150px;
 }
 
 .dropdown-content a {
@@ -76,6 +75,22 @@ body {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.chat-container {
+    max-width: 500px;
+    /* Ancho máximo del contenedor del chat */
+    margin: 0 auto;
+    /* Centra el contenedor en la página */
+    border: 1px solid #ccc;
+    /* Borde alrededor del contenedor */
+}
+
+.messages {
+    max-height: 300px;
+    /* Altura máxima para el área de mensajes */
+    overflow-y: auto;
+    /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
 }
 
 

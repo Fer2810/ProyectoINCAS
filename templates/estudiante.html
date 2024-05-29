@@ -18,7 +18,13 @@
                 </a>
                 <ul class="dropdown-content">
                     <li><a href="/seccion">Crear Sección</a></li>
-                    <li><a href="/verSecciones">Ver Sección</a>
+                    <li><a href="/CrearAño">Crear Año</a></li>
+                    <li><a href="/verSecciones">Ver Sección</a></li>
+                    <li><a href="#">Editar</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/EditarSeccion">Editar Sección </a></li>
+                            <li><a href="/EditarAño">Editar Año</a></li>
+                        </ul>
                     </li>
                 </ul>
             </li>
@@ -65,6 +71,7 @@
 
     <button id="menu-toggle">&#9776;</button>
 
+    
     <!-- Formulario -->
     <main>
         <h2>Registrar Estudiante</h2>
@@ -85,7 +92,7 @@
                 <div class="field-container">
                     <label for="NIE"></label>
                     <input type="text" id="nie" name="nit" placeholder="NIE">
-                    <label for="nombre "></label>
+                    <label for="nombre"></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre">
                     <label for="genero">Género</label>
                     <select id="genero" name="genero">
@@ -111,12 +118,14 @@
                     <label for="Apellido"></label>
                     <input type="text" id="Apellido" name="apellido" placeholder="Apellido">
                     <label for="correo electronico"></label>
-                    <input type="text" id="correo electronico" name="correo_electronico"
-                        placeholder="Correo electronico">
+                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
                     <br>
-                    <label for="seccion">ID Sección</label>
-                    <select id="seccion" name="seccion">
+                    <label for="seccion">ID Año</label>
+                    <select id="seccion" name="id_año">
                         <!-- Las opciones se cargarán dinámicamente -->
+                        {% for año in años %}
+                        <option value="{{ año[0] }}">{{ año[0] }}</option>
+                        {% endfor %}
                     </select>
                     <input type="submit" value="Guardar">
                 </div>
@@ -135,24 +144,6 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-
-        // Cargar las secciones desde la base de datos
-        function loadSecciones() {
-            fetch('/get_secciones')
-                .then(response => response.json())
-                .then(data => {
-                    const seccionSelect = document.getElementById('seccion');
-                    data.secciones.forEach(seccion => {
-                        const option = document.createElement('option');
-                        option.value = seccion.id;
-                        option.textContent = seccion.id;  // Aquí cambia 'seccion.seccion' a 'seccion.id'
-                        seccionSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error al cargar secciones:', error));
-        }
-
-        document.addEventListener('DOMContentLoaded', loadSecciones);
     </script>
     <script src="menu.js"></script>
 </body>

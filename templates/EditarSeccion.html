@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editar Profesor</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/EditarSeccion.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <button class="back-button" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+    <div class="content">
+        <h2>Editar Sección</h2>
+        <form action="//" method="POST" enctype="multipart/form-data">
+            <label for="nombre">Sección:</label>
+            <input type="text" id="seccion" name="seccion" value="">
+
+            <input type="submit" value="Guardar Cambios">
+        </form>
+    </div>
+</body>
+
+</html>

@@ -9,59 +9,65 @@
 </head>
 
 <body>
-    <div class="sidebar" id="sidebar">
-        <h2>Administración</h2>
-        <ul class="nav">
-            <li>
-                <a href="#">
-                    <h4 href="#">Administar Sección</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/seccion">Crear Sección</a></li>
-                    <li><a href="/verSecciones">Ver Sección</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Personal</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/profesor">Profesor</a></li>
-                    <li><a href="/administrador">Administrador</a></li>
-                    <li><a href="#">Historial de Personal</a>
-                        <ul class="dropdown-contents">
-                            <li><a href="/formuP">Profesores</a></li>
-                            <li><a href="/formuA">Administradores</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Estudiante</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/estudiante">Registrar Estudiante</a></li>
-                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="/inicio">
-                    <h4>Tomar asistencia STARF</h4>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Reportes</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="#">En Tiempo Real</a></li>
-                    <li><a href="#">Normal</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<div class="sidebar" id="sidebar">
+    <h2>Administración</h2>
+    <ul class="nav">
+        <li>
+            <a href="#">
+                <h4 href="#">Administar Sección</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/seccion">Crear Sección</a></li>
+                <li><a href="/CrearAño">Crear Año</a></li>
+                <li><a href="/verSecciones">Ver Sección</a></li>
+                <li><a href="#">Editar</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/EditarSeccion">Editar Sección </a></li>
+                        <li><a href="/EditarAño">Editar Año</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Personal</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/profesor">Profesor</a></li>
+                <li><a href="/administrador">Administrador</a></li>
+                <li><a href="#">Historial de Personal</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/formuP">Profesores</a></li>
+                        <li><a href="/formuA">Administradores</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Estudiante</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/estudiante">Registrar Estudiante</a></li>
+                <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="/inicio">
+                <h4>Tomar asistencia STARF</h4>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Reportes</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="#">En Tiempo Real</a></li>
+                <li><a href="#">Normal</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
     <button id="menu-toggle">&#9776;</button>
 

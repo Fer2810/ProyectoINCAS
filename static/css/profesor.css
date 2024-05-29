@@ -1,21 +1,11 @@
 body {
     font-family: Arial, sans-serif;
-    /* Fuente del texto */
     background-color: #f4f4f4;
-    /* Color de fondo */
-    margin: 0 auto;
-    /* Elimina los márgenes */
-    padding: 20px;
-    /* Elimina el padding */
     display: flex;
     justify-content: center;
-    /* Centra horizontalmente */
     align-items: center;
-    /* Centra verticalmente */
     height: 100vh;
-    /* Altura completa de la ventana */
 }
-
 
 .nav li:hover>ul {
     display: block;
@@ -42,7 +32,7 @@ body {
 }
 
 .sidebar ul li {
-    padding: 6px;
+    padding: 10px;
 }
 
 .sidebar ul li a {
@@ -73,6 +63,7 @@ body {
     z-index: 2;
     border-radius: 10px;
     margin-left: 23px;
+    width: 150px;
 }
 
 .dropdown-content a {
@@ -86,6 +77,21 @@ body {
     display: block;
 }
 
+.chat-container {
+    max-width: 500px;
+    /* Ancho máximo del contenedor del chat */
+    margin: 0 auto;
+    /* Centra el contenedor en la página */
+    border: 1px solid #ccc;
+    /* Borde alrededor del contenedor */
+}
+
+.messages {
+    max-height: 300px;
+    /* Altura máxima para el área de mensajes */
+    overflow-y: auto;
+    /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
+}
 
 /* Estilos para el formulario */
 

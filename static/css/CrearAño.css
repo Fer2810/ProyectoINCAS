@@ -92,6 +92,7 @@ body {
     overflow-y: auto;
     /* Hace que el área de mensajes sea desplazable si hay demasiados mensajes */
 }
+
 .input-container {
     display: flex;
     /* Usa flexbox para alinear el campo de entrada y el botón */
@@ -102,14 +103,17 @@ body {
 }
 
 input[type="text"] {
-    flex: 1;
+    flex: 0;
     /* El campo de entrada de texto ocupa todo el espacio restante */
-    padding: 8px;
+    padding: 9px;
     /* Espaciado dentro del campo de entrada */
     border: 1px solid #ccc;
     /* Borde alrededor del campo de entrada */
     border-radius: 20px;
     /* Borde redondeado del campo de entrada */
+    width: 95%;
+    /* Ancho del campo */
+    margin-top: 5%;
 }
 
 
@@ -168,19 +172,16 @@ select {
     margin-bottom: 20px;
 }
 
-main {
-    margin-left: 70px;
-}
 
-main{
-    margin-left: 220px;
-    margin-bottom: 70px;
-}
 /* Estilos para el formulario */
 
+main {
+    margin-left: 220px;
+    margin-bottom: 20px;
+}
+
 form {
-    margin-left: 10px;
-    width: 780px;
+    width: 850px;
     display: flex;
 }
 
@@ -208,7 +209,7 @@ form {
 
 /* Estilos para los campos de texto y el botón de enviar */
 
-input[type="text"],
+input[type="text"]
 input[type="email"],
 input[type="file"],
 input[type="submit"] {
@@ -216,7 +217,7 @@ input[type="submit"] {
     /* Ancho del campo */
     padding: 10px;
     /* Espaciado interno */
-    margin-bottom: 10px;
+    margin-top: 25px;
     /* Margen inferior */
     border: 1px solid #5a3535;
     /* Borde */
@@ -245,7 +246,7 @@ input[type="submit"] {
     /* Cursor de puntero */
     transition: background-color 0.3s, transform 0.3s;
     /* Transiciones */
-    margin-top: 2px;
+    margin-top: 40px;
 }
 
 
@@ -285,118 +286,7 @@ input[type="file"] {
 }
 
 
-/* Estilo para el icono */
 
-.custom-file-upload::after {
-    content: '📷';
-    /* Agrega el icono */
-    margin-left: 0px;
-    /* Añade espacio entre el texto y el icono */
-}
-
-
-/* Estilo para el texto */
-
-.custom-file-upload:hover::after {
-    content: 'SubirFoto';
-    /* Cambia el texto al pasar el cursor sobre el botón */
-    margin-left: 2px;
-    /* Ajusta el espacio entre el texto y el icono */
-}
-
-#seccion {
-    margin-left: 38px;
-}
-
-#genero {
-    margin-left: 40px;
-}
-
-#id {
-    margin-left: 1rem;
-}
-
-
-/* Estilos para la vista previa de la imagen */
-
-#file-container {
-    position: relative;
-    /* Posición relativa */
-}
-
-#file-preview {
-    width: 155px;
-    /* Ancho de la imagen previa */
-    /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
-    height: 155px;
-    /* Altura de la imagen previa */
-    /* Modifica aquí para ajustar el tamaño de la vista previa de la imagen */
-    border-radius: 10px;
-    /* Borde redondeado */
-    position: none;
-    /* Posición absoluta */
-    top: 50%;
-    /* Centrar verticalmente */
-    left: -0px;
-    /* Mover hacia la izquierda */
-    /* Ajusta aquí para mover la vista previa de la imagen */
-    transform: translateY(-50%);
-    /* Centrar verticalmente */
-    display: none;
-    /* Ocultar inicialmente */
-    margin-top: 90px;
-}
-
-#menu-toggle {
-    display: none;
-}
-
-@media screen and (max-width: 768px) {
-    .sidebar {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        height: 100%;
-        width: 250px;
-        top: 0;
-        left: 0;
-        background-color: #001529;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 60px;
-    }
-    .sidebar.open {
-        display: block;
-    }
-    .sidebar ul li {
-        padding: 10px 20px;
-    }
-    .sidebar ul li a {
-        display: block;
-        color: white;
-        text-decoration: none;
-    }
-    .sidebar ul li a:hover {
-        background-color: #00274C;
-    }
-    main {
-        margin-left: 0;
-        padding: 15px;
-        margin-top: 50px;
-    }
-    #menu-toggle {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: transparent;
-        color: #5f5757;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        z-index: 2;
-    }
-}
 
 @media screen and (max-width: 600px) {
     form {
@@ -415,7 +305,7 @@ input[type="file"] {
         margin-bottom: 20px;
     }
     #file-preview {
-        margin-top: 75px;
+        margin-top: 95px;
     }
     #file-container {
         padding: 15px;

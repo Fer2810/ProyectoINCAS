@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Profesor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_profesor.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editar Profesor</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editar_profesor.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+    <button class="back-button" onclick="window.history.back();">
+        <i class="fas fa-arrow-left"></i>
+    </button>
     <div class="content">
         <h2>Editar Profesor</h2>
         <form action="/editar_profesor/{{ profesor[0] }}" method="POST" enctype="multipart/form-data">
@@ -26,9 +29,6 @@
                 <input type="file" id="imagen" name="imagen" accept="image/*" onchange="previewImage(event)">
                 <div id="image-preview"></div>
             </div>
-
-            <label for="id_seccion">ID Sección:</label>
-            <input type="text" id="id_seccion" name="id_seccion" value="{{ profesor[5] }}">
 
             <input type="submit" value="Guardar Cambios">
         </form>
