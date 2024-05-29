@@ -1,11 +1,11 @@
 /* Estilos para el cuerpo */
+/* Estilos para el cuerpo */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
 }
 
 /* Estilos para la barra de navegación */
@@ -165,47 +165,58 @@ body {
 
 
 
-
-
-
-
-/*Ajustar top del contenedor de las card*/
-.row{
-    margin-top:4em;
-    margin-bottom: 5em;
+/* Estilos para el contenido principal */
+.main-content {
+    margin-left: 250px; /* Deja espacio para la barra lateral */
+    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 250px); /* Asegura que no se desborde fuera de la pantalla */
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
 }
 
-.titulo{
-    margin-top: 13em;
-    margin-left: 7em;
-    margin-bottom: 4em;
 
-   
+
+
+
+
+
+
+
+
+/* Ajuste del título */
+.titulo {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+    position: relative;
+    margin-right: 1em;
 }
 
-.container{
-    margin-top: 3.5em;
+/* Ajustar contenedor principal */
+.container {
+    margin-top: 1em;
 }
+
+
 
 /*Cards de secciones*/
+/* Cards de secciones */
+.category {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+}
 
 .category .job {
-    height: 190px;
+    height: 180px;
     border: 1px solid transparent;
     padding: 30px 19px 25px 19px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     width: 800px;
     position: relative;
-    margin-left: 14em;
-    
-    
-
-   
 }
-
-
-
 
 .category .job:hover {
     border: 1px solid #0d6efd;
@@ -218,37 +229,11 @@ body {
     display: inline-block;
 }
 
-/*
-.category .job .colors1 {
-    font-weight: 800;
-    color: #F27E42;
-    background: #f27e4242;
-}
-
-*/
-
-/*
-.category .job .colors1 {
-     font-weight: 800;
-    color: #9cff2a;
-    background: #86f2425a;
-}
-
-*/
-
-
-
-
 .category .job .colors1 {
     font-weight: 800;
     color: #4294F2;
     background: rgba(66, 148, 255, 0.26);
 }
-
-
-
-
-
 
 .category .job .colors2 {
     font-weight: 800;
@@ -259,7 +244,6 @@ body {
 .category .job .colors3 {
     font-weight: 800;
     color: #2EB98D;
-   
     background: #5fffcf63;
 }
 
@@ -273,12 +257,6 @@ body {
     font-weight: 800;
     color: #F162BC;
     background: rgba(241, 98, 188, 0.07);
-}
-
-.category .job .colors2 {
-    font-weight: 800;
-    color: #4294F2;
-    background: rgba(66, 148, 255, 0.26);
 }
 
 
@@ -301,9 +279,6 @@ body {
     font-weight: 900;
 }
 
-
-
-
 .mt-30 {
     margin-top: 30px;
 }
@@ -312,9 +287,7 @@ body {
     margin-bottom: 30px;
 }
 
-
-ul{
-
+ul {
     padding-top: 1em;
 }
 
@@ -323,16 +296,19 @@ ul{
 
 /* Estilo para el botón */
 .btn-success {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: absolute;
-    margin-top: 5em;
-    margin-left: 37.5em;
-    width: 200px; /* Establecer un ancho fijo */
-    height: 50px; /* Establecer una altura fija */
+    display: block;
+    margin: 1em auto;
+    width: 200px;
+    height: 50px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 12em;
 }
-
 
 
 
@@ -351,7 +327,7 @@ ul{
     font-size: 16px;
     cursor: pointer;
     margin-top: 1em;
-    margin-bottom: 3em;
+    margin-bottom: 2em;
 }
 
 /* Estilos cuando el botón está deshabilitado */
@@ -361,6 +337,7 @@ ul{
 
 /*Boton para habilitar seccion*/
 
+/* Botón para habilitar seccion */
 .buttonSecciones {
     margin: 15px;
     border: none;
