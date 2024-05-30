@@ -111,7 +111,23 @@ td {
 }
 
 th {
+    background-color: #34495e;
+    color: white;
+}
+
+tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 button {
@@ -159,24 +175,30 @@ button {
         transition: 0.5s;
         padding-top: 60px;
     }
+
     .sidebar.open {
         display: block;
     }
+
     .sidebar ul li {
         padding: 10px 20px;
     }
+
     .sidebar ul li a {
         display: block;
         color: white;
         text-decoration: none;
     }
+
     .sidebar ul li a:hover {
         background-color: #00274C;
     }
+
     main {
         margin-left: 0;
         padding: 1rem;
     }
+
     #menu-toggle {
         display: block;
         position: fixed;
@@ -190,15 +212,18 @@ button {
         z-index: 2;
         transition: transform 0.3s ease-in-out;
     }
+
     .content {
         margin-left: auto;
         padding: 40px;
     }
+
     .button-container {
         display: flex;
         flex-direction: row;
         justify-content: center;
     }
+
     .button-blue {
         margin: 5px 10px;
         /* Ajusta el margen horizontal */

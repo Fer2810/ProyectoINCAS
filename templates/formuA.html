@@ -9,59 +9,65 @@
 </head>
 
 <body>
-    <div class="sidebar" id="sidebar">
-        <h2>Administración</h2>
-        <ul class="nav">
-            <li>
-                <a href="#">
-                    <h4 href="#">Administar Sección</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/seccion">Crear Sección</a></li>
-                    <li><a href="/verSecciones">Ver Sección</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Personal</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/profesor">Profesor</a></li>
-                    <li><a href="/administrador">Administrador</a></li>
-                    <li><a href="#">Historial de Personal</a>
-                        <ul class="dropdown-contents">
-                            <li><a href="/formuP">Profesores</a></li>
-                            <li><a href="/formuA">Administradores</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Estudiante</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/estudiante">Registrar Estudiante</a></li>
-                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="/inicio">
-                    <h4>Tomar asistencia STARF</h4>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Reportes</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="#">En Tiempo Real</a></li>
-                    <li><a href="#">Normal</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<div class="sidebar" id="sidebar">
+    <h2>Administración</h2>
+    <ul class="nav">
+        <li>
+            <a href="#">
+                <h4 href="#">Administar Sección</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/seccion">Crear Sección</a></li>
+                <li><a href="/CrearAño">Crear Año</a></li>
+                <li><a href="/verSecciones">Ver Sección</a></li>
+                <li><a href="#">Editar</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/EditarSeccion">Editar Sección </a></li>
+                        <li><a href="/EditarAño">Editar Año</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Personal</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/profesor">Profesor</a></li>
+                <li><a href="/administrador">Administrador</a></li>
+                <li><a href="#">Historial de Personal</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/formuP">Profesores</a></li>
+                        <li><a href="/formuA">Administradores</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Estudiante</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/estudiante">Registrar Estudiante</a></li>
+                <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="/inicio">
+                <h4>Tomar asistencia STARF</h4>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Reportes</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="#">En Tiempo Real</a></li>
+                <li><a href="#">Normal</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
     <div class="content">
         <h2>Registros de Administradores</h2>
@@ -73,20 +79,31 @@
                     <th>Apellidos</th>
                     <th>Correo</th>
                     <th>Imagen</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            {% for registro in registros %}
-            <tr>
-                <td>{{ registro[0] }}</td>
-                <td>{{ registro[1] }}</td>
-                <td>{{ registro[2] }}</td>
-                <td>{{ registro[3] }}</td>
-                <td><img src="data:image/jpeg;base64,{{ registro[4] }}" width="100" height="100"></td>
-            </tr>
-            {% endfor %}
-           
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro[0] }}</td>
+                    <td>{{ registro[1] }}</td>
+                    <td>{{ registro[2] }}</td>
+                    <td>{{ registro[3] }}</td>
+                    <td><img src="data:image/jpeg;base64,{{ registro[4] }}" width="100" height="100"></td>
+                    <td>
+                        <a href="/editar_administrador/{{ registro[0] }}">Editar</a>
+                        <!-- Agrega el botón de eliminar dentro de un formulario -->
+                        <form action="/eliminar_administrador" method="POST" style="display:inline;">
+                            <input type="hidden" name="id_administrador" value="{{ registro[0] }}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    
+
 </body>
 
 </html>

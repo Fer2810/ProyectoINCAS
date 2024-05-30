@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>STARF</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profesor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/CrearAño.css') }}">
 </head>
 
 <body>
@@ -73,57 +73,39 @@
 
     <!-- Formulario -->
     <main>
-        <h2>Registro de profesor</h2>
-        <form action="/submit" method="post" enctype="multipart/form-data">
-            <!-- Contenedor para la vista previa de la imagen -->
-            <div id="file-container">
-                <!-- Botón para agregar imagen -->
-                <div class="file-upload-container">
-                    <label for="foto" class="custom-file-upload"></label>
-                    <input type="file" id="foto" name="imagen" accept="image/*" onchange="previewImage(event)">
-                </div>
-                <!-- Vista previa de la imagen -->
-                <img id="file-preview" src="#" alt="Vista previa de la imagen">
-            </div>
+        <h2>Crear año</h2>
+        <form action="/submit_año" method="POST">
             <!-- Columna 1 -->
             <div class="column">
-                <!-- Contenedor para los campos de texto de nombre y NIP -->
-                <div class="field-container">
-                    <!-- Etiqueta y campo para el nombre -->
-                    <label for="nombre"></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre">
-                    <!-- Etiqueta y campo para el NIP -->
-                    <label for="nip"></label>
-                    <input type="text" id="nip" name="nip" placeholder="NIP">
-                </div>
+                
+            <label for="seccion">Sección</label>
+            <select id="seccion" name="seccion">
+                {% for seccion in secciones %}
+                <option value="{{ seccion }}">{{ seccion }}</option>
+                {% endfor %}
+            </select>
+            <label id="id" for="año">Año</label>
+            <select id="año" name="año">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+
+
             </div>
             <!-- Columna 2 -->
             <div class="column">
-                <!-- Contenedor para los campos de texto de apellidos, correo electrónico y botón de guardar -->
                 <div class="field-container">
-                    <!-- Etiqueta y campo para los apellidos -->
-                    <label for="apellidos"></label>
-                    <input type="text" id="apellidos" name="apellido" placeholder="Apellidos">
-                    <!-- Etiqueta y campo para el correo electrónico -->
-                    <label for="correo"></label>
-                    <input type="email" id="correo" name="email" placeholder="Correo electrónico">
+
+                    <label for="id año "></label>
+                    <input type="text" id="id año" name="id_año" placeholder="ID Año">
+
                     <!-- Botón de guardar -->
                     <input type="submit" value="Guardar">
                 </div>
             </div>
         </form>
     </main>
-    <script>
-        function previewImage(event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var img = document.getElementById('file-preview');
-                img.src = reader.result;
-                img.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
 
     <script src="menu.js"></script>
 </body>

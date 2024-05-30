@@ -9,86 +9,103 @@
 </head>
 
 <body>
-    <div class="sidebar" id="sidebar">
-        <h2>Administración</h2>
-        <ul class="nav">
-            <li>
-                <a href="#">
-                    <h4 href="#">Administar Sección</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/seccion">Crear Sección</a></li>
-                    <li><a href="/verSecciones">Ver Sección</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Personal</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/profesor">Profesor</a></li>
-                    <li><a href="/administrador">Administrador</a></li>
-                    <li><a href="#">Historial de Personal</a>
-                        <ul class="dropdown-contents">
-                            <li><a href="/formuP">Profesores</a></li>
-                            <li><a href="/formuA">Administradores</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Estudiante</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="/estudiante">Registrar Estudiante</a></li>
-                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="/inicio">
-                    <h4>Tomar asistencia STARF</h4>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <h4>Reportes</h4>
-                </a>
-                <ul class="dropdown-content">
-                    <li><a href="#">En Tiempo Real</a></li>
-                    <li><a href="#">Normal</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<div class="sidebar" id="sidebar">
+    <h2>Administración</h2>
+    <ul class="nav">
+        <li>
+            <a href="#">
+                <h4 href="#">Administar Sección</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/seccion">Crear Sección</a></li>
+                <li><a href="/CrearAño">Crear Año</a></li>
+                <li><a href="/verSecciones">Ver Sección</a></li>
+                <li><a href="#">Editar</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/EditarSeccion">Editar Sección </a></li>
+                        <li><a href="/EditarAño">Editar Año</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Personal</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/profesor">Profesor</a></li>
+                <li><a href="/administrador">Administrador</a></li>
+                <li><a href="#">Historial de Personal</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/formuP">Profesores</a></li>
+                        <li><a href="/formuA">Administradores</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Estudiante</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="/estudiante">Registrar Estudiante</a></li>
+                <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="/inicio">
+                <h4>Tomar asistencia STARF</h4>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <h4>Reportes</h4>
+            </a>
+            <ul class="dropdown-content">
+                <li><a href="#">En Tiempo Real</a></li>
+                <li><a href="#">Normal</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
-    <button id="menu-toggle">&#9776;</button>
+    <button id="menu-toggle">&#9776; Menú</button>
 
     <div class="content">
-        <h2>Registrar Profesores</h2>
-
-        <div class="button-container">
-            <button class="button-blue" onclick="modificarAdmin()">Modificar</button>
-            <button class="button-blue" onclick="eliminarAdmin()">Eliminar</button>
-        </div>
-
-
-        <table id="tablaAdmins">
+        <h2>Lista de Profesores</h2>
+        <table border="1">
             <thead>
                 <tr>
+                    <th>NIP</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>ID </th>
+                    <th>Imagen</th>
+                    <th>Accion</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Aquí se agregarán dinámicamente los administradores -->
+                {% for profesor in profesores %}
+                <tr>
+                    <td>{{ profesor[0] }}</td>
+                    <td>{{ profesor[1] }}</td>
+                    <td>{{ profesor[2] }}</td>
+                    <td>{{ profesor[3] }}</td>
+                    <td><img src="data:image/jpeg;base64,{{ profesor[4] }}" alt="Imagen de {{ profesor[1] }}" width="100"></td>
+                    <td>
+                        <a href="/editar_profesor/{{ profesor[0] }}">Editar</a>
+                        <form action="/eliminar_profesor" method="post">
+                            <input type="hidden" name="id_profesor" value="{{ profesor[0] }}">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
+
     </div>
-    <script src="formuA.js"></script>
+
 </body>
 
 </html>

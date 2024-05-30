@@ -122,6 +122,121 @@ def mostrar_registros():
     # Renderizar la plantilla HTML y pasar los registros como contexto
     return render_template('formuA.html', registros=registros_con_imagen_base64)
 
+@app.route('/editar_administrador/<int:id_administrador>', methods=['GET', 'POST'])
+def editar_administrador(id_administrador):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        apellidos = request.form['apellidos']
+        correo = request.form['correo']
+        imagen = request.files['imagen'].read() if request.files['imagen'] else None
+
+        # Actualizar los datos del administrador en la base de datos
+        if imagen:
+            cursor.execute("UPDATE administradores SET nombre=%s, apellidos=%s, correo=%s, imagen=%s WHERE id_administrador=%s",
+                           (nombre, apellidos, correo, imagen, id_administrador))
+        else:
+            cursor.execute("UPDATE administradores SET nombre=%s, apellidos=%s, correo=%s WHERE id_administrador=%s",
+                           (nombre, apellidos, correo, id_administrador))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect(url_for('mostrar_registros'))
+
+    cursor.execute("SELECT id_administrador, nombre, apellidos, correo FROM administradores WHERE id_administrador=%s", (id_administrador,))
+    administrador = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('editar_administrador.html', administrador=administrador)
+
+@app.route('/eliminar_administrador', methods=['POST'])
+def eliminar_administrador():
+    if request.method == 'POST':
+        # Obtener el ID del administrador a eliminar desde el formulario
+        id_administrador = request.form['id_administrador']
+
+        # Conectar a la base de datos
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        try:
+            # Ejecutar la consulta SQL para eliminar al administrador
+            cursor.execute("DELETE FROM administradores WHERE id_administrador = %s", (id_administrador,))
+            conn.commit()
+            return redirect(url_for('mostrar_registros'))
+        except Exception as e:
+            # Manejar cualquier error que ocurra durante la eliminación
+            return f'Error al eliminar el administrador: {str(e)}'
+        finally:
+            cursor.close()
+            conn.close()
+
+
+@app.route('/editar_profesor/<int:id_profesor>', methods=['GET', 'POST'])
+def editar_profesor(id_profesor):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        email = request.form['email']
+        imagen = request.files['imagen'].read() if request.files['imagen'] else None
+
+        # Actualizar los datos del profesor en la base de datos
+        if imagen:
+            cursor.execute("UPDATE Datos_Prof SET nombre=%s, apellido=%s, email=%s, imagen=%s WHERE nip=%s",
+                           (nombre, apellido, email, imagen, id_profesor))
+        else:
+            cursor.execute("UPDATE Datos_Prof SET nombre=%s, apellido=%s, email=%s WHERE nip=%s",
+                           (nombre, apellido, email, id_profesor))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect(url_for('formuP'))
+
+    cursor.execute("SELECT nip, nombre, apellido, email, imagen FROM Datos_Prof WHERE nip=%s", (id_profesor,))
+    profesor = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('editar_profesor.html', profesor=profesor)
+
+@app.route('/eliminar_profesor', methods=['POST'])
+def eliminar_profesor():
+    if request.method == 'POST':
+        # Obtener el ID del profesor a eliminar desde el formulario
+        id_profesor = request.form['id_profesor']
+
+        # Conectar a la base de datos
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        try:
+            # Ejecutar la consulta SQL para eliminar al profesor
+            cursor.execute("DELETE FROM Datos_Prof WHERE nip = %s", (id_profesor,))
+            conn.commit()
+            return redirect(url_for('formuP'))
+        except Exception as e:
+            # Manejar cualquier error que ocurra durante la eliminación
+            return f'Error al eliminar el profesor: {str(e)}'
+        finally:
+            cursor.close()
+            conn.close()
+
+
+
 @app.route('/indexPersonal')
 def indexPersonal():
   return render_template('indexPersonal.html')
@@ -136,7 +251,36 @@ def seccion():
 
 @app.route('/formuP')
 def formuP():
-  return render_template('formuP.html')
+    # Conectar a la base de datos y obtener un cursor
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Ejecutar una consulta SQL para seleccionar todos los registros de profesores
+        cursor.execute("SELECT nip, nombre, apellido, email, imagen FROM Datos_Prof")
+        # Obtener todos los registros
+        profesores = cursor.fetchall()
+    except Exception as e:
+        print("Error al obtener datos de profesores:", e)
+        profesores = []
+
+    # Cerrar el cursor y la conexión
+    cursor.close()
+    conn.close()
+
+    # Convertir los datos binarios de la imagen a cadena base64
+    registros_con_imagen_base64 = []
+    for profesor in profesores:
+        id_profesor = profesor[0]
+        nombre = profesor[1]
+        apellido = profesor[2]
+        email = profesor[3]
+        imagen_binaria = profesor[4]
+        imagen_base64 = base64.b64encode(imagen_binaria).decode('utf-8')
+        registros_con_imagen_base64.append((id_profesor, nombre, apellido, email, imagen_base64))
+
+    # Renderizar la plantilla HTML y pasar los registros como contexto
+    return render_template('formuP.html', profesores=registros_con_imagen_base64)
 
 
 
@@ -213,14 +357,13 @@ def submit():
         nip = request.form['nip']
         email = request.form['email']
         imagen = request.files['imagen'].read()
-        id_seccion = request.form['id_seccion']  # Obtener el id_seccion del formulario
-
+        
         # Conectar a la base de datos
         conn = create_connection()
         create_table(conn)
 
         # Insertar datos en la base de datos
-        insert_usuario(conn, nombre, apellido, nip, email, imagen, id_seccion)
+        insert_usuario(conn, nombre, apellido, nip, email, imagen)
 
         # Cerrar la conexión
         close_connection(conn)
@@ -350,21 +493,22 @@ def recuperacionAdmin():
 
 @app.route('/estudiante')
 def estudiante():
-  return render_template('estudiante.html')
-
-@app.route('/get_secciones', methods=['GET'])
-def get_secciones():
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id_seccion, seccion FROM secciones")
-    secciones = cursor.fetchall()
+
+    # Obtener los id_año de la tabla años
+    cursor.execute("SELECT id_año FROM años")
+    años = cursor.fetchall()
+
+    # Cerrar la conexión
+    cursor.close()
     conn.close()
 
-    secciones_list = [{"id": row[0], "seccion": row[1]} for row in secciones]
-    return {"secciones": secciones_list}
+    # Pasar los id_año a la plantilla
+    return render_template('estudiante.html', años=años)
 
 
-# Ruta para procesar los datos del formulario de registro de estudiante
+
 @app.route('/submit_estudiante', methods=['POST'])
 def submit_estudiante():
     if request.method == 'POST':
@@ -375,10 +519,10 @@ def submit_estudiante():
         genero = request.form['genero']
         nit = request.form['nit']
         bachillerato = request.form['bachillerato']
+        id_año = request.form['id_año']  # Obtener el id_año del formulario
         imagen = request.files['imagen']  # Obtener la imagen del formulario
         imagen_bytes = imagen.read()  # Leer los bytes de la imagen
-        seccion = request.form['seccion']
-
+       
         # Extraer los encodings de la imagen
         encoding_imagen = extraer_encodings(imagen_bytes)
 
@@ -389,7 +533,7 @@ def submit_estudiante():
                 create_table(conn)  # Asegúrate de que la tabla exista
 
                 # Insertar datos en la base de datos
-                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion)
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año)
 
                 # Cerrar la conexión
                 close_connection(conn)
@@ -402,14 +546,16 @@ def submit_estudiante():
 
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, seccion):
+
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año):
     cursor = conn.cursor()
     # Convertir el arreglo NumPy a bytes usando pickle
     encoding_bytes = pickle.dumps(encoding_imagen)
-    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, seccion) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, seccion))
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, id_año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, id_año))
     conn.commit()
     cursor.close()
+
 
 # Ruta para procesar los datos del formulario de sección
 @app.route('/submit_seccion', methods=['POST'])
@@ -418,7 +564,7 @@ def submit_seccion():
         # Obtener datos del formulario
         id_seccion = request.form['id_seccion']
         seccion = request.form['seccion']
-        año = request.form['año']
+        
 
         try:
             # Conectar a la base de datos
@@ -426,7 +572,7 @@ def submit_seccion():
             create_table(conn)  # Asegúrate de que la tabla exista
 
             # Insertar datos en la base de datos
-            insert_seccion(conn, id_seccion, seccion, año)
+            insert_seccion(conn, id_seccion, seccion, )
 
             # Cerrar la conexión
             close_connection(conn)
@@ -435,10 +581,65 @@ def submit_seccion():
         except Exception as e:
             return f'Error al procesar y almacenar los datos de la sección: {str(e)}'
 
-def insert_seccion(conn, id_seccion, seccion, año):
+def insert_seccion(conn, id_seccion, seccion):
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO secciones (id_seccion, seccion, año) VALUES (%s, %s, %s)",
-                   (id_seccion, seccion, año))
+    cursor.execute("INSERT INTO secciones (id_seccion, seccion) VALUES (%s, %s)",
+                   (id_seccion, seccion))
+    conn.commit()
+    cursor.close()
+
+@app.route('/CrearAño')
+def crear_año():
+    # Conectar a la base de datos y obtener un cursor
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Ejecutar una consulta SQL para seleccionar todas las secciones
+        cursor.execute("SELECT seccion FROM secciones")
+        # Obtener todas las secciones y convertirlas en una lista de cadenas de texto
+        secciones = [seccion[0] for seccion in cursor.fetchall()]
+    except Exception as e:
+        # Manejar cualquier error que ocurra al obtener las secciones
+        print("Error al obtener las secciones:", e)
+        secciones = []
+
+    # Cerrar el cursor y la conexión
+    cursor.close()
+    conn.close()
+
+    # Renderizar la plantilla HTML y pasar las secciones como contexto
+    return render_template('CrearAño.html', secciones=secciones)
+
+
+# Ruta para procesar los datos del formulario de año
+@app.route('/submit_año', methods=['POST'])
+def submit_año():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        id_año = request.form['id_año']
+        año = request.form['año']
+        seccion = request.form['seccion']
+
+        try:
+            # Conectar a la base de datos
+            conn = create_connection()
+            create_table(conn)  # Asegúrate de que la tabla exista
+
+            # Insertar datos en la base de datos
+            insert_año(conn, id_año, año, seccion)
+
+            # Cerrar la conexión
+            close_connection(conn)
+
+            return 'Datos del año enviados a la base de datos correctamente'
+        except Exception as e:
+            return f'Error al procesar y almacenar los datos del año: {str(e)}'
+
+def insert_año(conn, id_año, año, seccion):
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO años (id_año, año, seccion) VALUES (%s, %s, %s)",
+                   (id_año, año, seccion))
     conn.commit()
     cursor.close()
     
@@ -451,6 +652,16 @@ def insert_seccion(conn, id_seccion, seccion, año):
     
     
     
+
+
+
+@app.route('/EditarSeccion')
+def EditarSeccion():
+  return render_template('EditarSeccion.html')
+
+@app.route('/EditarAño')
+def EditarAño():
+  return render_template('EditarAño.html')
 
 if __name__ == '__main__':
   app.run(debug=True)

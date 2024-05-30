@@ -18,7 +18,13 @@
             </a>
             <ul class="dropdown-content">
                 <li><a href="/seccion">Crear Sección</a></li>
-                <li><a href="/verSecciones">Ver Sección</a>
+                <li><a href="/CrearAño">Crear Año</a></li>
+                <li><a href="/verSecciones">Ver Sección</a></li>
+                <li><a href="#">Editar</a>
+                    <ul class="dropdown-contents">
+                        <li><a href="/EditarSeccion">Editar Sección </a></li>
+                        <li><a href="/EditarAño">Editar Año</a></li>
+                    </ul>
                 </li>
             </ul>
         </li>
@@ -62,7 +68,6 @@
         </li>
     </ul>
 </div>
-
     <button id="menu-toggle">&#9776;</button>
 
 <!-- Formulario -->
@@ -76,12 +81,6 @@
                 <!-- Etiqueta y campo para el nombre -->
                 <label for="id_seccion">ID Sección:</label>
                 <input type="text" id="id_seccion" name="id_seccion" placeholder="ID Sección">
-                <label for="año">Año:</label>
-                <select id="año" name="año">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
             </div>
         </div>
         <!-- Columna 2 -->
