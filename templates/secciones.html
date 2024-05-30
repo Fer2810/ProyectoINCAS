@@ -80,12 +80,12 @@
         {% for año in años %}
             <div class="tarjeta-container">
                 <div class="tarjeta">
-                    <h3>Sección: {{ año[0] }}</h3>
-                    <h2>Año: {{ año[1] }}</h2>
+                    <h3>Sección: {{ año[1] }}</h3>
+                    <h2>Año: {{ año[2] }}</h2>
                     <div class="separador"></div>
                     <div class="botones-tarjeta">
-                        <button class="habilitar-btn" data-seccion="{{ año[0] }}" data-anio="{{ año[1] }}" data-anio-estado="{{ año[2] }}">
-                            {{ 'Habilitar' if año[2] == 0 else 'Desactivar' }}
+                        <button class="habilitar-btn" data-seccion="{{ año[1] }}" data-anio="{{ año[2] }}" data-anio-estado="{{ año[3] }}">
+                            {{ 'Habilitar' if año[3] == 0 else 'Desactivar' }}
                         </button>
                         <div class="checkbox-container"></div>
                     </div>

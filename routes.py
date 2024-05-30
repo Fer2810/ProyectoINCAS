@@ -21,7 +21,7 @@ def index():
 def verSecciones():
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, seccion, estado FROM secciones")
+    cursor.execute("SELECT id_seccion, seccion, estado FROM secciones")
     secciones = cursor.fetchall()
     conn.close()
     return render_template('verSecciones.html', secciones=secciones)
@@ -34,7 +34,7 @@ def toggle_state():
     try:
         conn = create_connection()
         cursor = conn.cursor()
-        cursor.execute("UPDATE secciones SET estado = %s WHERE id = %s", (state, seccion_id))
+        cursor.execute("UPDATE secciones SET estado = %s WHERE id_seccion = %s", (state, seccion_id))
         conn.commit()
         return jsonify({'message': 'Estado de la sección actualizado correctamente'}), 200
     except mysql.connector.Error as e:
@@ -48,7 +48,7 @@ def toggle_state():
 def secciones(seccion):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT seccion, año, estado FROM años WHERE seccion = %s", (seccion,))
+    cursor.execute("SELECT id_año, seccion, año, estado FROM años WHERE seccion = %s", (seccion,))
     años = cursor.fetchall()
     conn.close()
     return render_template('secciones.html', años=años)
