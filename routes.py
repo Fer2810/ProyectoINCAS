@@ -69,6 +69,41 @@ def toggle_anio():
     conn.close()
 
     return jsonify(success=True)
+
+
+
+
+@app.route('/toggleYears', methods=['POST'])
+def toggle_years():
+    data = request.json
+    seccion_id = data.get('seccion_id')
+    new_state = data.get('state')
+
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Obtener la sección por id
+        cursor.execute("SELECT seccion FROM secciones WHERE id_seccion = %s", (seccion_id,))
+        seccion = cursor.fetchone()[0]
+
+        # Actualizar el estado de los años de la sección
+        cursor.execute("UPDATE años SET estado = %s WHERE seccion = %s", (new_state, seccion))
+        conn.commit()
+        return jsonify({'message': 'Estados de los años actualizados correctamente'}), 200
+    except mysql.connector.Error as e:
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+        
+        
+        
+        
+
+
         
         
         
@@ -517,7 +552,7 @@ def submit_estudiante():
         apellido = request.form['apellido']
         correo_electronico = request.form['correo_electronico']
         genero = request.form['genero']
-        nit = request.form['nit']
+        nie = request.form['nit']
         bachillerato = request.form['bachillerato']
         id_año = request.form['id_año']  # Obtener el id_año del formulario
         imagen = request.files['imagen']  # Obtener la imagen del formulario
@@ -533,7 +568,7 @@ def submit_estudiante():
                 create_table(conn)  # Asegúrate de que la tabla exista
 
                 # Insertar datos en la base de datos
-                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año)
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, id_año)
 
                 # Cerrar la conexión
                 close_connection(conn)
@@ -547,12 +582,12 @@ def submit_estudiante():
 
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, id_año):
     cursor = conn.cursor()
     # Convertir el arreglo NumPy a bytes usando pickle
     encoding_bytes = pickle.dumps(encoding_imagen)
-    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, id_año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, id_año))
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen, descriptores_faciales, id_año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_bytes, id_año))
     conn.commit()
     cursor.close()
 
