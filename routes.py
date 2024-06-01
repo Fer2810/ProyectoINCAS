@@ -99,6 +99,54 @@ def toggle_years():
         conn.close()
         
         
+@app.route('/togglePresentes', methods=['POST'])
+def toggle_presentes():
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Copiar los estudiantes a la tabla presentes si no existen
+        cursor.execute("""
+            INSERT INTO presentes (nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año)
+            SELECT nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año
+            FROM estudiantes
+            WHERE id_año IN (SELECT id_año FROM años WHERE estado = '1')
+            ON DUPLICATE KEY UPDATE
+                nombre=VALUES(nombre), apellido=VALUES(apellido), correo_electronico=VALUES(correo_electronico),
+                genero=VALUES(genero), bachillerato=VALUES(bachillerato), imagen=VALUES(imagen),
+                descriptores_faciales=VALUES(descriptores_faciales), id_año=VALUES(id_año)
+        """)
+
+        conn.commit()
+        return jsonify({'message': 'Copia de estudiantes realizada correctamente'}), 200
+    except Exception as e:
+        app.logger.error(f"Error: {str(e)}")
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+        
+@app.route('/clearPresentes', methods=['POST'])
+def clear_presentes():
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Vaciar la tabla presentes
+        cursor.execute("DELETE FROM presentes")
+
+        conn.commit()
+        return jsonify({'message': 'Tabla presentes vaciada correctamente'}), 200
+    except Exception as e:
+        app.logger.error(f"Error: {str(e)}")
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
         
         
         

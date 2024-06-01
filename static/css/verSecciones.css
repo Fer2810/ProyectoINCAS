@@ -310,6 +310,28 @@ ul {
 }
 
 
+/* Estilo para el botón */
+.btn-success, .btn-danger {
+    display: block;
+    margin: 1em auto;
+    width: 200px;
+    height: 50px;
+    background-color: #0d6efd; /* Verde para .btn-success */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 12em;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Rojo para .btn-danger */
+}
+
+
+
 
 /*Botón para editar las secciones*/
 

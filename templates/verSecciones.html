@@ -72,7 +72,7 @@
 
     <div class="container">
         <h2 class="titulo"><center>Secciones para habilitar</center></h2>
-        <button type="button" class="btn btn-success" id="bootstrapButton" onclick="toggleSections()">Habilitar Secciones</button>
+        <button type="button" id="bootstrapButton"></button>
         <div class="row">
             {% for seccion in secciones %}
                 <div class="col-lg-4 col-md-6 col-sm-6">
@@ -202,5 +202,57 @@
 
         // Tu lógica de toggleDeactivate y toggleSections
     </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var bootstrapButton = document.getElementById("bootstrapButton");
+    
+            // Inicializar el botón con el texto "Habilitar Presentes"
+            bootstrapButton.textContent = "Habilitar Presentes";
+            bootstrapButton.classList.add("btn-success");
+    
+            bootstrapButton.addEventListener("click", function () {
+                var url = '';
+                var successMessage = '';
+                var failureMessage = '';
+    
+                if (bootstrapButton.classList.contains("btn-success")) {
+                    url = '/togglePresentes';
+                    successMessage = 'Copia de estudiantes realizada correctamente.';
+                    failureMessage = 'Error al realizar la copia de estudiantes.';
+                } else {
+                    url = '/clearPresentes';
+                    successMessage = 'Tabla presentes vaciada correctamente.';
+                    failureMessage = 'Error al vaciar la tabla presentes.';
+                }
+    
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        console.log(successMessage);
+                        if (bootstrapButton.classList.contains("btn-success")) {
+                            bootstrapButton.textContent = "Desactivar Presentes";
+                            bootstrapButton.classList.remove("btn-success");
+                            bootstrapButton.classList.add("btn-danger");
+                        } else {
+                            bootstrapButton.textContent = "Habilitar Presentes";
+                            bootstrapButton.classList.remove("btn-danger");
+                            bootstrapButton.classList.add("btn-success");
+                        }
+                    } else {
+                        console.error(failureMessage);
+                    }
+                }).catch(function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                });
+            });
+        });
+    </script>
+    
 </body>
 </html>
