@@ -114,7 +114,7 @@ def send_email(to_email, message):
 def get_facial_descriptors_and_names_from_db(): 
     connection = create_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT nie ,nombre, bachillerato, descriptores_faciales FROM estudiantes")
+    cursor.execute("SELECT nie ,nombre, bachillerato, descriptores_faciales FROM presentes")
     rows = cursor.fetchall()
     cursor.close()
     connection.close()   

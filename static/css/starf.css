@@ -17,7 +17,7 @@
     margin-top: 1em;
     position: relative;
     bottom: 1em;
-}
+} 
 
 .button-container {
     position: absolute;
@@ -85,7 +85,7 @@
     transform: translateY(-50%);
     z-index: 999; /* Asegurar que esté por encima del video frame */
     transition: right 0.5s ease; /* Transición suave */
-    margin-top: 9em;
+    margin-top: 11.8em;
     display: none; /* Ocultar la tarjeta por defecto */
 }
 
