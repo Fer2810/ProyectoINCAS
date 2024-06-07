@@ -33,33 +33,32 @@
       
           setTimeout("mueveReloj()",1000)
       }
-      </script>
+    </script>
 
 </head>
 <body class="container" onload="mueveReloj()">
 
-	<p id="fecha"></p>
+    <p id="fecha"></p>
 
-	<script>
-		 // Obtiene la fecha actual
-		 var fechaActual = new Date();
+    <script>
+        // Obtiene la fecha actual
+        var fechaActual = new Date();
 
-		 // Obtiene el día, mes y año
-		 var dia = fechaActual.getDate();
-		 var mes = fechaActual.getMonth() + 1; // Los meses comienzan desde 0, así que sumamos 1
-		 var año = fechaActual.getFullYear();
+        // Obtiene el día, mes y año
+        var dia = fechaActual.getDate();
+        var mes = fechaActual.getMonth() + 1; // Los meses comienzan desde 0, así que sumamos 1
+        var año = fechaActual.getFullYear();
 
-		 // Formatea la fecha como desees, por ejemplo, dd/mm/yyyy
-		 var fechaFormateada = dia + '/' + mes + '/' + año;
+        // Formatea la fecha como desees, por ejemplo, dd/mm/yyyy
+        var fechaFormateada = dia + '/' + mes + '/' + año;
 
-		 // Muestra la fecha en el elemento HTML con el id "fecha"
-		 document.getElementById("fecha").innerText = "La fecha actual es: " + fechaFormateada;
-	</script>
+        // Muestra la fecha en el elemento HTML con el id "fecha"
+        document.getElementById("fecha").innerText = "La fecha actual es: " + fechaFormateada;
+    </script>
     
-  <form name="form_reloj" class="reloj">
-    <input type="text" name="reloj" size="10" style="background-color: black; color: white; font-family: Verdana, Arial, Helvetica; font-size: 20px; text-align: center; border: none;" onfocus="window.document.form_reloj.reloj.blur()">
-  </form>
-
+    <form name="form_reloj" class="reloj">
+        <input type="text" name="reloj" size="10" style="background-color: black; color: white; font-family: Verdana, Arial, Helvetica; font-size: 20px; text-align: center; border: none;" onfocus="window.document.form_reloj.reloj.blur()">
+    </form>
 
     <center><h1 class="title">Toma de asistencia</h1></center>
     <div id="videoFrameContainer">
@@ -81,118 +80,64 @@
         </div>
     </div>
 
-   
-     
-      <script>
-        var studentList = []; // Array para mantener un registro de los estudiantes
+    <div class="button-container">
+        <form method="post">
+            <button type="submit" class="btn btn-success" name="action" value="start_camera" onclick="hideStudentCard()">Iniciar Cámara</button>
+        </form>
 
-        // Función para actualizar la lista de estudiantes
-        // Mantener un conjunto para rastrear los estudiantes ya registrados
+        <form method="post">
+            <button type="submit" class="btn btn-danger" name="action" value="stop_camera">Apagar Cámara</button>
+        </form>
+
+        <a href="/inicio" class="btn btn-info">Volver</a>
+    </div>
+
+    <script>
+        var studentList = [];
 var registeredStudents = new Set();
 
-// Función para actualizar la lista de estudiantes
-function updateStudentList(studentInfo) {
-    // Verificar si el estudiante ya está registrado
-    if (!registeredStudents.has(studentInfo)) {
-        // Obtener la hora y la fecha actual
+function updateStudentList(nie, nombre, bachillerato) {
+    if (!registeredStudents.has(nie)) {
         var now = new Date();
-        var hora = now.getHours();
-        var minuto = now.getMinutes();
-        var segundo = now.getSeconds();
-        var dia = now.getDate();
-        var mes = now.getMonth() + 1; // Los meses comienzan desde 0, así que sumamos 1
-        var año = now.getFullYear();
+        var formattedTime = now.toLocaleTimeString();
+        var formattedDate = now.toLocaleDateString();
 
-        // Formatear la hora y la fecha
-        var formattedTime = hora + ":" + minuto + ":" + segundo;
-        var formattedDate = dia + "/" + mes + "/" + año;
+        var studentInfoWithTime = `NIE: ${nie}, Nombre: ${nombre}, Bachillerato: ${bachillerato} - Registrado el ${formattedDate} a las ${formattedTime}`;
 
-        // Crear la cadena con el nombre del estudiante, la hora y la fecha
-        var studentInfoWithTime = studentInfo + " - Registrado el " + formattedDate + " a las " + formattedTime;
-
-        // Agregar el estudiante al conjunto de estudiantes registrados
-        registeredStudents.add(studentInfo);
-
-        // Actualizar la lista de estudiantes en el HTML
+        registeredStudents.add(nie);
         var listItem = document.createElement('li');
         listItem.textContent = studentInfoWithTime;
         document.getElementById('studentList').appendChild(listItem);
     }
 }
 
+if (!!window.EventSource) {
+    var source = new EventSource('/student_info');
+    source.addEventListener('message', function(event) {
+        var studentInfo = event.data;
+        var infoArray = studentInfo.split(',');
 
-        // Función para mostrar la información del estudiante actualizada
-        function updateStudentInfo(studentInfo) {
-            document.getElementById('studentInfoText').textContent = studentInfo;
-        }
+        var nie = infoArray[0].trim();
+        var nombre = infoArray[1].trim();
+        var bachillerato = infoArray[2].trim();
+        var imageBase64 = infoArray[3].trim();
 
-        // Crear un nuevo objeto EventSource que se conecte a la ruta /student_info
-        var eventSource = new EventSource('/student_info');
+        document.getElementById('nie').textContent = nie;
+        document.getElementById('nombre').textContent = nombre;
+        document.getElementById('bachillerato').textContent = bachillerato;
+        document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
 
-        // Agregar un evento 'message' al objeto EventSource para manejar los mensajes recibidos
-        eventSource.onmessage = function(event) {
-            // Obtener el contenido del mensaje (student_info)
-            var studentInfo = event.data;
-
-            // Llamar a las funciones para actualizar la lista de estudiantes y la información del estudiante
-            updateStudentList(studentInfo);
-            updateStudentInfo(studentInfo);
-        };
-
-        // Agregar un evento 'error' para manejar errores de conexión
-        eventSource.onerror = function(event) {
-            console.error("Error en la conexión SSE:", event);
-        }; 
+        document.getElementById('studentInfo').style.display = 'block';
+        updateStudentList(nie, nombre, bachillerato);
+    }, false);
+} else {
+    alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
+}
     </script>
-  
-    
 
-    <!-- Contenedor para los botones -->
-    <div class="button-container">
-        <!-- HTML para encender la cámara -->
-        <form method="post">
-            <button type="submit" class="btn btn-success" name="action" value="start_camera" onclick="hideStudentCard()">Iniciar Cámara</button>
-        </form>
-
-        <!-- HTML para apagar la cámara -->
-        <form method="post">
-            <button type="submit" class="btn btn-danger" name="action" value="stop_camera">Apagar Cámara</button>
-        </form>
-
-        <a href="/inicio" class="btn btn-info">Volver</a>
-
-    </div>
-
-
-    <!-- AQUI ME EQUIVOQUEE,  PUSE EL JS EN OTRO LADO-->
-
-    <!-- Script de EventSource -->
-    <script>
-        if (!!window.EventSource) {
-            var source = new EventSource('/student_info');
-            source.addEventListener('message', function(event) {
-                var studentInfo = event.data;
-                var infoArray = studentInfo.split(',');
-
-                document.getElementById('nie').textContent = infoArray[0].trim();
-                document.getElementById('nombre').textContent = infoArray[1].trim();
-                document.getElementById('bachillerato').textContent = infoArray[2].trim();
-
-                // Convertir la imagen de base64 a formato aceptado por el navegador
-                var imageBase64 = infoArray[3].trim();
-                document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
-
-                document.getElementById('studentInfo').style.display = 'block';
-                updateStudentList(infoArray[1].trim());
-            }, false);
-        } else {
-            alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
-        }
-  </script>
-    <!-- Sección para mostrar la lista de estudiantes -->
     <div id="studentListSection">
-      <h2>Lista de Estudiantes:</h2>
-      <ul id="studentList"></ul>
-  </div>
+        <h2>Lista de Estudiantes:</h2>
+        <ul id="studentList"></ul>
+    </div>
 </body>
 </html>
