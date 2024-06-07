@@ -115,12 +115,13 @@
 }
 
 .student-card .circle {
-    width: 142px;
+    width: 135px;
     height: 161px;
     background-color: #ECEFF1;
     border-radius: 5%;
     margin-top: 40px;
     margin-left: 3em;
+    position: absolute;
 }
 
 .student-card .text-container {

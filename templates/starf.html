@@ -67,21 +67,23 @@
         <img id="videoFrame" src="{{ url_for('video_feed') }}">
     </div>
 
-    <div id="studentInfo" class="student-card">
-        <!-- Elementos de la tarjeta del alumno -->
+    <div id="studentInfo" class="student-card" style="display:none;">
         <div class="svg-background"></div>
         <div class="svg-background2"></div>
-        <div class="circle"></div>
+        <div class="circle">
+            <img id="studentPhoto" class="profile-img" style="width: 135px; height: 161px;">
+        </div>
         <img class="menu-icon profile-img" src="/static/img/LogoIncasSin.png">
         <div class="text-container">
             <p class="title-text" id="nie">Nie</p>
             <p class="info-text" id="nombre">Nombre</p>
             <p class="desc-text" id="bachillerato">Bachillerato</p>
         </div>
-    <!-- Sección para mostrar la información del estudiante -->
-    <div id="studentInfo">
-      <p id="studentInfoText"></p>
-  </div>
+    </div>
+
+    <div id="studentInfoTextContainer">
+        <p id="studentInfoText"></p>
+    </div>
      
       <script>
         var studentList = []; // Array para mantener un registro de los estudiantes
@@ -145,7 +147,7 @@ function updateStudentList(studentInfo) {
         }; 
     </script>
   
-    </div>
+    
 
     <!-- Contenedor para los botones -->
     <div class="button-container">
@@ -165,31 +167,26 @@ function updateStudentList(studentInfo) {
 
     <!-- Script de EventSource -->
     <script>
-      var eventSource = new EventSource('/student_info');
-  
-      eventSource.onmessage = function(event) {
-          var studentInfo = event.data;
-          var infoArray = studentInfo.split(',');
-  
-          // Actualizar el contenido de la tarjeta del alumno
-          document.getElementById('nie').innerText = infoArray[0].trim();
-          document.getElementById('nombre').innerText = infoArray[1].trim();
-          document.getElementById('bachillerato').innerText = infoArray[2].trim();
-  
-          // Mostrar la tarjeta del alumno
-          var studentCard = document.getElementById('studentInfo');
-          studentCard.style.display = 'block'; // Mostrar la tarjeta
-      };
-  
-      eventSource.onerror = function(event) {
-          console.error("Error en la conexión SSE:", event);
-      };
-  
-      function hideStudentCard() {
-          // Ocultar la tarjeta del alumno al presionar el botón para encender la cámara
-          var studentCard = document.getElementById('studentInfo');
-          studentCard.style.display = 'none'; // Ocultar la tarjeta
-      }
+        if (!!window.EventSource) {
+            var source = new EventSource('/student_info');
+            source.addEventListener('message', function(event) {
+                var studentInfo = event.data;
+                var infoArray = studentInfo.split(',');
+
+                document.getElementById('nie').textContent = infoArray[0].trim();
+                document.getElementById('nombre').textContent = infoArray[1].trim();
+                document.getElementById('bachillerato').textContent = infoArray[2].trim();
+
+                // Convertir la imagen de base64 a formato aceptado por el navegador
+                var imageBase64 = infoArray[3].trim();
+                document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
+
+                document.getElementById('studentInfo').style.display = 'block';
+                updateStudentList(infoArray[1].trim());
+            }, false);
+        } else {
+            alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
+        }
   </script>
     <!-- Sección para mostrar la lista de estudiantes -->
     <div id="studentListSection">
