@@ -71,19 +71,17 @@
         <div class="svg-background"></div>
         <div class="svg-background2"></div>
         <div class="circle">
-            <img id="studentPhoto" class="profile-img" style="width: 135px; height: 161px;">
+            <img id="studentPhoto" class="studentImg" style="width: 135px; height: 161px; border-radius: 5%">
         </div>
         <img class="menu-icon profile-img" src="/static/img/LogoIncasSin.png">
         <div class="text-container">
-            <p class="title-text" id="nie">Nie</p>
-            <p class="info-text" id="nombre">Nombre</p>
-            <p class="desc-text" id="bachillerato">Bachillerato</p>
+            <p class="title-text" id="nie"></p>
+            <p class="info-text" id="nombre"></p>
+            <p class="desc-text" id="bachillerato"></p>
         </div>
     </div>
 
-    <div id="studentInfoTextContainer">
-        <p id="studentInfoText"></p>
-    </div>
+   
      
       <script>
         var studentList = []; // Array para mantener un registro de los estudiantes
@@ -164,6 +162,9 @@ function updateStudentList(studentInfo) {
         <a href="/inicio" class="btn btn-info">Volver</a>
 
     </div>
+
+
+    <!-- AQUI ME EQUIVOQUEE,  PUSE EL JS EN OTRO LADO-->
 
     <!-- Script de EventSource -->
     <script>
