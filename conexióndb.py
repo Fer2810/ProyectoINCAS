@@ -119,10 +119,19 @@ def get_facial_descriptors_and_names_from_db():
     cursor.close()
     connection.close()
 
-    # Convertir los descriptores faciales de bytes a arreglo NumPy y asociarlos con los nombres correspondientes
-    student_data = [(row[0], row[1], row[2], pickle.loads(row[3]), row[4]) for row in rows]
+    student_data = []
+    for row in rows:
+        try:
+            # Convertir los descriptores faciales de bytes a arreglo NumPy
+            descriptors = pickle.loads(row[3])
+        except (pickle.UnpicklingError, EOFError) as e:
+            print(f"Error al deserializar los descriptores faciales para NIE {row[0]}: {e}")
+            descriptors = None  # Manejo de error: omitir el registro o asignar un valor por defecto
+
+        student_data.append((row[0], row[1], row[2], descriptors, row[4]))
 
     return student_data
+
 
         
 

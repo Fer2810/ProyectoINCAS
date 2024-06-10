@@ -138,11 +138,11 @@
                 // Apply changes
                 const updates = [];
                 rows.forEach(row => {
-                    const nit = row.cells[0].textContent.trim();
+                    const nie = row.cells[0].textContent.trim();
                     const select = row.cells[7].querySelector('select');
                     if (select) {
                         const selectedIdAño = select.value;
-                        updates.push({ nit, id_año: selectedIdAño });
+                        updates.push({ nie, id_año: selectedIdAño });
                         row.cells[7].dataset.idAño = selectedIdAño; // Store the new id_año value
                         row.cells[7].innerHTML = selectedIdAño; // Update the cell with selected value
                     }
@@ -178,7 +178,7 @@
                     data.forEach(estudiante => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${estudiante.nit}</td>
+                            <td>${estudiante.nie}</td>
                             <td>${estudiante.nombre}</td>
                             <td>${estudiante.apellido}</td>
                             <td>${estudiante.correo_electronico}</td>
@@ -187,8 +187,8 @@
                             <td><img src="data:image/jpeg;base64,${estudiante.imagen}" alt="Imagen de Estudiante" height="50"></td>
                             <td data-id-año="${estudiante.id_año}">${estudiante.id_año}</td>
                             <td>
-                                <button onclick="editarEstudiante(${estudiante.nit})">Editar</button>
-                                <button onclick="eliminarEstudiante(${estudiante.nit})">Eliminar</button>
+                                <button onclick="editarEstudiante(${estudiante.nie})">Editar</button>
+                                <button onclick="eliminarEstudiante(${estudiante.nie})">Eliminar</button>
                             </td>
                         `;
                         tbody.appendChild(row);
@@ -197,18 +197,18 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        function editarEstudiante(nit) {
-            window.location.href = `/editar_estudiante/${nit}`;
+        function editarEstudiante(nie) {
+            window.location.href = `/editar_estudiante/${nie}`;
         }
 
-       function eliminarEstudiante(nit) {
+       function eliminarEstudiante(nie) {
             if (confirm('¿Estás seguro de que deseas eliminar este estudiante?')) {
-                fetch(`/eliminar_estudiante/${nit}`, { method: 'DELETE' })
+                fetch(`/eliminar_estudiante/${nie}`, { method: 'DELETE' })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
                             // Eliminar la fila correspondiente al estudiante eliminado
-                            const row = document.querySelector(`#student-table tbody tr[data-nit="${nit}"]`);
+                            const row = document.querySelector(`#student-table tbody tr[data-nie="${nie}"]`);
                             if (row) {
                                 row.remove();
                                 console.log('Estudiante eliminado con éxito');

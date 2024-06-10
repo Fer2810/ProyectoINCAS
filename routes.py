@@ -402,12 +402,12 @@ def buscar_estudiantes():
     conn = create_connection()
     cursor = conn.cursor()
     
-    cursor.execute("SELECT nit, nombre, apellido, correo_electronico, genero, bachillerato, imagen, id_año FROM estudiantes WHERE id_año = %s", (id_año,))
+    cursor.execute("SELECT nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, id_año FROM estudiantes WHERE id_año = %s", (id_año,))
     estudiantes = cursor.fetchall()
     
     registros = []
     for estudiante in estudiantes:
-        nit = estudiante[0]
+        nie = estudiante[0]
         nombre = estudiante[1]
         apellido = estudiante[2]
         correo_electronico = estudiante[3]
@@ -417,7 +417,7 @@ def buscar_estudiantes():
         imagen_base64 = base64.b64encode(imagen_binaria).decode('utf-8') if imagen_binaria else None
         id_año = estudiante[7]
         registros.append({
-            'nit': nit,
+            'nie': nie,
             'nombre': nombre,
             'apellido': apellido,
             'correo_electronico': correo_electronico,
@@ -433,8 +433,8 @@ def buscar_estudiantes():
     return jsonify(registros)
 
 
-@app.route('/editar_estudiante/<int:nit>', methods=['GET', 'POST'])
-def editar_estudiante(nit):
+@app.route('/editar_estudiante/<int:nie>', methods=['GET', 'POST'])
+def editar_estudiante(nie):
     conn = create_connection()
     cursor = conn.cursor()
 
@@ -452,20 +452,20 @@ def editar_estudiante(nit):
         encoding_imagen = extraer_encodings(imagen)
 
         if imagen and encoding_imagen is not None:
-            cursor.execute("UPDATE estudiantes SET imagen=%s, descriptores_faciales=%s, nombre=%s, apellido=%s, correo_electronico=%s, genero=%s, bachillerato=%s, nit=%s WHERE nit=%s",
-                           (imagen, pickle.dumps(encoding_imagen), nombre, apellido, email, genero, bachillerato, nie_edit, nit))
+            cursor.execute("UPDATE estudiantes SET imagen=%s, descriptores_faciales=%s, nombre=%s, apellido=%s, correo_electronico=%s, genero=%s, bachillerato=%s, nie=%s WHERE nie=%s",
+                           (imagen, pickle.dumps(encoding_imagen), nombre, apellido, email, genero, bachillerato, nie_edit, nie))
             conn.commit()
 
         cursor.close()
         conn.close()
         return redirect(url_for('AdmiEstu'))
 
-    cursor.execute("SELECT nombre, apellido, nit, correo_electronico, genero, bachillerato FROM estudiantes WHERE nit=%s", (nit,))
+    cursor.execute("SELECT nombre, apellido, nie, correo_electronico, genero, bachillerato FROM estudiantes WHERE nie=%s", (nie,))
     estudiante = cursor.fetchone()
     cursor.close()
     conn.close()
 
-    return render_template('editar_estudiante.html', estudiante=estudiante, nit=nit)
+    return render_template('editar_estudiante.html', estudiante=estudiante, nie=nie)
 
 
 
@@ -487,9 +487,9 @@ def update_estudiantes():
 
     try:
         for update in updates:
-            nit = update['nit']
+            nie = update['nie']
             id_año = update['id_año']
-            cursor.execute("UPDATE estudiantes SET id_año = %s WHERE nit = %s", (id_año, nit))
+            cursor.execute("UPDATE estudiantes SET id_año = %s WHERE nie = %s", (id_año, nie))
         conn.commit()
         return jsonify({'success': True})
     except Exception as e:
@@ -499,12 +499,12 @@ def update_estudiantes():
         cursor.close()
         conn.close()
 
-@app.route('/eliminar_estudiante/<int:nit>', methods=['DELETE'])
-def eliminar_estudiante(nit):
+@app.route('/eliminar_estudiante/<int:nie>', methods=['DELETE'])
+def eliminar_estudiante(nie):
     conn = create_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM estudiantes WHERE nit = %s", (nit,))
+        cursor.execute("DELETE FROM estudiantes WHERE nie = %s", (nie,))
         conn.commit()
         return jsonify({'success': True})
     except Exception as e:
@@ -723,7 +723,7 @@ def submit_estudiante():
         apellido = request.form['apellido']
         correo_electronico = request.form['correo_electronico']
         genero = request.form['genero']
-        nie = request.form['nit']
+        nie = request.form['nie']
         bachillerato = request.form['bachillerato']
         id_año = request.form['id_año']  # Obtener el id_año del formulario
         imagen = request.files['imagen']  # Obtener la imagen del formulario
