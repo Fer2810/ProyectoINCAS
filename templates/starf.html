@@ -3,41 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VideoStreaming</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/starf.css') }}">
-    
-    <title>VideoStreaming</title>
-
     <script language="JavaScript">
-      function mueveReloj(){
-          momentoActual = new Date()
-          hora = momentoActual.getHours()
-          minuto = momentoActual.getMinutes()
-          segundo = momentoActual.getSeconds()
-      
-          str_segundo = new String (segundo)
-          if (str_segundo.length == 1)
-             segundo = "0" + segundo
-      
-          str_minuto = new String (minuto)
-          if (str_minuto.length == 1)
-             minuto = "0" + minuto
-      
-          str_hora = new String (hora)
-          if (str_hora.length == 1)
-             hora = "0" + hora
-      
-          horaImprimible = hora + " : " + minuto + " : " + segundo
-      
-          document.form_reloj.reloj.value = horaImprimible
-      
-          setTimeout("mueveReloj()",1000)
-      }
+        function mueveReloj(){
+            momentoActual = new Date()
+            hora = momentoActual.getHours()
+            minuto = momentoActual.getMinutes()
+            segundo = momentoActual.getSeconds()
+        
+            str_segundo = new String (segundo)
+            if (str_segundo.length == 1)
+                segundo = "0" + segundo
+        
+            str_minuto = new String (minuto)
+            if (str_minuto.length == 1)
+                minuto = "0" + minuto
+        
+            str_hora = new String (hora)
+            if (str_hora.length == 1)
+                hora = "0" + hora
+        
+            horaImprimible = hora + " : " + minuto + " : " + segundo
+        
+            document.form_reloj.reloj.value = horaImprimible
+        
+            setTimeout("mueveReloj()",1000)
+        }
     </script>
-
 </head>
 <body class="container" onload="mueveReloj()">
-
     <p id="fecha"></p>
 
     <script>
@@ -86,53 +82,72 @@
         </form>
 
         <form method="post">
-            <button type="submit" class="btn btn-danger" name="action" value="stop_camera">Apagar Cámara</button>
+            <button type="submit" class="btn btn-danger" name="action" value="stop_camera" onclick="stopRecognition()">Apagar Cámara</button>
         </form>
 
         <a href="/inicio" class="btn btn-info">Volver</a>
     </div>
 
     <script>
-        var studentList = [];
-var registeredStudents = new Set();
+        var allStudentsData = []; // Lista para almacenar los datos de todos los estudiantes
+        var registeredStudents = new Set();
 
-function updateStudentList(nie, nombre, bachillerato) {
-    if (!registeredStudents.has(nie)) {
-        var now = new Date();
-        var formattedTime = now.toLocaleTimeString();
-        var formattedDate = now.toLocaleDateString();
+        function updateStudentList(nie, nombre, bachillerato) {
+            if (!registeredStudents.has(nie)) {
+                var now = new Date();
+                var formattedTime = now.toLocaleTimeString();
+                var formattedDate = now.toLocaleDateString();
 
-        var studentInfoWithTime = `NIE: ${nie}, Nombre: ${nombre}, Bachillerato: ${bachillerato} - Registrado el ${formattedDate} a las ${formattedTime}`;
+                var studentInfoWithTime = `NIE: ${nie}, Nombre: ${nombre}, Bachillerato: ${bachillerato} - Registrado el ${formattedDate} a las ${formattedTime}`;
 
-        registeredStudents.add(nie);
-        var listItem = document.createElement('li');
-        listItem.textContent = studentInfoWithTime;
-        document.getElementById('studentList').appendChild(listItem);
-    }
-}
+                registeredStudents.add(nie);
+                var listItem = document.createElement('li');
+                listItem.textContent = studentInfoWithTime;
+                document.getElementById('studentList').appendChild(listItem);
 
-if (!!window.EventSource) {
-    var source = new EventSource('/student_info');
-    source.addEventListener('message', function(event) {
-        var studentInfo = event.data;
-        var infoArray = studentInfo.split(',');
+                // Agregar todos los datos del estudiante a la lista
+                var studentData = {
+                    nie: nie,
+                    nombre: nombre,
+                    bachillerato: bachillerato,
+                    fecha: formattedDate,
+                    hora: formattedTime
+                };
+                allStudentsData.push(studentData);
+            }
+        }
 
-        var nie = infoArray[0].trim();
-        var nombre = infoArray[1].trim();
-        var bachillerato = infoArray[2].trim();
-        var imageBase64 = infoArray[3].trim();
+        function stopRecognition() {
+            // Llenar el campo oculto con los datos de todos los estudiantes
+            var hiddenInput = document.getElementById('studentData');
+            hiddenInput.value = JSON.stringify(allStudentsData);
 
-        document.getElementById('nie').textContent = nie;
-        document.getElementById('nombre').textContent = nombre;
-        document.getElementById('bachillerato').textContent = bachillerato;
-        document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
+            // Enviar formulario al servidor
+            document.getElementById('studentForm').submit();
+        }
 
-        document.getElementById('studentInfo').style.display = 'block';
-        updateStudentList(nie, nombre, bachillerato);
-    }, false);
-} else {
-    alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
-}
+        if (!!window.EventSource) {
+            var source = new EventSource('/student_info');
+            source.addEventListener('message', function(event) {
+                var studentInfo = event.data;
+                var infoArray = studentInfo.split(',');
+
+                var nie = infoArray[0].trim();
+                var nombre = infoArray[1].trim();
+                var bachillerato = infoArray[2].trim();
+                var imageBase64 = infoArray[3].trim();
+
+                document.getElementById('nie').textContent = nie;
+                document.getElementById('nombre').textContent = nombre;
+                document.getElementById('bachillerato').textContent = bachillerato;
+                document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
+
+                document.getElementById('studentInfo').style.display = 'block';
+                updateStudentList(nie, nombre, bachillerato);
+            }, false);
+        } else {
+            alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
+        }
     </script>
 
     <div id="studentListSection">

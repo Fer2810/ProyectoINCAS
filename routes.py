@@ -1,4 +1,4 @@
-from flask import Flask, Response, render_template, request, redirect, url_for,jsonify
+from flask import Flask, Response, json, render_template, request, redirect, url_for,jsonify
 import mysql.connector
 from camera import generate, start_camera,stop_camera
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
@@ -148,14 +148,22 @@ def clear_presentes():
         conn.close()
         
         
-        
-        
+# Ruta para manejar la solicitud POST desde el cliente
+@app.route('/guardar_estudiantes', methods=['POST'])
+def guardar_estudiantes():
+    student_data = request.form['studentData']
+    students = json.loads(student_data)
 
+    # Insertar los datos de todos los estudiantes en la base de datos
+    for student in students:
+        sql = "INSERT INTO estudiantes (nie, nombre, bachillerato, fecha, hora) VALUES (%s, %s, %s, %s, %s)"
+        val = (student['nie'], student['nombre'], student['bachillerato'], student['fecha'], student['hora'])
+        create_connection.execute(sql, val)
+    create_connection.commit()
 
+    return 'Datos de estudiantes guardados en la base de datos'
         
         
-        
-
 # Ruta para imprimir en la terminal las secciones activas
 @app.route('/print_active_sections', methods=['POST'])
 def print_active_sections():
@@ -515,6 +523,8 @@ def eliminar_estudiante(nie):
         conn.close()
 
 
+
+
 # Ruta para la página de inicio de cámara
 @app.route('/starf', methods=['GET', 'POST'])
 def starf():
@@ -525,6 +535,8 @@ def starf():
             stop_camera()
 
     return render_template('starf.html')
+
+
 
 # Ruta para el feed de video
 @app.route("/video_feed")
