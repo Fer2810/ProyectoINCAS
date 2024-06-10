@@ -13,7 +13,6 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
-# Ruta para mostrar todas las secciones en tarjetas HTML
 
 
 # Ruta para mostrar todas las secciones en tarjetas HTML
