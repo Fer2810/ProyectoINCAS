@@ -114,13 +114,13 @@ def send_email(to_email, message):
 def get_facial_descriptors_and_names_from_db():
     connection = create_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT nit ,nombre, bachillerato, descriptores_faciales FROM estudiantes")
+    cursor.execute("SELECT nie, nombre, bachillerato, descriptores_faciales, imagen FROM presentes")
     rows = cursor.fetchall()
     cursor.close()
     connection.close()
 
     # Convertir los descriptores faciales de bytes a arreglo NumPy y asociarlos con los nombres correspondientes
-    student_data = [(row[0], row[1], row[2], pickle.loads(row[3])) for row in rows]
+    student_data = [(row[0], row[1], row[2], pickle.loads(row[3]), row[4]) for row in rows]
 
     return student_data
 
@@ -132,7 +132,7 @@ def generate_random_password(length=12):
 
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, id_año):
     try:
         cursor = conn.cursor()
 
@@ -141,12 +141,12 @@ def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, b
 
         # Consulta SQL para insertar un estudiante en la tabla Estudiantes
         insert_query = """
-        INSERT INTO Estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, id_año)
+        INSERT INTO Estudiantes (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen, descriptores_faciales, id_año)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
         # Datos a insertar en la tabla
-        data = (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, id_año)
+        data = (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_bytes, id_año)
 
         # Ejecutar la consulta SQL
         cursor.execute(insert_query, data)

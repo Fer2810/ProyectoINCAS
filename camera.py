@@ -1,3 +1,4 @@
+import base64
 import cv2
 import dlib
 import numpy as np
@@ -111,15 +112,15 @@ def generate():
         if primer_rostro_detectado and len(caras) > 0:
             # Comparar los descriptores faciales del primer rostro con los de la base de datos
             for descriptor_actual in [descriptor]:
-                for nie, name, bachillerato, descriptor_db in names_descriptors_from_db:
-                    distance_value = distance.euclidean(descriptor_actual, descriptor_db)
-                    umbral = 0.5
-                    if distance_value < umbral:
-                        last_result = f"MATCH: {name}"
-                        student_info = f" {nie},  {name},  {bachillerato}"
-                        break
-                if last_result is not None:
-                    break
+                for nie, name, bachillerato, descriptor_db, imagen_blob in names_descriptors_from_db:
+                 distance_value = distance.euclidean(descriptor_actual, descriptor_db)
+                 umbral = 0.5
+                 if distance_value < umbral:
+                     last_result = f"MATCH: {name}"
+                     # Convertir la imagen Blob a base64
+                     imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
+                     student_info = f"{nie},{name},{bachillerato},{imagen_base64}"
+                     break             
 
         # Si no se encontró ninguna coincidencia y se detectó el primer rostro, establecer last_result en un valor que indique que el estudiante no está registrado
         if last_result is None and primer_rostro_detectado:

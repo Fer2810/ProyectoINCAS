@@ -17,7 +17,7 @@
     margin-top: 1em;
     position: relative;
     bottom: 1em;
-}
+} 
 
 .button-container {
     position: absolute;
@@ -85,7 +85,7 @@
     transform: translateY(-50%);
     z-index: 999; /* Asegurar que esté por encima del video frame */
     transition: right 0.5s ease; /* Transición suave */
-    margin-top: 9em;
+    margin-top: 11.8em;
     display: none; /* Ocultar la tarjeta por defecto */
 }
 
@@ -109,19 +109,25 @@
 .student-card .profile-img {
     width: 130px;
     height: 150px;
-    margin-top: 45px;
-    margin-left: 3.3em;
+    margin-top: 40px;
+    margin-left: 3em;
     border-radius: 5%;
 }
 
+
+
+
 .student-card .circle {
-    width: 142px;
+    width: 135px;
     height: 161px;
     background-color: #ECEFF1;
     border-radius: 5%;
     margin-top: 40px;
     margin-left: 3em;
+    position: absolute;
 }
+
+
 
 .student-card .text-container {
     margin-right: 50px;

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>STARF</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/verSecciones.css') }}">
 </head>
-
 <body>
 <div class="sidebar" id="sidebar">
     <h2>Administración</h2>
@@ -69,46 +67,192 @@
     </ul>
 </div>
 
-    <button id="menu-toggle">&#9776;</button>
+<div class="main-content">
+        
 
-    <main>
-    <h1>Secciones</h1>
-    <button onclick="printActiveSections()">Imprimir Secciones Activas</button>
-    <br>
-    {% for seccion in secciones %}
-    <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
-        <p>ID Sección: {{ seccion[0] }}</p>
-        <p>Sección: {{ seccion[1] }}</p>
-        <p>Grado Escolar: {{ seccion[2] }}</p>
-        <label>Estado:
-            <input type="checkbox" {% if seccion[4]=='activa' %}checked{% endif %}
-                onclick="toggleState('{{ seccion[0] }}', this.checked)">
-        </label>
+    <div class="container">
+        <h2 class="titulo"><center>Secciones para habilitar</center></h2>
+        <button type="button" id="bootstrapButton"></button>
+        <div class="row">
+            {% for seccion in secciones %}
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="category mb-30">
+                        <div class="job">
+                            <span class="colors1 mb-4">Id: {{ seccion[0] }}</span>
+                            <span class="colors1 mb-4">Sección {{ seccion[1] }}</span>
+                            <h4>Seleccione esta aula para habilitarla</h4>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <!-- Botón para habilitar sección -->
+                                <button type="button" class="buttonSecciones" data-seccion-id="{{ seccion[0] }}"
+                                        data-seccion-estado="{{ seccion[2] }}" onclick="toggleDeactivate(this)">
+                                    {{ 'Habilitar' if seccion[2] == '0' else 'Deshabilitar' }}
+                                </button>
+                                <!-- Botón para editar -->
+                                <button type="button" class="btn-editar" data-seccion-name="{{ seccion[1] }}">Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtener todos los botones de secciones
+        var buttonsSecciones = document.querySelectorAll(".buttonSecciones");
     
-    <script>
-        function toggleState(seccionId, checked) {
-            fetch('/toggle_state', {
+        // Iterar sobre cada botón de sección
+        buttonsSecciones.forEach(function(buttonSecciones) {
+            // Obtener el estado actual del botón
+            var currentState = buttonSecciones.getAttribute("data-seccion-estado");
+    
+            // Función para cambiar el estado y actualizar el botón
+            function toggleDeactivate() {
+                var seccionId = buttonSecciones.getAttribute("data-seccion-id");
+                var seccionEstado = buttonSecciones.getAttribute("data-seccion-estado");
+    
+                fetch('/toggleDeactivate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: seccionId,
+                        state: seccionEstado === '0' ? '1' : '0' // Cambiar de 0 a 1 y viceversa
+                    })
+                }).then(function (response) {
+                    if (response.ok) {
+                        console.log('Estado de la sección actualizado correctamente.');
+                        // Cambiar el estado del botón después de actualizar el estado en el servidor
+                        var newState = seccionEstado === '0' ? '1' : '0';
+                        buttonSecciones.setAttribute("data-seccion-estado", newState);
+    
+                        // Cambiar el texto del botón y el color
+                        if (newState === '1') {
+                            buttonSecciones.textContent = "Deshabilitar";
+                            buttonSecciones.classList.add("disabled"); // Cambiar a rojo
+                        } else {
+                            buttonSecciones.textContent = "Habilitar";
+                            buttonSecciones.classList.remove("disabled"); // Cambiar a verde
+                        }
+    
+                        // Llamar a la función para actualizar los años correspondientes
+                        toggleYears(seccionId, newState);
+                    } else {
+                        console.error('Error al actualizar el estado de la sección.');
+                    }
+                }).catch(function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                });
+            }
+    
+            // Configurar el estado inicial del botón
+            if (currentState === '1') {
+                buttonSecciones.textContent = "Deshabilitar";
+                buttonSecciones.classList.add("disabled"); // Cambiar a rojo
+            } else {
+                buttonSecciones.textContent = "Habilitar";
+                buttonSecciones.classList.remove("disabled"); // Cambiar a verde
+            }
+    
+            // Agregar el evento de clic a cada botón
+            buttonSecciones.addEventListener("click", toggleDeactivate);
+        });
+    
+        // Función para actualizar los años correspondientes a una sección
+        function toggleYears(seccionId, newState) {
+            fetch('/toggleYears', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: seccionId,
-                    state: checked ? 'activa' : 'inactiva'
+                    seccion_id: seccionId,
+                    state: newState
                 })
-            });
-        }
-
-        function printActiveSections() {
-            fetch('/print_active_sections', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+            }).then(function (response) {
+                if (response.ok) {
+                    console.log('Años de la sección actualizados correctamente.');
+                } else {
+                    console.error('Error al actualizar los años de la sección.');
                 }
+            }).catch(function (error) {
+                console.error('Error al realizar la solicitud:', error);
             });
         }
+    });
+    </script>
+    
+    <!--Script para llamar los años de cada seccion en el boton de editar -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var editButtons = document.querySelectorAll(".btn-editar");
+
+            editButtons.forEach(function(button) {
+                button.addEventListener("click", function () {
+                    var seccionName = button.getAttribute("data-seccion-name");
+                    var url = "{{ url_for('secciones', seccion='SECTION_PLACEHOLDER') }}"; // Ruta base con un marcador de posición
+                    url = url.replace('SECTION_PLACEHOLDER', seccionName); // Reemplaza el marcador de posición con el nombre de la sección real
+                    window.location.href = url;
+                });
+            });
+        });
+
+        // Tu lógica de toggleDeactivate y toggleSections
     </script>
 
-    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var bootstrapButton = document.getElementById("bootstrapButton");
+    
+            // Inicializar el botón con el texto "Habilitar Presentes"
+            bootstrapButton.textContent = "Habilitar Presentes";
+            bootstrapButton.classList.add("btn-success");
+    
+            bootstrapButton.addEventListener("click", function () {
+                var url = '';
+                var successMessage = '';
+                var failureMessage = '';
+    
+                if (bootstrapButton.classList.contains("btn-success")) {
+                    url = '/togglePresentes';
+                    successMessage = 'Copia de estudiantes realizada correctamente.';
+                    failureMessage = 'Error al realizar la copia de estudiantes.';
+                } else {
+                    url = '/clearPresentes';
+                    successMessage = 'Tabla presentes vaciada correctamente.';
+                    failureMessage = 'Error al vaciar la tabla presentes.';
+                }
+    
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        console.log(successMessage);
+                        if (bootstrapButton.classList.contains("btn-success")) {
+                            bootstrapButton.textContent = "Desactivar Presentes";
+                            bootstrapButton.classList.remove("btn-success");
+                            bootstrapButton.classList.add("btn-danger");
+                        } else {
+                            bootstrapButton.textContent = "Habilitar Presentes";
+                            bootstrapButton.classList.remove("btn-danger");
+                            bootstrapButton.classList.add("btn-success");
+                        }
+                    } else {
+                        console.error(failureMessage);
+                    }
+                }).catch(function (error) {
+                    console.error('Error al realizar la solicitud:', error);
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

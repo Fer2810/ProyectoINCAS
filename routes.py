@@ -1,4 +1,5 @@
-from flask import Flask, Response, jsonify, render_template, request, redirect, url_for
+from flask import Flask, Response, render_template, request, redirect, url_for,jsonify
+import mysql.connector
 from camera import generate, start_camera,stop_camera
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
 from facial_recognition import extraer_encodings
@@ -12,6 +13,166 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+# Ruta para mostrar todas las secciones en tarjetas HTML
+
+
+# Ruta para mostrar todas las secciones en tarjetas HTML
+@app.route('/verSecciones')
+def verSecciones():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_seccion, seccion, estado FROM secciones")
+    secciones = cursor.fetchall()
+    conn.close()
+    return render_template('verSecciones.html', secciones=secciones)
+
+@app.route('/toggleDeactivate', methods=['POST'])
+def toggle_state():
+    data = request.json
+    seccion_id = data.get('id')
+    state = data.get('state')
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE secciones SET estado = %s WHERE id_seccion = %s", (state, seccion_id))
+        conn.commit()
+        return jsonify({'message': 'Estado de la sección actualizado correctamente'}), 200
+    except mysql.connector.Error as e:
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+@app.route('/secciones/<string:seccion>')
+def secciones(seccion):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_año, seccion, año, estado FROM años WHERE seccion = %s", (seccion,))
+    años = cursor.fetchall()
+    conn.close()
+    return render_template('secciones.html', años=años)
+        
+        
+
+@app.route('/toggleAnio', methods=['POST'])
+def toggle_anio():
+    data = request.get_json()
+    seccion = data['seccion']
+    anio = data['anio']
+    new_state = data['state']
+
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE años SET estado = %s WHERE seccion = %s AND año = %s", (new_state, seccion, anio))
+    conn.commit()
+    conn.close()
+
+    return jsonify(success=True)
+
+
+
+
+@app.route('/toggleYears', methods=['POST'])
+def toggle_years():
+    data = request.json
+    seccion_id = data.get('seccion_id')
+    new_state = data.get('state')
+
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Obtener la sección por id
+        cursor.execute("SELECT seccion FROM secciones WHERE id_seccion = %s", (seccion_id,))
+        seccion = cursor.fetchone()[0]
+
+        # Actualizar el estado de los años de la sección
+        cursor.execute("UPDATE años SET estado = %s WHERE seccion = %s", (new_state, seccion))
+        conn.commit()
+        return jsonify({'message': 'Estados de los años actualizados correctamente'}), 200
+    except mysql.connector.Error as e:
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+        
+@app.route('/togglePresentes', methods=['POST'])
+def toggle_presentes():
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Copiar los estudiantes a la tabla presentes si no existen
+        cursor.execute("""
+            INSERT INTO presentes (nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año)
+            SELECT nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año
+            FROM estudiantes
+            WHERE id_año IN (SELECT id_año FROM años WHERE estado = '1')
+            ON DUPLICATE KEY UPDATE
+                nombre=VALUES(nombre), apellido=VALUES(apellido), correo_electronico=VALUES(correo_electronico),
+                genero=VALUES(genero), bachillerato=VALUES(bachillerato), imagen=VALUES(imagen),
+                descriptores_faciales=VALUES(descriptores_faciales), id_año=VALUES(id_año)
+        """)
+
+        conn.commit()
+        return jsonify({'message': 'Copia de estudiantes realizada correctamente'}), 200
+    except Exception as e:
+        app.logger.error(f"Error: {str(e)}")
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+        
+@app.route('/clearPresentes', methods=['POST'])
+def clear_presentes():
+    try:
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Vaciar la tabla presentes
+        cursor.execute("DELETE FROM presentes")
+
+        conn.commit()
+        return jsonify({'message': 'Tabla presentes vaciada correctamente'}), 200
+    except Exception as e:
+        app.logger.error(f"Error: {str(e)}")
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+        
+        
+        
+        
+
+
+        
+        
+        
+
+# Ruta para imprimir en la terminal las secciones activas
+@app.route('/print_active_sections', methods=['POST'])
+def print_active_sections():
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT id_seccion, seccion FROM secciones WHERE estado = 'activa'")
+        active_sections = cursor.fetchall()
+        for section in active_sections:
+            print(f"ID: {section[0]}, Sección: {section[1]}")
+        return '', 204
+    except Exception as e:
+        print("Error:", e)
+        return str(e), 500
+    finally:
+        conn.close()
 
 
 # Tu código Flask para obtener los datos binarios de la imagen de la base de datos
@@ -562,7 +723,7 @@ def submit_estudiante():
         apellido = request.form['apellido']
         correo_electronico = request.form['correo_electronico']
         genero = request.form['genero']
-        nit = request.form['nit']
+        nie = request.form['nit']
         bachillerato = request.form['bachillerato']
         id_año = request.form['id_año']  # Obtener el id_año del formulario
         imagen = request.files['imagen']  # Obtener la imagen del formulario
@@ -578,7 +739,7 @@ def submit_estudiante():
                 create_table(conn)  # Asegúrate de que la tabla exista
 
                 # Insertar datos en la base de datos
-                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año)
+                insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, id_año)
 
                 # Cerrar la conexión
                 close_connection(conn)
@@ -592,12 +753,12 @@ def submit_estudiante():
 
 
 
-def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_imagen, id_año):
+def insert_estudiante(conn, nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_imagen, id_año):
     cursor = conn.cursor()
     # Convertir el arreglo NumPy a bytes usando pickle
     encoding_bytes = pickle.dumps(encoding_imagen)
-    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen, descriptores_faciales, id_año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                   (nombre, apellido, correo_electronico, genero, nit, bachillerato, imagen_bytes, encoding_bytes, id_año))
+    cursor.execute("INSERT INTO estudiantes (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen, descriptores_faciales, id_año) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (nombre, apellido, correo_electronico, genero, nie, bachillerato, imagen_bytes, encoding_bytes, id_año))
     conn.commit()
     cursor.close()
 
@@ -687,6 +848,16 @@ def insert_año(conn, id_año, año, seccion):
                    (id_año, año, seccion))
     conn.commit()
     cursor.close()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 
