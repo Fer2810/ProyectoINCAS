@@ -108,19 +108,19 @@ def generate():
                     descriptor = np.array(facial_recognition_model.compute_face_descriptor(frame, forma))
                     break
 
-        # Si se ha detectado el primer rostro y hay caras detectadas, proceder con la comparación de descriptores faciales
+       # Si se ha detectado el primer rostro y hay caras detectadas, proceder con la comparación de descriptores faciales
         if primer_rostro_detectado and len(caras) > 0:
-            # Comparar los descriptores faciales del primer rostro con los de la base de datos
             for descriptor_actual in [descriptor]:
                 for nie, name, bachillerato, descriptor_db, imagen_blob in names_descriptors_from_db:
-                 distance_value = distance.euclidean(descriptor_actual, descriptor_db)
-                 umbral = 0.5
-                 if distance_value < umbral:
-                     last_result = f"MATCH: {name}"
-                     # Convertir la imagen Blob a base64
-                     imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
-                     student_info = f"{nie},{name},{bachillerato},{imagen_base64}"
-                     break             
+                    distance_value = distance.euclidean(descriptor_actual, descriptor_db)
+                    umbral = 0.5
+                    if distance_value < umbral:
+                        last_result = f"MATCH: {name}"
+                        imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
+                        student_info = f"{nie},{name},{bachillerato},{imagen_base64}"
+                        break
+                if last_result is not None:
+                    break
 
         # Si no se encontró ninguna coincidencia y se detectó el primer rostro, establecer last_result en un valor que indique que el estudiante no está registrado
         if last_result is None and primer_rostro_detectado:
@@ -132,9 +132,10 @@ def generate():
             processing = True  # Establecer la bandera de procesamiento
 
         # Dibujar un rectángulo alrededor de las caras detectadas y mostrar el resultado en el frame
+        # Dibujar un rectángulo alrededor de las caras detectadas y mostrar el resultado en el frame
         for cara in caras:
             x, y, w, h = cara.left(), cara.top(), cara.width(), cara.height()
-            
+
             # Calcular las coordenadas para centrar el rectángulo en la pantalla
             centro_x = x + w // 2
             centro_y = y + h // 2
@@ -142,32 +143,30 @@ def generate():
             alto_recuadro = 200   # Alto del recuadro de detección facial
             x = centro_x - ancho_recuadro // 2
             y = centro_y - alto_recuadro // 2
-            
+
             # Limitar las coordenadas para asegurarse de que el rectángulo esté dentro de los límites de la pantalla
             x = max(0, x)
             y = max(0, y)
             x = min(frame.shape[1] - ancho_recuadro, x)
             y = min(frame.shape[0] - alto_recuadro, y)
-            
+
             # Dibujar el rectángulo centrado
             cv2.rectangle(frame, (x, y), (x+ancho_recuadro, y+alto_recuadro), (255, 0, 0), 2)
-            
-            # Recortar el frame original para capturar solo la región dentro del rectángulo
-            frame_recortado = frame[y:y+alto_recuadro, x:x+ancho_recuadro]
-            
-            # Realizar la detección facial y comparación de descriptores en el frame recortado
-            # Esto debe realizarse dentro de un nuevo bucle para procesar cada cara detectada dentro del rectángulo
-            
+
+        # Añadir el texto al frame
+        if last_result is not None:
+            cv2.putText(frame, last_result, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
         # Codificar el frame como JPEG para la transmisión
         (flag, encodedImage) = cv2.imencode(".jpg", frame)
         if not flag:
             continue
-        
+
         # Enviar el frame codificado a través de SSE
         yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + bytearray(encodedImage) + b"\r\n"
-        
+
         if student_info is not None:
-            yield b"data: " + student_info.encode() + b"\n\n"
+            yield b"data: " + student_info.encode() + b"\n\n"        
 
 # Asegúrate de que esta parte esté dentro de la función process_video
 if cap is not None:
