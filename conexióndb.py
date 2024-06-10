@@ -124,6 +124,7 @@ def get_facial_descriptors_and_names_from_db():
 
     return student_data
 
+
         
 
 def generate_random_password(length=12):

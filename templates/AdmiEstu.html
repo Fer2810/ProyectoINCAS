@@ -9,78 +9,76 @@
 </head>
 
 <body>
-<div class="sidebar" id="sidebar">
-    <h2>Administración</h2>
-    <ul class="nav">
-        <li>
-            <a href="#">
-                <h4 href="#">Administar Sección</h4>
-            </a>
-            <ul class="dropdown-content">
-                <li><a href="/seccion">Crear Sección</a></li>
-                <li><a href="/CrearAño">Crear Año</a></li>
-                <li><a href="/verSecciones">Ver Sección</a></li>
-                <li><a href="#">Editar</a>
-                    <ul class="dropdown-contents">
-                        <li><a href="/EditarSeccion">Editar Sección </a></li>
-                        <li><a href="/EditarAño">Editar Año</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <h4>Personal</h4>
-            </a>
-            <ul class="dropdown-content">
-                <li><a href="/profesor">Profesor</a></li>
-                <li><a href="/administrador">Administrador</a></li>
-                <li><a href="#">Historial de Personal</a>
-                    <ul class="dropdown-contents">
-                        <li><a href="/formuP">Profesores</a></li>
-                        <li><a href="/formuA">Administradores</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <h4>Estudiante</h4>
-            </a>
-            <ul class="dropdown-content">
-                <li><a href="/estudiante">Registrar Estudiante</a></li>
-                <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="/inicio">
-                <h4>Tomar asistencia STARF</h4>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <h4>Reportes</h4>
-            </a>
-            <ul class="dropdown-content">
-                <li><a href="#">En Tiempo Real</a></li>
-                <li><a href="#">Normal</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <h4 href="#">Administar Sección</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/seccion">Crear Sección</a></li>
+                    <li><a href="/CrearAño">Crear Año</a></li>
+                    <li><a href="/verSecciones">Ver Sección</a></li>
+                    <li><a href="#">Editar</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/EditarSeccion">Editar Sección </a></li>
+                            <li><a href="/EditarAño">Editar Año</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Personal</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Estudiante</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/estudiante">Registrar Estudiante</a></li>
+                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/inicio">
+                    <h4>Tomar asistencia STARF</h4>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Reportes</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="#">En Tiempo Real</a></li>
+                    <li><a href="#">Normal</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
     <button id="menu-toggle">&#9776;</button>
 
     <div class="content">
         <h2>Administrar Estudiante</h2>
-
         <div id="search-container">
-            <input type="text" id="section-search" placeholder="ID Sección">
-            <button class="button-blue" onclick="buscra()">Buscar</button>
+            <div id="action-buttons">
+                <input type="text" id="section-search" placeholder="ID Año">
+                <button class="button-blue" onclick="buscar()">Buscar</button>
+                <button id="modify-btn" onclick="modifyTable()">Modificar</button>
+            </div>
         </div>
-
-        <!-- Agrega el botón para modificar/aplicar -->
-        <button id="modify-btn" onclick="modifyTable()">Modificar</button>
-
         <table id="student-table">
             <thead>
                 <tr>
@@ -91,7 +89,8 @@
                     <th>Género</th>
                     <th>Bachillerato</th>
                     <th>IMG</th>
-                    <th>ID Sección</th>
+                    <th>ID Año</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,19 +98,128 @@
             </tbody>
         </table>
     </div>
-    <!-- Script para el menú aquí -->
-    <!-- Agrega tu código JavaScript aquí para obtener y mostrar los datos de los estudiantes -->
+
     <script src="menu.js"></script>
     <script>
-        // Función para modificar la tabla
+        let modifying = false;
+        let añosCache = [];
+
         function modifyTable() {
-            var button = document.getElementById('modify-btn');
-            if (button.innerHTML === "Modificar") {
-                button.innerHTML = "Aplicar";
-                button.style.backgroundColor = "#0066ff"; // Cambio de color a azul
+            const button = document.getElementById('modify-btn');
+            modifying = !modifying;
+            button.innerHTML = modifying ? "Aplicar" : "Modificar";
+            button.classList.toggle('modify-active', modifying);
+
+            const rows = document.querySelectorAll('#student-table tbody tr');
+            if (modifying) {
+                fetch('/get_años')
+                    .then(response => response.json())
+                    .then(años => {
+                        añosCache = años; // Cache the años data
+                        rows.forEach(row => {
+                            const idAñoCell = row.cells[7]; // ID Año cell index
+                            const currentIdAño = idAñoCell.dataset.idAño; // Get stored id_año value
+                            const select = document.createElement('select');
+                            años.forEach(año => {
+                                const option = document.createElement('option');
+                                option.value = año.id_año;
+                                option.textContent = año.id_año;
+                                if (año.id_año === currentIdAño) {
+                                    option.selected = true;
+                                }
+                                select.appendChild(option);
+                            });
+                            idAñoCell.innerHTML = ''; // Clear the cell
+                            idAñoCell.appendChild(select);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
             } else {
-                button.innerHTML = "Modificar";
-                button.style.backgroundColor = "#06b33a"; // Revierte al color original
+                // Apply changes
+                const updates = [];
+                rows.forEach(row => {
+                    const nie = row.cells[0].textContent.trim();
+                    const select = row.cells[7].querySelector('select');
+                    if (select) {
+                        const selectedIdAño = select.value;
+                        updates.push({ nie, id_año: selectedIdAño });
+                        row.cells[7].dataset.idAño = selectedIdAño; // Store the new id_año value
+                        row.cells[7].innerHTML = selectedIdAño; // Update the cell with selected value
+                    }
+                });
+                if (updates.length > 0) {
+                    fetch('/update_estudiantes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updates),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log('Actualización exitosa');
+                            } else {
+                                console.error('Error al actualizar los estudiantes');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            }
+        }
+
+        function buscar() {
+            const idAño = document.getElementById('section-search').value;
+            fetch(`/buscar_estudiantes?id_año=${idAño}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#student-table tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(estudiante => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${estudiante.nie}</td>
+                            <td>${estudiante.nombre}</td>
+                            <td>${estudiante.apellido}</td>
+                            <td>${estudiante.correo_electronico}</td>
+                            <td>${estudiante.genero}</td>
+                            <td>${estudiante.bachillerato}</td>
+                            <td><img src="data:image/jpeg;base64,${estudiante.imagen}" alt="Imagen de Estudiante" height="50"></td>
+                            <td data-id-año="${estudiante.id_año}">${estudiante.id_año}</td>
+                            <td>
+                                <button onclick="editarEstudiante(${estudiante.nie})">Editar</button>
+                                <button onclick="eliminarEstudiante(${estudiante.nie})">Eliminar</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function editarEstudiante(nie) {
+            window.location.href = `/editar_estudiante/${nie}`;
+        }
+
+       function eliminarEstudiante(nie) {
+            if (confirm('¿Estás seguro de que deseas eliminar este estudiante?')) {
+                fetch(`/eliminar_estudiante/${nie}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Eliminar la fila correspondiente al estudiante eliminado
+                            const row = document.querySelector(`#student-table tbody tr[data-nie="${nie}"]`);
+                            if (row) {
+                                row.remove();
+                                console.log('Estudiante eliminado con éxito');
+                            } else {
+                                console.error('Error: no se encontró la fila del estudiante');
+                            }
+                        } else {
+                            alert('Error al eliminar el estudiante');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             }
         }
     </script>

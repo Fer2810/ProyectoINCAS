@@ -1,4 +1,4 @@
-from flask import Flask, Response, render_template, request, redirect, url_for,jsonify
+from flask import Flask, Response, json, render_template, request, redirect, url_for,jsonify
 import mysql.connector
 from camera import generate, start_camera,stop_camera
 from conexióndb import create_connection, create_table, insert_usuario, close_connection, insert_estudiante, insert_administrador, send_email, authenticate_user, authenticate_userAdmin
@@ -164,7 +164,22 @@ def check_presentes():
         
         
         
+# Ruta para manejar la solicitud POST desde el cliente
+@app.route('/guardar_estudiantes', methods=['POST'])
+def guardar_estudiantes():
+    student_data = request.form['studentData']
+    students = json.loads(student_data)
 
+    # Insertar los datos de todos los estudiantes en la base de datos
+    for student in students:
+        sql = "INSERT INTO estudiantes (nie, nombre, bachillerato, fecha, hora) VALUES (%s, %s, %s, %s, %s)"
+        val = (student['nie'], student['nombre'], student['bachillerato'], student['fecha'], student['hora'])
+        create_connection.execute(sql, val)
+    create_connection.commit()
+
+    return 'Datos de estudiantes guardados en la base de datos'
+        
+        
 # Ruta para imprimir en la terminal las secciones activas
 @app.route('/print_active_sections', methods=['POST'])
 def print_active_sections():
@@ -401,6 +416,131 @@ def AdmiEstu():
   return render_template('AdmiEstu.html')
 
 
+@app.route('/buscar_estudiantes', methods=['GET'])
+def buscar_estudiantes():
+    id_año = request.args.get('id_año')
+    
+    if id_año is None:
+        return jsonify([])  # Devuelve una lista vacía si no se proporciona id_año
+
+    conn = create_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, id_año FROM estudiantes WHERE id_año = %s", (id_año,))
+    estudiantes = cursor.fetchall()
+    
+    registros = []
+    for estudiante in estudiantes:
+        nie = estudiante[0]
+        nombre = estudiante[1]
+        apellido = estudiante[2]
+        correo_electronico = estudiante[3]
+        genero = estudiante[4]
+        bachillerato = estudiante[5]
+        imagen_binaria = estudiante[6]
+        imagen_base64 = base64.b64encode(imagen_binaria).decode('utf-8') if imagen_binaria else None
+        id_año = estudiante[7]
+        registros.append({
+            'nie': nie,
+            'nombre': nombre,
+            'apellido': apellido,
+            'correo_electronico': correo_electronico,
+            'genero': genero,
+            'bachillerato': bachillerato,
+            'imagen': imagen_base64,
+            'id_año': id_año
+        })
+
+    cursor.close()
+    conn.close()
+    
+    return jsonify(registros)
+
+
+@app.route('/editar_estudiante/<int:nie>', methods=['GET', 'POST'])
+def editar_estudiante(nie):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        imagen = request.files['imagen'].read() if request.files['imagen'] else None
+        nie_edit = request.form['nie_edit']  # Nuevo campo para editar el NIE
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        email = request.form['email']
+        genero = request.form['genero']
+        bachillerato = request.form['bachillerato']
+
+        # Extraer los descriptores faciales
+        encoding_imagen = extraer_encodings(imagen)
+
+        if imagen and encoding_imagen is not None:
+            cursor.execute("UPDATE estudiantes SET imagen=%s, descriptores_faciales=%s, nombre=%s, apellido=%s, correo_electronico=%s, genero=%s, bachillerato=%s, nie=%s WHERE nie=%s",
+                           (imagen, pickle.dumps(encoding_imagen), nombre, apellido, email, genero, bachillerato, nie_edit, nie))
+            conn.commit()
+
+        cursor.close()
+        conn.close()
+        return redirect(url_for('AdmiEstu'))
+
+    cursor.execute("SELECT nombre, apellido, nie, correo_electronico, genero, bachillerato FROM estudiantes WHERE nie=%s", (nie,))
+    estudiante = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    return render_template('editar_estudiante.html', estudiante=estudiante, nie=nie)
+
+
+
+@app.route('/get_años', methods=['GET'])
+def get_años():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_año FROM años")
+    años = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify([{"id_año": año[0]} for año in años])
+
+@app.route('/update_estudiantes', methods=['POST'])
+def update_estudiantes():
+    updates = request.json  # Obtener los datos JSON enviados desde el frontend
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    try:
+        for update in updates:
+            nie = update['nie']
+            id_año = update['id_año']
+            cursor.execute("UPDATE estudiantes SET id_año = %s WHERE nie = %s", (id_año, nie))
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Error updating students: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/eliminar_estudiante/<int:nie>', methods=['DELETE'])
+def eliminar_estudiante(nie):
+    conn = create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM estudiantes WHERE nie = %s", (nie,))
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Error deleting student: {e}")
+        return jsonify({'success': False, 'error': str(e)})
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+
 # Ruta para la página de inicio de cámara
 @app.route('/starf', methods=['GET', 'POST'])
 def starf():
@@ -411,6 +551,8 @@ def starf():
             stop_camera()
 
     return render_template('starf.html')
+
+
 
 # Ruta para el feed de video
 @app.route("/video_feed")
