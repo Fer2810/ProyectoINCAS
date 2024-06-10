@@ -208,9 +208,25 @@
         document.addEventListener("DOMContentLoaded", function () {
             var bootstrapButton = document.getElementById("bootstrapButton");
     
-            // Inicializar el botón con el texto "Habilitar Presentes"
-            bootstrapButton.textContent = "Habilitar Presentes";
-            bootstrapButton.classList.add("btn-success");
+            // Verificar el estado de la tabla 'presentes' al cargar la página
+            fetch('/check_presentes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data.has_students) {
+                    bootstrapButton.textContent = "Desactivar Presentes";
+                    bootstrapButton.classList.add("btn-danger");
+                } else {
+                    bootstrapButton.textContent = "Habilitar Presentes";
+                    bootstrapButton.classList.add("btn-success");
+                }
+            }).catch(function (error) {
+                console.error('Error al verificar el estado de presentes:', error);
+            });
     
             bootstrapButton.addEventListener("click", function () {
                 var url = '';

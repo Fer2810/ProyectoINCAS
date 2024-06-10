@@ -147,7 +147,16 @@ def clear_presentes():
         cursor.close()
         conn.close()
         
-        
+@app.route('/check_presentes', methods=['GET'])
+def check_presentes():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM presentes")
+    count = cursor.fetchone()[0]
+    cursor.close()
+    close_connection(conn)
+    return {"has_students": count > 0}
+       
         
         
 
