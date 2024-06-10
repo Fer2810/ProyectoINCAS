@@ -600,7 +600,7 @@ def submit_estudiante():
         apellido = request.form['apellido']
         correo_electronico = request.form['correo_electronico']
         genero = request.form['genero']
-        nie = request.form['nit']
+        nie = request.form['nie']
         bachillerato = request.form['bachillerato']
         id_año = request.form['id_año']  # Obtener el id_año del formulario
         imagen = request.files['imagen']  # Obtener la imagen del formulario
