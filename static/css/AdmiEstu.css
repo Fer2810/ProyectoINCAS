@@ -7,7 +7,6 @@ body {
     align-items: center;
     height: 45vh;
     flex-direction: column;
-    /* Para centrar verticalmente los elementos */
 }
 
 .nav li:hover>ul {
@@ -93,17 +92,38 @@ input[type="text"] {
 
 #search-container {
     display: flex;
+    justify-content: center;
     margin-bottom: 20px;
     width: 100%;
     max-width: 800px;
-    /* Ajusta el ancho máximo según sea necesario */
     padding: 10px;
-    /* Agrega relleno para un mejor espaciado */
 }
 
-#search-container input {
-    margin-right: 25px;
+#action-buttons {
+    display: flex;
+    align-items: center;
 }
+
+#action-buttons input {
+    margin-right: 10px;
+    position: relative;
+    right: 26em;
+}
+
+#action-buttons .button-blue{
+    margin-right: 10px;
+    position: relative;
+    right: 19em;
+}
+
+#action-buttons #modify-btn {
+    margin-right: 10px;
+    position: relative;
+    left: 18em;
+    
+}
+
+
 
 table {
     width: 64rem;
@@ -121,11 +141,18 @@ th {
     font-weight: bold;
 }
 
-.content {
+div.content {
     display: absolute;
     margin-left: 250px;
     padding: 45px;
     justify-content: space-evenly;
+    position: static;
+
+}
+
+#student-table{
+    position: fixed;
+    left: 18em;
 }
 
 .button-blue {
@@ -140,29 +167,19 @@ th {
     align-items: center;
 }
 
-
-/* Estilos para el botón de modificar */
-
 #modify-btn {
-    position: absolute;
-    top: 135px;
-    /* Ajusta la posición vertical según sea necesario */
-    right: 50px;
-    /* Ajusta la posición horizontal según sea necesario */
     background-color: #06b33a;
-    /* Color de fondo verde */
     color: rgb(255, 255, 255);
-    /* Color de texto blanco */
     border: none;
-    /* Sin borde */
     padding: 10px 20px;
-    /* Espaciado interior */
     font-size: 18px;
-    /* Tamaño de fuente */
     cursor: pointer;
-    /* Cursor de apuntar */
     border-radius: 20px;
-    /* Borde redondeado */
+}
+
+#modify-btn.modify-active {
+    background-color: #0066ff;
+    /* Color de fondo azul */
 }
 
 #menu-toggle {
