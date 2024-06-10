@@ -146,6 +146,22 @@ def clear_presentes():
         cursor.close()
         conn.close()
         
+@app.route('/check_presentes', methods=['GET'])
+def check_presentes():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM presentes")
+    count = cursor.fetchone()[0]
+    cursor.close()
+    close_connection(conn)
+    return {"has_students": count > 0}
+       
+        
+        
+
+
+        
+        
         
 # Ruta para manejar la solicitud POST desde el cliente
 @app.route('/guardar_estudiantes', methods=['POST'])
