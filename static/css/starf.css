@@ -21,7 +21,10 @@
 
 .table-bordered{
 margin-bottom: 3em;
+text-align: center;
 }
+
+
 
 .button-container {
     position: absolute;
