@@ -98,12 +98,9 @@
                 var formattedTime = now.toLocaleTimeString();
                 var formattedDate = now.toLocaleDateString();
 
-                var studentInfoWithTime = `NIE: ${nie}, Nombre: ${nombre}, Bachillerato: ${bachillerato} - Registrado el ${formattedDate} a las ${formattedTime}`;
+                var studentInfoWithTime = `${nie},  ${nombre},  ${bachillerato}  ${formattedDate}  ${formattedTime}`;
 
                 registeredStudents.add(nie);
-                var listItem = document.createElement('li');
-                listItem.textContent = studentInfoWithTime;
-                document.getElementById('studentList').appendChild(listItem);
 
                 // Agregar todos los datos del estudiante a la lista
                 var studentData = {
@@ -114,6 +111,19 @@
                     hora: formattedTime
                 };
                 allStudentsData.push(studentData);
+
+                // Actualizar la tabla con los datos del estudiante
+                var tableBody = document.querySelector('.table tbody');
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                   
+                    <td>${nie}</td>
+                    <td>${nombre}</td>
+                    <td>${bachillerato}</td>
+                    <td>${formattedDate}</td>
+                    <td>${formattedTime}</td>
+                `;
+                tableBody.appendChild(newRow);
             }
         }
 
@@ -152,7 +162,22 @@
 
     <div id="studentListSection">
         <h2>Lista de Estudiantes:</h2>
-        <ul id="studentList"></ul>
+        
     </div>
+
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">NIE</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Bachillerato</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se insertarán las filas de estudiantes -->
+        </tbody>
+      </table>
 </body>
 </html>
