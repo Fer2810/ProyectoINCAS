@@ -68,6 +68,7 @@
         <div class="text-container">
             <p class="title-text" id="nie"></p>
             <p class="info-text" id="nombre"></p>
+            <p class="desc-text" id="genero"></p>
             <p class="desc-text" id="bachillerato"></p>
         </div>
     </div>
@@ -88,7 +89,7 @@
         var allStudentsData = []; // Lista para almacenar los datos de todos los estudiantes
         var registeredStudents = new Set();
 
-        function updateStudentList(nie, nombre, bachillerato) {
+        function updateStudentList(nie, nombre, genero, bachillerato) {
             if (!registeredStudents.has(nie)) {
                 var now = new Date();
                 var formattedTime = now.toLocaleTimeString();
@@ -99,32 +100,47 @@
                 var hour = now.getHours();
                 var minute = now.getMinutes();
 
-                if ((hour === 8 && minute >= 0 && minute <= 20) ||
-                    (hour === 12 && minute >= 15 && minute <= 30)) {
-                    entradaTardia = true;
-                }
+                if ((hour === 8 && minute >= 45 && minute <= 59) ||
+                    (hour === 9 && minute >= 0 && minute <= 30)) {
+                    entradaTardia = " Entrada Tardía";
 
-                var studentInfoWithTime = `NIE: ${nie}, Nombre: ${nombre}, Bachillerato: ${bachillerato} - Registrado el ${formattedDate} a las ${formattedTime}`;
-
-                if (entradaTardia) {
-                    studentInfoWithTime += " (Entrada Tardía)";
+                } 
+                else{
+                    entradaTardia = "Entrada a tiempo"
                 }
+                // Lista para registrar los alumnos presentes
+                var studentInfoWithTime = `${nie}, ${nombre}, ${genero}, ${bachillerato}, ${formattedDate}, ${formattedTime}, ${entradaTardia}`;
+                
+
+                
 
                 registeredStudents.add(nie);
-                var listItem = document.createElement('li');
-                listItem.textContent = studentInfoWithTime;
-                document.getElementById('studentList').appendChild(listItem);
 
                 // Agregar todos los datos del estudiante a la lista
                 var studentData = {
                     nie: nie,
                     nombre: nombre,
+                    genero: genero,
                     bachillerato: bachillerato,
                     fecha: formattedDate,
                     hora: formattedTime,
                     entradaTardia: entradaTardia
                 };
                 allStudentsData.push(studentData);
+
+                // Actualizar la tabla con los datos del estudiante
+                var tableBody = document.querySelector('.table tbody');
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${nie}</td>
+                    <td>${nombre}</td>
+                    <td>${genero}</td>
+                    <td>${bachillerato}</td>
+                    <td>${formattedDate}</td>
+                    <td>${formattedTime}</td>
+                    <td>${entradaTardia}</td>
+                `;
+                tableBody.appendChild(newRow);
             }
         }
 
@@ -145,25 +161,44 @@
 
                 var nie = infoArray[0].trim();
                 var nombre = infoArray[1].trim();
-                var bachillerato = infoArray[2].trim();
-                var imageBase64 = infoArray[3].trim();
+                var genero = infoArray[2].trim();
+                var bachillerato = infoArray[3].trim();
+                var imageBase64 = infoArray[4].trim();
 
                 document.getElementById('nie').textContent = nie;
                 document.getElementById('nombre').textContent = nombre;
+                document.getElementById('genero').textContent = genero;
                 document.getElementById('bachillerato').textContent = bachillerato;
                 document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
 
                 document.getElementById('studentInfo').style.display = 'block';
-                updateStudentList(nie, nombre, bachillerato);
+                updateStudentList(nie, nombre, genero, bachillerato, imageBase64);
             }, false);
         } else {
             alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
         }
     </script>
-
+    
     <div id="studentListSection">
         <h2>Lista de Estudiantes:</h2>
-        <ul id="studentList"></ul>
+        
     </div>
+
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">NIE</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Género</th>
+            <th scope="col">Bachillerato</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se insertarán las filas de estudiantes -->
+        </tbody>
+      </table>
 </body>
 </html>

@@ -15,12 +15,19 @@
 
 #videoFrame {
     width: 430px;
-    height: 330px;
+    height: 300px;
     margin-left: 1px;
     margin-top: 1em;
     position: relative;
     bottom: 1em;
 } 
+
+.table-bordered{
+margin-bottom: 3em;
+text-align: center;
+}
+
+
 
 .button-container {
     position: absolute;
