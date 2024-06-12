@@ -8,28 +8,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/starf.css') }}">
     <script language="JavaScript">
         function mueveReloj(){
-            momentoActual = new Date()
-            hora = momentoActual.getHours()
-            minuto = momentoActual.getMinutes()
-            segundo = momentoActual.getSeconds()
-        
-            str_segundo = new String (segundo)
-            if (str_segundo.length == 1)
-                segundo = "0" + segundo
-        
-            str_minuto = new String (minuto)
-            if (str_minuto.length == 1)
-                minuto = "0" + minuto
-        
-            str_hora = new String (hora)
-            if (str_hora.length == 1)
-                hora = "0" + hora
-        
-            horaImprimible = hora + " : " + minuto + " : " + segundo
-        
-            document.form_reloj.reloj.value = horaImprimible
-        
-            setTimeout("mueveReloj()",1000)
+            let momentoActual = new Date();
+            let hora = momentoActual.getHours();
+            let minuto = momentoActual.getMinutes();
+            let segundo = momentoActual.getSeconds();
+
+            let ampm = hora >= 12 ? 'PM' : 'AM';
+            hora = hora % 12;
+            hora = hora ? hora : 12; // La hora 0 debe ser 12
+
+            let str_segundo = segundo < 10 ? "0" + segundo : segundo;
+            let str_minuto = minuto < 10 ? "0" + minuto : minuto;
+            let str_hora = hora < 10 ? "0" + hora : hora;
+
+            let horaImprimible = str_hora + " : " + str_minuto + " : " + str_segundo + " " + ampm;
+
+            document.form_reloj.reloj.value = horaImprimible;
+
+            setTimeout(mueveReloj, 1000);
         }
     </script>
 </head>
@@ -53,7 +49,7 @@
     </script>
     
     <form name="form_reloj" class="reloj">
-        <input type="text" name="reloj" size="10" style="background-color: black; color: white; font-family: Verdana, Arial, Helvetica; font-size: 20px; text-align: center; border: none;" onfocus="window.document.form_reloj.reloj.blur()">
+        <input type="text" name="reloj" size="15" style="background-color: black; color: white; font-family: Verdana, Arial, Helvetica; font-size: 20px; text-align: center; border: none;" onfocus="window.document.form_reloj.reloj.blur()">
     </form>
 
     <center><h1 class="title">Toma de asistencia</h1></center>
@@ -99,7 +95,22 @@
                 var formattedTime = now.toLocaleTimeString();
                 var formattedDate = now.toLocaleDateString();
 
+                // Añadir lógica para determinar si es una entrada tardía
+                var entradaTardia = false;
+                var hour = now.getHours();
+                var minute = now.getMinutes();
+
+                if ((hour === 8 && minute >= 0 && minute <= 20) ||
+                    (hour === 12 && minute >= 15 && minute <= 30)) {
+                    entradaTardia = true;
+                }
+
                 var studentInfoWithTime = `${nie}, ${nombre}, ${genero}, ${bachillerato}, ${formattedDate}, ${formattedTime}`;
+                
+
+                if (entradaTardia) {
+                    studentInfoWithTime += " (Entrada Tardía)";
+                }
 
                 registeredStudents.add(nie);
 
@@ -110,7 +121,8 @@
                     genero: genero,
                     bachillerato: bachillerato,
                     fecha: formattedDate,
-                    hora: formattedTime
+                    hora: formattedTime,
+                    entradaTardia: entradaTardia
                 };
                 allStudentsData.push(studentData);
 

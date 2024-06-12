@@ -13,7 +13,6 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
-# Ruta para mostrar todas las secciones en tarjetas HTML
 
 
 # Ruta para mostrar todas las secciones en tarjetas HTML
@@ -896,6 +895,7 @@ def EditarSeccion():
 @app.route('/EditarAño')
 def EditarAño():
   return render_template('EditarAño.html')
+
 
 if __name__ == '__main__':
   app.run(debug=True)
