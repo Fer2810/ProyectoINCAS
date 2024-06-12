@@ -72,6 +72,7 @@
         <div class="text-container">
             <p class="title-text" id="nie"></p>
             <p class="info-text" id="nombre"></p>
+            <p class="desc-text" id="genero"></p>
             <p class="desc-text" id="bachillerato"></p>
         </div>
     </div>
@@ -92,13 +93,13 @@
         var allStudentsData = []; // Lista para almacenar los datos de todos los estudiantes
         var registeredStudents = new Set();
 
-        function updateStudentList(nie, nombre, bachillerato) {
+        function updateStudentList(nie, nombre, genero, bachillerato) {
             if (!registeredStudents.has(nie)) {
                 var now = new Date();
                 var formattedTime = now.toLocaleTimeString();
                 var formattedDate = now.toLocaleDateString();
 
-                var studentInfoWithTime = `${nie},  ${nombre},  ${bachillerato}  ${formattedDate}  ${formattedTime}`;
+                var studentInfoWithTime = `${nie}, ${nombre}, ${genero}, ${bachillerato}, ${formattedDate}, ${formattedTime}`;
 
                 registeredStudents.add(nie);
 
@@ -106,6 +107,7 @@
                 var studentData = {
                     nie: nie,
                     nombre: nombre,
+                    genero: genero,
                     bachillerato: bachillerato,
                     fecha: formattedDate,
                     hora: formattedTime
@@ -116,9 +118,9 @@
                 var tableBody = document.querySelector('.table tbody');
                 var newRow = document.createElement('tr');
                 newRow.innerHTML = `
-                   
                     <td>${nie}</td>
                     <td>${nombre}</td>
+                    <td>${genero}</td>
                     <td>${bachillerato}</td>
                     <td>${formattedDate}</td>
                     <td>${formattedTime}</td>
@@ -144,22 +146,24 @@
 
                 var nie = infoArray[0].trim();
                 var nombre = infoArray[1].trim();
-                var bachillerato = infoArray[2].trim();
-                var imageBase64 = infoArray[3].trim();
+                var genero = infoArray[2].trim();
+                var bachillerato = infoArray[3].trim();
+                var imageBase64 = infoArray[4].trim();
 
                 document.getElementById('nie').textContent = nie;
                 document.getElementById('nombre').textContent = nombre;
+                document.getElementById('genero').textContent = genero;
                 document.getElementById('bachillerato').textContent = bachillerato;
                 document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
 
                 document.getElementById('studentInfo').style.display = 'block';
-                updateStudentList(nie, nombre, bachillerato);
+                updateStudentList(nie, nombre, genero, bachillerato);
             }, false);
         } else {
             alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
         }
     </script>
-
+    
     <div id="studentListSection">
         <h2>Lista de Estudiantes:</h2>
         
@@ -170,6 +174,7 @@
           <tr>
             <th scope="col">NIE</th>
             <th scope="col">Nombre</th>
+            <th scope="col">Género</th>
             <th scope="col">Bachillerato</th>
             <th scope="col">Fecha</th>
             <th scope="col">Hora</th>

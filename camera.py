@@ -122,13 +122,13 @@ def generate():
             if primer_rostro_detectado and len(caras) > 0 and (current_time - last_compare_time) >= compare_interval:
                 last_compare_time = current_time
                 for descriptor_actual in [descriptor]:
-                    for nie, name, bachillerato, descriptor_db, imagen_blob in names_descriptors_from_db:
+                    for nie, name, genero, bachillerato, descriptor_db, imagen_blob in names_descriptors_from_db:
                         distance_value = distance.euclidean(descriptor_actual, descriptor_db)
                         umbral = 0.5
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
                             imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
-                            student_info = f"{nie},{name},{bachillerato},{imagen_base64}"
+                            student_info = f"{nie},{name},{genero},{bachillerato},{imagen_base64}"
                             break
                     if last_result is not None:
                         break
