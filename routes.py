@@ -876,18 +876,6 @@ def insert_año(conn, id_año, año, seccion):
     conn.commit()
     cursor.close()
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
 @app.route('/EditarSeccion')
 def EditarSeccion():
   return render_template('EditarSeccion.html')

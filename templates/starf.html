@@ -100,17 +100,19 @@
                 var hour = now.getHours();
                 var minute = now.getMinutes();
 
-                if ((hour === 8 && minute >= 0 && minute <= 20) ||
+                if ((hour === 8 && minute >= 40 && minute <= 50) ||
                     (hour === 12 && minute >= 15 && minute <= 30)) {
-                    entradaTardia = true;
-                }
+                    entradaTardia = " Entrada Tardía";
 
-                var studentInfoWithTime = `${nie}, ${nombre}, ${genero}, ${bachillerato}, ${formattedDate}, ${formattedTime}`;
+                } 
+                else{
+                    entradaTardia = "Entrada a tiempo"
+                }
+                // Lista para registrar los alumnos presentes
+                var studentInfoWithTime = `${nie}, ${nombre}, ${genero}, ${bachillerato}, ${formattedDate}, ${formattedTime}, ${entradaTardia}`;
                 
 
-                if (entradaTardia) {
-                    studentInfoWithTime += " (Entrada Tardía)";
-                }
+                
 
                 registeredStudents.add(nie);
 
@@ -136,6 +138,7 @@
                     <td>${bachillerato}</td>
                     <td>${formattedDate}</td>
                     <td>${formattedTime}</td>
+                    <td>${entradaTardia}</td>
                 `;
                 tableBody.appendChild(newRow);
             }
@@ -169,7 +172,7 @@
                 document.getElementById('studentPhoto').src = 'data:image/jpeg;base64,' + imageBase64;
 
                 document.getElementById('studentInfo').style.display = 'block';
-                updateStudentList(nie, nombre, genero, bachillerato);
+                updateStudentList(nie, nombre, genero, bachillerato, imageBase64);
             }, false);
         } else {
             alert("Your browser does not support Server-Sent Events. Please update or use a different browser.");
@@ -190,6 +193,7 @@
             <th scope="col">Bachillerato</th>
             <th scope="col">Fecha</th>
             <th scope="col">Hora</th>
+            <th scope="col">Estado</th>
           </tr>
         </thead>
         <tbody>
