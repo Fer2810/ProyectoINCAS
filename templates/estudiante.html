@@ -14,7 +14,7 @@
         <ul class="nav">
             <li>
                 <a href="#">
-                    <h4 href="#">Administar Sección</h4>
+                    <h4 href="#">Administrar Sección</h4>
                 </a>
                 <ul class="dropdown-content">
                     <li><a href="/seccion">Crear Sección</a></li>
@@ -22,7 +22,7 @@
                     <li><a href="/verSecciones">Ver Sección</a></li>
                     <li><a href="#">Editar</a>
                         <ul class="dropdown-contents">
-                            <li><a href="/EditarSeccion">Editar Sección </a></li>
+                            <li><a href="/EditarSeccion">Editar Sección</a></li>
                             <li><a href="/EditarAño">Editar Año</a></li>
                         </ul>
                     </li>
@@ -49,7 +49,7 @@
                 </a>
                 <ul class="dropdown-content">
                     <li><a href="/estudiante">Registrar Estudiante</a></li>
-                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+                    <li><a href="/AdmiEstu">Administrar Estudiante</a></li>
                 </ul>
             </li>
             <li>
@@ -71,7 +71,6 @@
 
     <button id="menu-toggle">&#9776;</button>
 
-    
     <!-- Formulario -->
     <main>
         <h2>Registrar Estudiante</h2>
@@ -91,7 +90,7 @@
                 <!-- Contenedor para los campos de texto de nombre, NIP e ID de profesor -->
                 <div class="field-container">
                     <label for="NIE"></label>
-                    <input type="text" id="nie" name="nie" placeholder="NIE">  
+                    <input type="text" id="nie" name="nie" placeholder="NIE">
                     <label for="nombre"></label>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre">
                     <label for="genero">Género</label>
@@ -107,7 +106,7 @@
                         <option value="Electricidad">Electricidad</option>
                         <option value="Turismo">Turismo</option>
                         <option value="Agropecuario">Agropecuario</option>
-                        <option value="Contabiduría">Contabiduría</option>
+                        <option value="Contaduría">Contaduría</option>
                     </select>
                 </div>
             </div>
@@ -118,13 +117,13 @@
                     <label for="Apellido"></label>
                     <input type="text" id="Apellido" name="apellido" placeholder="Apellido">
                     <label for="correo electronico"></label>
-                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electronico">
+                    <input type="text" id="correo electronico" name="correo_electronico" placeholder="Correo electrónico">
                     <br>
-                    <label for="seccion">ID Año</label>
-                    <select id="seccion" name="id_año">
+                    <label for="id_año">ID Año y Sección</label>
+                    <select id="id_año" name="id_año">
                         <!-- Las opciones se cargarán dinámicamente -->
-                        {% for año in años %}
-                        <option value="{{ año[0] }}">{{ año[0] }}</option>
+                        {% for año, seccion in años %}
+                        <option value="{{ año }}">{{ año }} - {{ seccion }}</option>
                         {% endfor %}
                     </select>
                     <input type="submit" value="Guardar">

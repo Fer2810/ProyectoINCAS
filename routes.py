@@ -729,16 +729,17 @@ def estudiante():
     conn = create_connection()
     cursor = conn.cursor()
 
-    # Obtener los id_año de la tabla años
-    cursor.execute("SELECT id_año FROM años")
+    # Obtener los id_año y seccion de la tabla años
+    cursor.execute("SELECT id_año, seccion FROM años")
     años = cursor.fetchall()
 
     # Cerrar la conexión
     cursor.close()
     conn.close()
 
-    # Pasar los id_año a la plantilla
+    # Pasar los id_año y seccion a la plantilla
     return render_template('estudiante.html', años=años)
+
 
 
 
