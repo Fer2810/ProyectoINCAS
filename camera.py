@@ -5,7 +5,7 @@ import numpy as np
 from flask import Flask, Response
 from scipy.spatial import distance
 import threading
-from conexióndb import get_facial_descriptors_and_names_from_db
+from conexióndb import get_facial_descriptors_and_names_from_db, actualizar_estado_estudiante
 
 app = Flask(__name__)
 
@@ -81,7 +81,7 @@ def improve_image_quality(frame):
 
 # Función para procesar el video
 def generate():
-    global descriptor, last_result, processing, student_info, names_descriptors_from_db, primer_rostro_detectado, stable_face_count, detected_face
+    global descriptor, last_result, processing, names_descriptors_from_db, primer_rostro_detectado, stable_face_count, detected_face
 
     # Realizar comparaciones cada 1 segundo
     compare_interval = 1
@@ -129,6 +129,9 @@ def generate():
                             last_result = f"MATCH: {name}"
                             imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
                             student_info = f"{nie},{name},{genero},{bachillerato},{imagen_base64}"
+                            
+                            # Actualizar estado en la base de datos
+                            actualizar_estado_estudiante(nie)
                             break
                     if last_result is not None:
                         break
