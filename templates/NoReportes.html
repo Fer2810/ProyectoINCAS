@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reportes.css') }}">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>Administración</h2>
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <h4>Administar Sección</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/seccion">Crear Sección</a></li>
+                    <li><a href="/CrearAño">Crear Año</a></li>
+                    <li><a href="/verSecciones">Ver Sección</a></li>
+                    <li><a href="#">Editar</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/EditarSeccion">Editar Sección</a></li>
+                            <li><a href="/EditarAño">Editar Año</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Personal</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/profesor">Profesor</a></li>
+                    <li><a href="/administrador">Administrador</a></li>
+                    <li><a href="#">Historial de Personal</a>
+                        <ul class="dropdown-contents">
+                            <li><a href="/formuP">Profesores</a></li>
+                            <li><a href="/formuA">Administradores</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Estudiante</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/estudiante">Registrar Estudiante</a></li>
+                    <li><a href="/AdmiEstu">Admistrar Estudiante</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/inicio">
+                    <h4>Tomar asistencia STARF</h4>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <h4>Reportes</h4>
+                </a>
+                <ul class="dropdown-content">
+                    <li><a href="/reportes">Reportes de asistencia</a></li>
+                    <li><a href="/NoReportes">Reportes de No asistencia</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+ <!-- Contenedor principal para el formulario, gráfico y tabla -->
+ <div class="container">
+    <!-- Contenedor para el formulario y el gráfico en la misma fila -->
+    <div class="form-graph-container">
+        <!-- Formulario de filtros -->
+        <div class="form-container">
+            <h2>Reportes de Asistencia</h2>
+            <form method="GET" action="/NoReportes">
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <select name="genero" id="genero">
+                        <option value="">--Seleccionar--</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="masculino">Masculino</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_año">ID Año:</label>
+                    <input type="text" name="id_año" id="id_año">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nie">NIE:</label>
+                    <input type="text" name="nie" id="nie">
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha_registro">Fecha de Registro:</label>
+                    <input type="date" name="fecha_registro" id="fecha_registro">
+                </div>
+                
+                <div class="form-group">
+                    <label for="bachillerato">Bachillerato:</label>
+                    <input type="text" name="bachillerato" id="bachillerato">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Generar Reporte</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Contenedor para el gráfico de asistencia -->
+        <div class="report-graph">
+            {% if image_base64 %}
+                <img src="data:image/png;base64,{{ image_base64 }}" alt="Gráfico de Asistencia">
+            {% else %}
+                <p>No hay datos para mostrar.</p>
+            {% endif %}
+        </div>
+    </div>
+
+   <!-- Contenedor para la tabla de resultados de asistencia -->
+<div class="report-table">
+<h3>Resultados de Asistencia</h3>
+<div class="download-buttons">
+    <button id="exportExcel">Exportar a Excel</button>
+    <button id="exportPDF">Exportar a PDF</button>
+</div>
+{% if rows %}
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NIE</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Bachillerato</th>
+                <th>Género</th>
+                <th>ID Año</th>
+                <th>Fecha Registro</th>
+                <th>Justificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row['id'] }}</td>
+                    <td>{{ row['nie'] }}</td>
+                    <td>{{ row['nombre'] }}</td>
+                    <td>{{ row['apellido'] }}</td>
+                    <td>{{ row['bachillerato'] }}</td>
+                    <td>{{ row['genero'] }}</td>
+                    <td>{{ row['id_año'] }}</td>
+                    <td>{{ row['fecha_registro'] }}</td>
+                    <td>{{ row['justificacion_asistencia'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No hay datos disponibles para mostrar en la tabla.</p>
+{% endif %}
+</div>
+<script>
+document.getElementById('exportExcel').addEventListener('click', function() {
+    const wb = XLSX.utils.table_to_book(document.getElementById('dataTable'));
+    XLSX.writeFile(wb, 'reporte_asistencia.xlsx');
+});
+
+document.getElementById('exportPDF').addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.autoTable({ html: '#dataTable' });
+    doc.save('reporte_asistencia.pdf');
+});
+</script>    
+</body>
+</html>
