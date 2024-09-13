@@ -83,7 +83,7 @@
                             <h4>Seleccione esta aula para habilitarla</h4>
                             <div class="d-flex align-items-center justify-content-between">
                                 <!-- Botón para habilitar sección -->
-                                <button type="button" class="buttonSecciones" data-seccion-id="{{ seccion[0] }}"
+                                <button type="button" class="buttonSecciones" data-seccion-id="{{ seccion[0] }}" 
                                         data-seccion-estado="{{ seccion[2] }}" onclick="toggleDeactivate(this)">
                                     {{ 'Habilitar' if seccion[2] == '0' else 'Deshabilitar' }}
                                 </button>

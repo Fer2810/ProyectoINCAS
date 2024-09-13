@@ -5,7 +5,7 @@ import numpy as np
 from flask import Flask, Response
 from scipy.spatial import distance
 import threading
-from conexióndb import get_facial_descriptors_and_names_from_db
+from conexióndb import get_facial_descriptors_and_names_from_db, actualizar_estado_estudiante
 
 app = Flask(__name__)
 
@@ -91,7 +91,7 @@ def generate():
         try:
             ret, frame = cap.read()
             if not ret or frame is None:
-                print("Error al capturar el frame")
+                #print("Error al capturar el frame")
                 continue  # Saltar este frame y continuar con el siguiente
 
             gray = improve_image_quality(frame)
@@ -129,6 +129,8 @@ def generate():
                             last_result = f"MATCH: {name}"
                             imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
                             student_info = f"{nie},{name},{genero},{bachillerato},{imagen_base64}"
+                            #Actualiza el estado en la tabla presentes
+                            actualizar_estado_estudiante(nie)
                             break
                     if last_result is not None:
                         break

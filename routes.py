@@ -5,7 +5,14 @@ from conexióndb import create_connection, create_table, insert_usuario, close_c
 from facial_recognition import extraer_encodings
 from datetime import datetime
 import pickle
+import matplotlib.pyplot as plt 
 import base64
+from turtle import pd
+import io
+import pandas as pd
+from flask_cors import CORS
+import mplcursors
+
 
 app = Flask(__name__)
 
@@ -23,7 +30,7 @@ def verSecciones():
     cursor.execute("SELECT id_seccion, seccion, estado FROM secciones")
     secciones = cursor.fetchall()
     conn.close()
-    return render_template('verSecciones.html', secciones=secciones)
+    return render_template('verSecciones.html', secciones=secciones) 
 
 @app.route('/toggleDeactivate', methods=['POST'])
 def toggle_state():
@@ -106,14 +113,15 @@ def toggle_presentes():
 
         # Copiar los estudiantes a la tabla presentes si no existen
         cursor.execute("""
-            INSERT INTO presentes (nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año)
-            SELECT nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año
+            INSERT INTO presentes (nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año, estado)
+            SELECT nie, nombre, apellido, correo_electronico, genero, bachillerato, imagen, descriptores_faciales, id_año, 0
             FROM estudiantes
             WHERE id_año IN (SELECT id_año FROM años WHERE estado = '1')
             ON DUPLICATE KEY UPDATE
                 nombre=VALUES(nombre), apellido=VALUES(apellido), correo_electronico=VALUES(correo_electronico),
                 genero=VALUES(genero), bachillerato=VALUES(bachillerato), imagen=VALUES(imagen),
-                descriptores_faciales=VALUES(descriptores_faciales), id_año=VALUES(id_año)
+                descriptores_faciales=VALUES(descriptores_faciales), id_año=VALUES(id_año),
+                estado=VALUES(estado)
         """)
 
         conn.commit()
@@ -883,6 +891,148 @@ def EditarSeccion():
 @app.route('/EditarAño')
 def EditarAño():
   return render_template('EditarAño.html')
+
+
+@app.route('/reportes', methods=['GET'])
+def ver_reportes():
+    # Obtener los parámetros de la solicitud
+    genero = request.args.get('genero')
+    id_año = request.args.get('id_año')
+    nie = request.args.get('nie')
+    fecha_registro = request.args.get('fecha_registro')
+    bachillerato = request.args.get('bachillerato')
+
+    # Construir la consulta SQL con los filtros aplicados
+    query = "SELECT * FROM asistencia_general WHERE 1=1"
+    params = []
+
+    if genero:
+        query += " AND genero = %s"
+        params.append(genero)
+    if id_año:
+        query += " AND id_año = %s"
+        params.append(id_año)
+    if nie:
+        query += " AND nie = %s"
+        params.append(nie)
+    if fecha_registro:
+        query += " AND fecha_registro = %s"
+        params.append(fecha_registro)
+    if bachillerato:
+        query += " AND bachillerato = %s"
+        params.append(bachillerato)
+
+    # Ejecutar la consulta en la base de datos
+    conn = create_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Crear un DataFrame de pandas con los resultados
+    df = pd.DataFrame(rows)
+
+    # Crear la gráfica
+    fig, ax = plt.subplots(figsize=(6, 6))
+    image_base64 = None
+    if not df.empty:
+        if 'genero' in df.columns:
+            counts = df['genero'].value_counts()
+            wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
+            ax.set_title('Distribución por Género')
+        elif 'id_año' in df.columns:
+            counts = df['id_año'].value_counts()
+            wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
+            ax.set_title('Distribución por Año')
+        else:
+            ax.text(0.5, 0.5, 'No hay datos para los filtros seleccionados.', fontsize=12, ha='center')
+
+        # Añadir tooltips con mplcursors
+        mpl_cursor = mplcursors.cursor(wedges, hover=True)
+        mpl_cursor.connect("add", lambda sel: sel.annotation.set_text(f'{counts[sel.index]} registros'))
+
+        # Guardar la gráfica en un buffer y codificarla en Base64
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+        buf.close()
+
+    return render_template('reportes.html', image_base64=image_base64, rows=rows)
+
+
+@app.route('/NoReportes', methods=['GET'])
+def ver_NoReportes():
+    # Obtener los parámetros de la solicitud
+    genero = request.args.get('genero')
+    id_año = request.args.get('id_año')
+    nie = request.args.get('nie')
+    fecha_registro = request.args.get('fecha_registro')
+    bachillerato = request.args.get('bachillerato')
+
+    # Construir la consulta SQL con los filtros aplicados
+    query = "SELECT * FROM no_asistencia_general WHERE 1=1"
+    params = []
+
+    if genero:
+        query += " AND genero = %s"
+        params.append(genero)
+    if id_año:
+        query += " AND id_año = %s"
+        params.append(id_año)
+    if nie:
+        query += " AND nie = %s"
+        params.append(nie)
+    if fecha_registro:
+        query += " AND fecha_registro = %s"
+        params.append(fecha_registro)
+    if bachillerato:
+        query += " AND bachillerato = %s"
+        params.append(bachillerato)
+
+    # Ejecutar la consulta en la base de datos
+    conn = create_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Crear un DataFrame de pandas con los resultados
+    df = pd.DataFrame(rows)
+
+    # Crear la gráfica
+    fig, ax = plt.subplots(figsize=(6, 6))
+    image_base64 = None
+    if not df.empty:
+        if 'genero' in df.columns:
+            counts = df['genero'].value_counts()
+            wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
+            ax.set_title('Distribución por Género')
+        elif 'id_año' in df.columns:
+            counts = df['id_año'].value_counts()
+            wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
+            ax.set_title('Distribución por Año')
+        else:
+            ax.text(0.5, 0.5, 'No hay datos para los filtros seleccionados.', fontsize=12, ha='center')
+
+        # Añadir tooltips con mplcursors
+        mpl_cursor = mplcursors.cursor(wedges, hover=True)
+        mpl_cursor.connect("add", lambda sel: sel.annotation.set_text(f'{counts[sel.index]} registros'))
+
+        # Guardar la gráfica en un buffer y codificarla en Base64
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+        buf.close()
+
+    return render_template('NoReportes.html', image_base64=image_base64,rows=rows)
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
