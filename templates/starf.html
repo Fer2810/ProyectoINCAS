@@ -94,29 +94,28 @@
                 var now = new Date();
                 var formattedTime = now.toLocaleTimeString();
                 var formattedDate = now.toLocaleDateString();
-
-                // Añadir lógica para determinar si es una entrada tardía
-                var entradaTardia = false;
+        
                 var hour = now.getHours();
                 var minute = now.getMinutes();
-
-                if ((hour === 8 && minute >= 45 && minute <= 59) ||
-                    (hour === 9 && minute >= 0 && minute <= 30)) {
-                    entradaTardia = " Entrada Tardía";
-
-                } 
-                else{
-                    entradaTardia = "Entrada a tiempo"
+        
+                var entradaTardia = '';
+        
+                // Lógica clara para definir el estado de entrada
+                if (hour >= 6 && hour < 7) {
+                    entradaTardia = "Entrada a tiempo"; // De 6:00 am a 6:59 am
+                } else if (hour >= 7 && hour < 12) {
+                    entradaTardia = "Entrada tardía";  // De 7:00 am a 11:59 am
+                } else if (hour === 12 && minute < 30) {
+                    entradaTardia = "Entrada tardía";  // De 12:00 pm a 12:29 pm
+                } else if (hour === 12 && minute >= 30 && minute < 60) {
+                    entradaTardia = "Entrada a tiempo"; // De 12:30 pm a 12:59 pm
+                } else if (hour >= 13 && hour < 17) {
+                    entradaTardia = "Entrada tardía";  // De 1:00 pm a 4:59 pm
+                } else {
+                    entradaTardia = "Fuera del horario";  // Cualquier otro horario
                 }
-                // Lista para registrar los alumnos presentes
-                var studentInfoWithTime = `${nie}, ${nombre}, ${genero}, ${bachillerato}, ${formattedDate}, ${formattedTime}, ${entradaTardia}`;
-                
-
-                
-
-                registeredStudents.add(nie);
-
-                // Agregar todos los datos del estudiante a la lista
+        
+                // Datos del estudiante con hora y estado de entrada
                 var studentData = {
                     nie: nie,
                     nombre: nombre,
@@ -126,8 +125,10 @@
                     hora: formattedTime,
                     entradaTardia: entradaTardia
                 };
+                
                 allStudentsData.push(studentData);
-
+                registeredStudents.add(nie);
+        
                 // Actualizar la tabla con los datos del estudiante
                 var tableBody = document.querySelector('.table tbody');
                 var newRow = document.createElement('tr');
@@ -143,6 +144,7 @@
                 tableBody.appendChild(newRow);
             }
         }
+        
 
         function stopRecognition() {
             // Llenar el campo oculto con los datos de todos los estudiantes

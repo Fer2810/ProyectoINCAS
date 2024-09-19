@@ -151,7 +151,7 @@ div.content {
 }
 
 #student-table{
-    position: fixed;
+    position: absolute;
     left: 18em;
 }
 

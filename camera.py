@@ -79,6 +79,12 @@ def improve_image_quality(frame):
     gray = cv2.equalizeHist(gray)  # Ecualización del histograma
     return gray
 
+def mejorar_iluminacion(imagen):
+    imagen_yuv = cv2.cvtColor(imagen, cv2.COLOR_BGR2YUV)
+    imagen_yuv[:, :, 0] = cv2.equalizeHist(imagen_yuv[:, :, 0])
+    imagen_mejorada = cv2.cvtColor(imagen_yuv, cv2.COLOR_YUV2BGR)
+    return imagen_mejorada
+
 # Función para procesar el video
 def generate():
     global descriptor, last_result, processing, student_info, names_descriptors_from_db, primer_rostro_detectado, stable_face_count, detected_face
@@ -118,18 +124,21 @@ def generate():
                         stable_face_count = 0  # Resetear el contador de estabilidad
 
             # Si se ha detectado el primer rostro y hay caras detectadas, proceder con la comparación de descriptores faciales
+            
+
+
             current_time = cv2.getTickCount() / cv2.getTickFrequency()
             if primer_rostro_detectado and len(caras) > 0 and (current_time - last_compare_time) >= compare_interval:
                 last_compare_time = current_time
                 for descriptor_actual in [descriptor]:
                     for nie, name, genero, bachillerato, descriptor_db, imagen_blob in names_descriptors_from_db:
                         distance_value = distance.euclidean(descriptor_actual, descriptor_db)
-                        umbral = 0.5
+                        umbral = 0.4  # Umbral más estricto
                         if distance_value < umbral:
                             last_result = f"MATCH: {name}"
                             imagen_base64 = base64.b64encode(imagen_blob).decode('utf-8')
                             student_info = f"{nie},{name},{genero},{bachillerato},{imagen_base64}"
-                            #Actualiza el estado en la tabla presentes
+                            # Actualiza el estado en la tabla presentes
                             actualizar_estado_estudiante(nie)
                             break
                     if last_result is not None:
