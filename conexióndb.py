@@ -139,19 +139,6 @@ def actualizar_estado_estudiante(nie):
         print(f"Error al actualizar la base de datos: {err}")
 
 
-def actualizar_estado_estudiante(nie):
-    """Actualizar el estado de un estudiante en la base de datos."""
-    try:
-        conn = create_connection()
-        cursor = conn.cursor()
-        query = "UPDATE presentes SET estado = 1 WHERE nie = %s"
-        cursor.execute(query, (nie,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-    except mysql.connector.Error as err:
-        print(f"Error al actualizar la base de datos: {err}")   
-
 def generate_random_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choice(characters) for _ in range(length))
