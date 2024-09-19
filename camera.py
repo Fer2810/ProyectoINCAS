@@ -91,7 +91,7 @@ def generate():
         try:
             ret, frame = cap.read()
             if not ret or frame is None:
-                print("Error al capturar el frame")
+                #print("Error al capturar el frame")
                 continue  # Saltar este frame y continuar con el siguiente
 
             gray = improve_image_quality(frame)

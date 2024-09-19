@@ -1,6 +1,6 @@
 from routes import app
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
-    
-app.static_folder = 'static' 
+    app.run(debug=True, host='0.0.0.0', port=3000)  # Cambia 5000 por el puerto que desees
+
+app.static_folder = 'static'
