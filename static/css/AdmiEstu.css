@@ -151,7 +151,7 @@ div.content {
 }
 
 #student-table{
-    position: fixed;
+    position: absolute;
     left: 18em;
 }
 
@@ -185,6 +185,28 @@ div.content {
 #menu-toggle {
     display: none;
 }
+
+.table-container {
+    max-height: 400px; /* Ajusta esta altura según tu preferencia */
+    overflow-y: auto;  /* Habilita el scroll vertical */
+    margin-left: 18em;
+}
+
+table {
+    width: 64rem;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
 
 @media screen and (max-width: 768px) {
     .sidebar {

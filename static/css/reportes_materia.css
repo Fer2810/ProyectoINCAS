@@ -78,7 +78,6 @@ body {
     display: block;
 }
 
-/* Estilos para el contenido principal a la derecha del menú lateral */
 .container {
     display: flex;
     flex-direction: column;
@@ -86,18 +85,16 @@ body {
     align-items: flex-start;
     width: 100%;
     max-width: 1200px;
-    margin-left: 260px; /* Ajusta este margen según el ancho de tu barra lateral */
+    margin-left: 260px;
     padding: 20px;
-    height: calc(100vh - 40px); /* Altura total menos el padding */
+    height: calc(100vh - 40px);
 }
 
-/* Contenedor para alinear formulario y gráfica uno al lado del otro */
 .form-graph-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    flex-shrink: 0; /* No permitir que se reduzca en tamaño */
-    margin-bottom: 20px; /* Espacio entre el formulario/gráfico y la tabla */
+    margin-bottom: 20px;
 }
 
 .form-container, .report-graph {
@@ -106,12 +103,12 @@ body {
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     flex: 1;
-    margin-right: 20px; /* Espacio entre el formulario y la gráfica */
-    height: 100%; /* Mantener altura constante */
+    margin-right: 20px;
+    height: 100%;
 }
 
 .report-graph {
-    margin-right: 0; /* Eliminar margen derecho en el gráfico */
+    margin-right: 0;
 }
 
 .form-container h2 {
@@ -158,13 +155,12 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo para la tabla de resultados */
 .report-table {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 40px; /* Espacio adicional entre la gráfica y la tabla */
+    margin-top: 40px;
 }
 
 .report-table h3 {
@@ -172,7 +168,6 @@ body {
     color: #333;
 }
 
-/* Estilo para la tabla */
 .report-table table {
     width: 100%;
     border-collapse: collapse;
@@ -204,9 +199,8 @@ body {
     line-height: 1.5;
 }
 
-/* Estilo para los botones de exportación */
 .download-buttons {
-    margin-bottom: 20px; /* Espacio entre los botones y la tabla */
+    margin-bottom: 20px;
 }
 
 .download-buttons button {
@@ -229,7 +223,6 @@ body {
     cursor: not-allowed;
 }
 
-/* Ajuste para que la tabla se vea bien en dispositivos móviles */
 @media screen and (max-width: 768px) {
     .sidebar {
         display: none;
@@ -264,22 +257,22 @@ body {
     }
 
     .container {
-        margin-left: 0; /* Ajusta el margen para pantallas pequeñas */
+        margin-left: 0;
         padding: 10px;
     }
 
     .form-graph-container {
-        flex-direction: column; /* Apilar formulario y gráfica en columna para móviles */
+        flex-direction: column;
     }
 
     .form-container, .report-graph {
-        margin-right: 0; /* Eliminar margen en dispositivos móviles */
-        margin-bottom: 20px; /* Añadir espacio entre el formulario y la gráfica en móviles */
+        margin-right: 0;
+        margin-bottom: 20px;
     }
 
     .report-table {
         padding: 10px;
-        margin-top: 20px; /* Ajustar el margen superior en móviles */
+        margin-top: 20px;
     }
 
     .report-table th, .report-table td {

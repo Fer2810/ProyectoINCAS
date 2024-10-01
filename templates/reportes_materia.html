@@ -71,111 +71,123 @@
         </ul>
     </div>
 
-    <!-- Contenedor principal para el formulario, gráfico y tabla -->
-    <div class="container">
-        <!-- Contenedor para el formulario y el gráfico en la misma fila -->
-        <div class="form-graph-container">
-            <!-- Formulario de filtros -->
-            <div class="form-container">
-                <h2>Reportes de Asistencia</h2>
-                <form method="GET" action="/reportes_materia">
-                    <div class="form-group">
-                        <label for="genero">Género:</label>
-                        <select name="genero" id="genero">
-                            <option value="">--Seleccionar--</option>
-                            <option value="femenino">Femenino</option>
-                            <option value="masculino">Masculino</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="id_año">ID Año:</label>
-                        <input type="text" name="id_año" id="id_año">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="nie">NIE:</label>
-                        <input type="text" name="nie" id="nie">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="fecha_registro">Fecha de Registro:</label>
-                        <input type="date" name="fecha_registro" id="fecha_registro">
-                    </div>
-                    
-                    
+<!-- Contenedor principal para el formulario, gráfico y tabla -->
+<div class="container">
+    <!-- Contenedor para el formulario y el gráfico en la misma fila -->
+    <div class="form-graph-container">
+        <!-- Formulario de filtros -->
+        <div class="form-container">
+            <h2>Reportes de Asistencia</h2>
+            <form method="GET" action="/reportes_materia">
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <select name="genero" id="genero">
+                        <option value="">--Seleccionar--</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="masculino">Masculino</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_año">ID Año:</label>
+                    <input type="text" name="id_año" id="id_año">
+                </div>
 
-                    <div class="form-group">
-                        <button type="submit">Generar Reporte</button>
-                    </div>
-                </form>
-            </div>
+                <div class="form-group">
+                    <label for="materia">Materia:</label>
+                    <input type="text" name="materia" id="materia">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profesor">Profesor:</label>
+                    <input type="text" name="profesor" id="profesor">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nie">NIE:</label>
+                    <input type="text" name="nie" id="nie">
+                </div>
 
-            <!-- Contenedor para el gráfico de asistencia -->
-            <div class="report-graph">
-                {% if image_base64 %}
-                    <img src="data:image/png;base64,{{ image_base64 }}" alt="Gráfico de Asistencia">
-                {% else %}
-                    <p>No hay datos para mostrar.</p>
-                {% endif %}
-            </div>
+                <div class="form-group">
+                    <label for="fecha_registro">Fecha de Registro:</label>
+                    <input type="date" name="fecha_registro" id="fecha_registro">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Generar Reporte</button>
+                </div>
+            </form>
         </div>
 
-       <!-- Contenedor para la tabla de resultados de asistencia -->
-<div class="report-table">
-    <h3>Resultados de Asistencia</h3>
-    <div class="download-buttons">
-        <button id="exportExcel">Exportar a Excel</button>
-        <button id="exportPDF">Exportar a PDF</button>
+        <!-- Contenedor para el gráfico de asistencia -->
+        <div class="report-graph">
+            {% if image_base64 %}
+                <img src="data:image/png;base64,{{ image_base64 }}" alt="Gráfico de Asistencia">
+            {% else %}
+                <p>No hay datos para mostrar.</p>
+            {% endif %}
+        </div>
     </div>
-    {% if rows %}
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>NIE</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Materia</th>
-                    <th>Profesor</th>
-                    <th>ID Año</th>
-                    <th>Fecha Registro</th>
-                    <th>Justificación</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in rows %}
+
+    <!-- Contenedor para la tabla de resultados de asistencia -->
+    <div class="report-table">
+        <h3>Resultados de Asistencia</h3>
+        <div class="download-buttons">
+            <button id="exportExcel">Exportar a Excel</button>
+            <button id="exportPDF">Exportar a PDF</button>
+        </div>
+        {% if rows %}
+            <table id="dataTable">
+                <thead>
                     <tr>
-                        <td>{{ row['id'] }}</td>
-                        <td>{{ row['NIE'] }}</td>
-                        <td>{{ row['Nombre'] }}</td>
-                        <td>{{ row['Apellido'] }}</td>
-                        <td>{{ row['Materia'] }}</td>
-                        <td>{{ row['Profesor'] }}</td>
-                        <td>{{ row['id_año'] }}</td>
-                        <td>{{ row['fecha_registro'] }}</td>
-                        <td>{{ row['justificacion_asistencia'] }}</td>
+                        <th>ID</th>
+                        <th>NIE</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Materia</th>
+                        <th>Profesor</th>
+                        <th>ID Año</th>
+                        <th>Fecha Registro</th>
+                        <th>Justificación</th>
+                        <th>Género</th> <!-- Nueva columna para Género -->
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay datos disponibles para mostrar en la tabla.</p>
-    {% endif %}
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr>
+                            <td>{{ row['id'] }}</td>
+                            <td>{{ row['NIE'] }}</td>
+                            <td>{{ row['Nombre'] }}</td>
+                            <td>{{ row['Apellido'] }}</td>
+                            <td>{{ row['Materia'] }}</td>
+                            <td>{{ row['Profesor'] }}</td>
+                            <td>{{ row['id_año'] }}</td>
+                            <td>{{ row['fecha_registro'] }}</td>
+                            <td>{{ row['justificacion_asistencia'] }}</td>
+                            <td>{{ row['genero'] }}</td> <!-- Mostrar el género -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay datos disponibles para mostrar en la tabla.</p>
+        {% endif %}
+    </div>
 </div>
+
 <script>
     document.getElementById('exportExcel').addEventListener('click', function() {
         const wb = XLSX.utils.table_to_book(document.getElementById('dataTable'));
         XLSX.writeFile(wb, 'reporte_asistencia.xlsx');
     });
-    
+
     document.getElementById('exportPDF').addEventListener('click', function() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         doc.autoTable({ html: '#dataTable' });
         doc.save('reporte_asistencia.pdf');
     });
-    </script>
+</script>
     
 </body>
 </html>

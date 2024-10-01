@@ -1035,13 +1035,13 @@ def ver_NoReportes():
 def ver_reportes_materia():
     # Obtener los parámetros de la solicitud
     id_año = request.args.get('id_año')
-    nie = request.args.get('NIE')
+    nie = request.args.get('nie')  # Asegúrate de usar minúsculas en el nombre del parámetro
     fecha_registro = request.args.get('fecha_registro')
-    Materia = request.args.get('Materia')
-    Profesor = request.args.get('Profesor')
-    Nombre = request.args.get('Nombre')
-    Apellido = request.args.get('Apellido')
-    
+    materia = request.args.get('materia')  # Ajuste: nombre en minúsculas
+    profesor = request.args.get('profesor')  # Ajuste: nombre en minúsculas
+    nombre = request.args.get('nombre')  # Ajuste: nombre en minúsculas
+    apellido = request.args.get('apellido')  # Ajuste: nombre en minúsculas
+    genero = request.args.get('genero')  # Obtener el filtro de género
 
     # Construir la consulta SQL con los filtros aplicados
     query = "SELECT * FROM asistencia_materia WHERE 1=1"
@@ -1051,23 +1051,26 @@ def ver_reportes_materia():
         query += " AND id_año = %s"
         params.append(id_año)
     if nie:
-        query += " AND nie = %s"
+        query += " AND LOWER(nie) = LOWER(%s)"
         params.append(nie)
     if fecha_registro:
         query += " AND fecha_registro = %s"
         params.append(fecha_registro)
-    if Materia:
-        query += " AND Materia = %s"
-        params.append(Materia)
-    if Profesor:
-        query += " AND Profesor = %s"
-        params.append(Profesor)
-    if Nombre:
-        query += " AND Nombre = %s"
-        params.append(Nombre)
-    if Apellido:
-        query += " AND Apellido = %s"
-        params.append(Apellido)
+    if materia:
+        query += " AND LOWER(Materia) = LOWER(%s)"
+        params.append(materia)
+    if profesor:
+        query += " AND LOWER(Profesor) = LOWER(%s)"
+        params.append(profesor)
+    if nombre:
+        query += " AND LOWER(Nombre) = LOWER(%s)"
+        params.append(nombre)
+    if apellido:
+        query += " AND LOWER(Apellido) = LOWER(%s)"
+        params.append(apellido)
+    if genero:
+        query += " AND LOWER(genero) = LOWER(%s)"
+        params.append(genero)
 
     # Ejecutar la consulta en la base de datos
     conn = create_connection()
@@ -1082,17 +1085,21 @@ def ver_reportes_materia():
     # Crear la gráfica
     fig, ax = plt.subplots(figsize=(6, 6))
     image_base64 = None
+
     if not df.empty:
-        if 'genero' in df.columns:
+        if genero:
+            # Si se ha seleccionado un género, filtrar los datos por género
             counts = df['genero'].value_counts()
             wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
             ax.set_title('Distribución por Género')
-        elif 'id_año' in df.columns:
-            counts = df['id_año'].value_counts()
-            wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
-            ax.set_title('Distribución por Año')
         else:
-            ax.text(0.5, 0.5, 'No hay datos para los filtros seleccionados.', fontsize=12, ha='center')
+            # Si no se ha seleccionado género, mostrar ambos géneros
+            if 'id_año' in df.columns:
+                counts = df['id_año'].value_counts()
+                wedges, texts, autotexts = ax.pie(counts, labels=counts.index, autopct='', startangle=90)
+                ax.set_title('Distribución por Año')
+            else:
+                ax.text(0.5, 0.5, 'No hay datos para los filtros seleccionados.', fontsize=12, ha='center')
 
         # Añadir tooltips con mplcursors
         mpl_cursor = mplcursors.cursor(wedges, hover=True)
@@ -1106,9 +1113,6 @@ def ver_reportes_materia():
         buf.close()
 
     return render_template('reportes_materia.html', image_base64=image_base64, rows=rows)
-
-
-
 
 
 if __name__ == '__main__':
